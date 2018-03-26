@@ -7,8 +7,8 @@ public class Game{
 		for (int d = 0; d < 64; d++) {
 			b.setStone(b.getPlayer());
 			b.print();
-			if (b.getWinner(b.getPlayer())) {
-				System.out.println("The winner is " + b.getPlayerChar());
+			if (b.getWinner()) {
+				b.printWinner();
 				return;
 			}
 		}

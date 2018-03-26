@@ -21,6 +21,7 @@ public class Board {
 		}
 	}
 	private Player p = Player.x;;
+	
 	// Spielfeld Initialization
 	Board() {
 		// Punkte eintragen
@@ -49,6 +50,11 @@ public class Board {
 		}
 	}
 
+	public void printWinner() {
+		System.out.println("The winner is " + p.getChar());
+		return;
+	}
+	
 	private void placeStone(Player p) throws IOException {
 		// neuen Stein setzten
 		User_Input ui = new User_Input();
@@ -146,8 +152,8 @@ public class Board {
 
 		return false;
 	}
-	
-	public boolean getWinner(Player p) {
+
+	public boolean getWinner() {
 		return winner(p);
 	}
 	
