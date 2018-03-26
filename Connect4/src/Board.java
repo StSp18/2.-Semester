@@ -153,17 +153,14 @@ public class Board {
 		return false;
 	}
 
+	
+	// Getter
 	public boolean getWinner() {
 		return winner(p);
 	}
 	
-	public Player getPlayer() {
-		return p;
-	}
+	// Setter
 	
-	public char getPlayerChar() {
-		return p.getChar();
-	}
 	public void switchPlayer() {
 		if(p.getChar()=='x') {
 			p = Player.o;
@@ -171,11 +168,8 @@ public class Board {
 			p = Player.x;
 		}
 	}
-	public void setStone(Player p) throws IOException {
+	public void setStone() throws IOException {
 		placeStone(p);
 		return;
 	}
-	
-
-
 }

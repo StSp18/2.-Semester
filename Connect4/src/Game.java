@@ -5,7 +5,7 @@ public class Game{
 		// Starte das Spiel
 		Board b = new Board();
 		for (int d = 0; d < 64; d++) {
-			b.setStone(b.getPlayer());
+			b.setStone();
 			b.print();
 			if (b.getWinner()) {
 				b.printWinner();
