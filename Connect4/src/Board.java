@@ -1,11 +1,11 @@
 import java.io.IOException;
 
 public class Board {
-	private int column = 8;				// Spaltenanzahl
-	private int line = 10;				// Zeilenanzahl
+	private final int column = 9;		// Spaltenanzahl
+	private final int line = 10;				// Zeilenanzahl
 	private char[][] board = new char[line][column];
-	private static char Player1 = 'x';
-	private static char Player2 = 'o';
+	private static final char Player1 = 'x';
+	private static final char Player2 = 'o';
 	
 	// Spieler
 	private enum Player {
@@ -57,7 +57,7 @@ public class Board {
 	
 	private void placeStone(Player p) throws IOException {
 		// neuen Stein setzten
-		User_Input ui = new User_Input();
+		User_Input ui = new User_Input(column);
 		int input = ui.getUserInput();
 		for (int i = line-1; i > 0; i--) {
 			if (board[i][input] == '.') {
@@ -74,6 +74,7 @@ public class Board {
 		int column;
 		int line;
 		int check;
+		int border = this.line-5 + this.column-4;
 		// 4 Horizontale gleiche Steine
 		for (int i = 1; i < this.line - 1; i++) {
 			for (int k = 0; k < this.column; k++) {
@@ -110,7 +111,7 @@ public class Board {
 		line = 4;
 		column = 0;
 		// 4 rechts nach links schräg gleiche Steine
-		for(int i=0;i<9;i++) {
+		for(int i=0;i<border;i++) {
 			check = 0;
 			buffer = 0;
 			while(column+check < 8 && line-check > 0) {
@@ -134,7 +135,7 @@ public class Board {
 		line = 1;
 		column = 4;
 		// 4 links nach rechts schräg gleiche Steine
-		for(int i=0;i<9;i++) {
+		for(int i=0;i<border;i++) {
 			buffer = 0;
 			check = 0;
 			while(column+check < 8 && line+check < 9) {
@@ -161,6 +162,10 @@ public class Board {
 	// Getter
 	public boolean getWinner() {
 		return winner(p);
+	}
+	
+	public int getColumn() {
+		return column;
 	}
 	
 	// Setter
