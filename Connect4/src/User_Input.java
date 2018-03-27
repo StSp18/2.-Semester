@@ -7,9 +7,6 @@ public class User_Input {
 	}
 	private int read() throws IOException {
 		// nächsten Spielzug einlesen
-		
-
-		
 		System.out.println("Please enter a column(1 to " + c + ")");
 		int input;
 		input = System.in.read();
