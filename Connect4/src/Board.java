@@ -107,12 +107,12 @@ public class Board {
 			buffer = 0;
 //			System.out.println();
 		}
-		buffer = 0;
 		line = 4;
 		column = 0;
 		// 4 rechts nach links schräg gleiche Steine
 		for(int i=0;i<9;i++) {
 			check = 0;
+			buffer = 0;
 			while(column+check < 8 && line-check > 0) {
 //				System.out.print(board[line-check][column+check]);
 				if(board[line-check][column+check]==p.getChar()) {
@@ -131,11 +131,11 @@ public class Board {
 				column++;
 			}
 		}
-		buffer = 0;
 		line = 1;
 		column = 4;
 		// 4 links nach rechts schräg gleiche Steine
 		for(int i=0;i<9;i++) {
+			buffer = 0;
 			check = 0;
 			while(column+check < 8 && line+check < 9) {
 //				System.out.print(board[line+check][column+check]);
@@ -145,7 +145,6 @@ public class Board {
 						return true;
 					}
 				} else buffer = 0;
-				
 				check++;
 			}
 //			System.out.println();
@@ -155,7 +154,6 @@ public class Board {
 				line++;
 			}
 		}
-
 		return false;
 	}
 
