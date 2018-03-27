@@ -77,6 +77,7 @@ public class Board {
 		// 4 Horizontale gleiche Steine
 		for (int i = 1; i < this.line - 1; i++) {
 			for (int k = 0; k < this.column; k++) {
+//				System.out.print(board[i][k]);
 				if (board[i][k] == p.getChar()) {
 					buffer++;
 					if (buffer == 4) {
@@ -86,12 +87,15 @@ public class Board {
 					buffer = 0;
 				}
 			}
+			buffer = 0;
+//			System.out.println();
 		}
 
 		buffer = 0;
 		// 4 Vertikale gleiche Steine
 		for (int k = 0; k < this.column; k++) {
 			for (int i = 1; i < this.line - 1; i++) {
+//				System.out.print(board[i][k]);
 				if (board[i][k] == p.getChar()) {
 					buffer++;
 					if (buffer == 4) {
@@ -100,6 +104,8 @@ public class Board {
 				} else
 					buffer = 0;
 			}
+			buffer = 0;
+//			System.out.println();
 		}
 		buffer = 0;
 		line = 4;

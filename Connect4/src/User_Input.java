@@ -10,8 +10,7 @@ public class User_Input {
 			System.in.read();
 			return input - '1';
 		} else {														// wenn nicht wiederholen
-			System.in.read();
-			System.in.read();
+			while((char) System.in.read() != '\n');
 			System.out.println("wrong Input");
 			return read();
 		}

@@ -11,6 +11,7 @@ public class Game{
 				b.printWinner();
 				return;
 			}
+			b.switchPlayer();
 		}
 		System.out.println("Draw");
 		return;
