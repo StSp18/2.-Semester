@@ -6,7 +6,7 @@ public class Game{
 		Board b = new Board();
 		for (int d = 0; d < 64; d++) {
 			b.setStone();
-			b.print();
+			b.printBoard();
 			if (b.getWinner()) {
 				b.printWinner();
 				return;

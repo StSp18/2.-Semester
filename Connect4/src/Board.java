@@ -40,7 +40,7 @@ public class Board {
 		}
 	}
 
-	public void print() {
+	public void printBoard() {
 		// Ausgabe des Spielfeld
 		for (int i = 0; i < line; i++) {
 			for (int k = 0; k < column; k++) {
