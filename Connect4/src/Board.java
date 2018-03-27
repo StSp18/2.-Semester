@@ -1,8 +1,8 @@
 import java.io.IOException;
 
 public class Board {
-	private final int column = 9;		// Spaltenanzahl
-	private final int line = 10;				// Zeilenanzahl
+	private final int column = 8;		// Spaltenanzahl
+	private final int line = 10;		// Zeilenanzahl
 	private char[][] board = new char[line][column];
 	private static final char Player1 = 'x';
 	private static final char Player2 = 'o';
@@ -55,7 +55,7 @@ public class Board {
 		return;
 	}
 	
-	private void placeStone(Player p) throws IOException {
+	public void setStone() throws IOException {
 		// neuen Stein setzten
 		User_Input ui = new User_Input(column);
 		int input = ui.getUserInput();
@@ -66,10 +66,10 @@ public class Board {
 			}
 		}
 		System.out.println("Column already full");
-		placeStone(p);
+		setStone();
 	}
 	
-	private boolean winner(Player p) {
+	public boolean getWinner() {
 		int buffer = 0;
 		int column;
 		int line;
@@ -158,27 +158,11 @@ public class Board {
 		return false;
 	}
 
-	
-	// Getter
-	public boolean getWinner() {
-		return winner(p);
-	}
-	
-	public int getColumn() {
-		return column;
-	}
-	
-	// Setter
-	
 	public void switchPlayer() {
 		if(p.getChar()=='x') {
 			p = Player.o;
 		} else {
 			p = Player.x;
 		}
-	}
-	public void setStone() throws IOException {
-		placeStone(p);
-		return;
 	}
 }
