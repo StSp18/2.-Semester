@@ -32,9 +32,6 @@ public abstract class Entity {
 	public int getY() {
 		return xy.getY();
 	}
-	public xy getXY() {
-		return xy;
-	}
 	
 	public String toString() {
 		return ("Id: " + id + ", Start Energy: " + startEnergy + ", Energy: " + energy + ", X: " + getX() + ", Y: " + getY());

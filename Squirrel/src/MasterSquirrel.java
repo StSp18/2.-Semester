@@ -30,16 +30,16 @@ public class MasterSquirrel extends Squirrel {
 			System.out.println(input);
 			switch(input) {
 			case 1:
-				getXY().setLocation(getX(), getY()-1);
+				setLocation(getX(), getY()-1);
 				break;
 			case 2:
-				getXY().setLocation(getX(), getY()+1);
+				setLocation(getX(), getY()+1);
 				break;
 			case 3:
-				getXY().setLocation(getX()+1, getY());
+				setLocation(getX()+1, getY());
 				break;
 			case 4:
-				getXY().setLocation(getX()-1, getY());
+				setLocation(getX()-1, getY());
 				break;
 			}
 		} catch (IOException e) {
