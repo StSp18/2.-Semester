@@ -13,6 +13,10 @@ public abstract class Entity {
 	public void setLocation(int x, int y) {
 		xy.setLocation(x, y);
 	}
+	
+	public void rndDirection() {
+		xy.rndDirection();
+	}
 	public void nextStep() {
 		
 	}

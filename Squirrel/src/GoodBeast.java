@@ -7,7 +7,7 @@ public class GoodBeast extends Entity {
 	}
 
 	public void nextStep() {
-		getXY().rndDirection();
+		rndDirection();
 	}
 	
 	public String toString() {
