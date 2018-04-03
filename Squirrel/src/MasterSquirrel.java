@@ -64,6 +64,6 @@ public class MasterSquirrel extends Squirrel {
 	}
 	
 	public String toString() {
-		return super.toString();
+		return "Type: MasterSquirrel, " + super.toString();
 	}
 }

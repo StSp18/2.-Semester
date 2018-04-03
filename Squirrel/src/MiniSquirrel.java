@@ -6,7 +6,7 @@ public class MiniSquirrel extends Squirrel {
 		// TODO Auto-generated constructor stub
 	}
 	public String toString() {
-		return super.toString();
+		return "Type: MiniSquirrel, " + super.toString();
 	}
 
 }

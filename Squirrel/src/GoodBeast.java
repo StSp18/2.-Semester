@@ -11,6 +11,6 @@ public class GoodBeast extends Entity {
 	}
 	
 	public String toString() {
-		return super.toString();
+		return "Type: GoodBeast, " + super.toString();
 	}
 }
