@@ -17,6 +17,10 @@ public class Game {
 		e.newEntity(mM);
 		MiniSquirrel mS = mM.creatMiniSquirrel(6, 100, mM.getX() + 1, mM.getY());
 		e.newEntity(mS);
+		System.out.println(e.toString());
+		e.removeEntity(w);
+		System.out.println(e.toString() + "\n");
+		e.newEntity(w);
 		for (int i = 0; i < 5; i++) {
 			System.out.println(e.toString());
 			e.nextStep();
