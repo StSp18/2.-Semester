@@ -1,9 +1,13 @@
 
 public class MiniSquirrel extends Squirrel {
-
-	MiniSquirrel(int id, int energy, int x, int y) {
+	private int mid;
+	MiniSquirrel(int mid, int id, int energy, int x, int y) {
 		super(id, energy, x, y);
+		this.mid = mid;
 		// TODO Auto-generated constructor stub
+	}
+	public int getMId() {
+		return mid;
 	}
 	public String toString() {
 		return "Type: MiniSquirrel, " + super.toString();

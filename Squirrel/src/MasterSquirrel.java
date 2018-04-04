@@ -7,15 +7,18 @@ public class MasterSquirrel extends Squirrel {
 		// TODO Auto-generated constructor stub
 	}
 	public boolean myMiniSquirrel(Entity e) {
-		if(e instanceof MasterSquirrel) {
-			return true;
-		} else return false;
+		if(e instanceof MiniSquirrel) {
+			if(getId() == ((MiniSquirrel) e).getMId()) {
+				return true;
+			}
+		} 
+		return false;
 	}
 
 	public MiniSquirrel creatMiniSquirrel(int id, int energy, int x, int y) {
 		if(energy < this.getEnergy()) {
 			this.updateEnergy(-energy);
-			return new MiniSquirrel(id, energy, x, y);
+			return new MiniSquirrel(this.getId(), id, energy, x, y);
 		} return null;
 		
 	}

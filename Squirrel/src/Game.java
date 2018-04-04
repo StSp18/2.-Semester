@@ -17,14 +17,23 @@ public class Game {
 		e.newEntity(mM);
 		MiniSquirrel mS = mM.creatMiniSquirrel(6, 100, mM.getX() + 1, mM.getY());
 		e.newEntity(mS);
+		MasterSquirrel pM = new MasterSquirrel(7, 1000, 7, 7);
+		e.newEntity(pM);
+		MiniSquirrel pS = pM.creatMiniSquirrel(8, 100, mM.getX() + 1, mM.getY());
+		System.out.println(pM.myMiniSquirrel(pS));
+		System.out.println(pM.myMiniSquirrel(mS));
+		System.out.println(mM.myMiniSquirrel(mS));
+		System.out.println(mM.myMiniSquirrel(pS));
+		System.out.println(mM.myMiniSquirrel(w));
+		e.newEntity(pS);
 		System.out.println(e.toString());
-		e.removeEntity(w);
-		System.out.println(e.toString() + "\n");
-		e.newEntity(w);
-		for (int i = 0; i < 5; i++) {
-			System.out.println(e.toString());
-			e.nextStep();
-		}
+//		e.removeEntity(w);
+//		System.out.println(e.toString() + "\n");
+//		e.newEntity(w);
+//		for (int i = 0; i < 5; i++) {
+//			System.out.println(e.toString());
+//			e.nextStep();
+//		}
 	}
 
 }
