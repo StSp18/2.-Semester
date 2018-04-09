@@ -10,6 +10,10 @@ public abstract class Entity {
 		xy = new xy(x, y);	
 	}
 
+	public boolean Collision(Entity e) {
+		return false;
+	}
+	
 	public void setLocation(int x, int y) {
 		xy.setLocation(x, y);
 	}

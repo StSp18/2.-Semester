@@ -13,27 +13,27 @@ public class Game {
 		e.newEntity(bP);
 		Wall w = new Wall(4, -10, 2, 2);
 		e.newEntity(w);
-		MasterSquirrel mM = new MasterSquirrel(5, 1000, 7, 7);
+		MasterSquirrel mM = new MasterSquirrel(5, 1000, 11, 2);
 		e.newEntity(mM);
-		MiniSquirrel mS = mM.creatMiniSquirrel(6, 100, mM.getX() + 1, mM.getY());
-		e.newEntity(mS);
-		MasterSquirrel pM = new MasterSquirrel(7, 1000, 7, 7);
-		e.newEntity(pM);
-		MiniSquirrel pS = pM.creatMiniSquirrel(8, 100, mM.getX() + 1, mM.getY());
-		System.out.println(pM.myMiniSquirrel(pS));
-		System.out.println(pM.myMiniSquirrel(mS));
-		System.out.println(mM.myMiniSquirrel(mS));
-		System.out.println(mM.myMiniSquirrel(pS));
-		System.out.println(mM.myMiniSquirrel(w));
-		e.newEntity(pS);
+//		MiniSquirrel mS = mM.creatMiniSquirrel(6, 100);
+//		e.newEntity(mS);
+//		MasterSquirrel pM = new MasterSquirrel(7, 1000, 7, 7);
+//		e.newEntity(pM);
+//		MiniSquirrel pS = pM.creatMiniSquirrel(8, 100);
+//		System.out.println(pM.myMiniSquirrel(pS));
+//		System.out.println(pM.myMiniSquirrel(mS));
+//		System.out.println(mM.myMiniSquirrel(mS));
+//		System.out.println(mM.myMiniSquirrel(pS));
+//		System.out.println(mM.myMiniSquirrel(w));
+//		e.newEntity(pS);
 		System.out.println(e.toString());
 //		e.removeEntity(w);
 //		System.out.println(e.toString() + "\n");
 //		e.newEntity(w);
-//		for (int i = 0; i < 5; i++) {
-//			System.out.println(e.toString());
-//			e.nextStep();
-//		}
+		for (int i = 0; i < 5; i++) {
+			System.out.println(e.toString());
+			e.nextStep();
+		}
 	}
 
 }

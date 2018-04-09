@@ -4,7 +4,6 @@ public class MasterSquirrel extends Squirrel {
 
 	MasterSquirrel(int id, int energy, int x, int y) {
 		super(id, energy, x, y);
-		// TODO Auto-generated constructor stub
 	}
 	public boolean myMiniSquirrel(Entity e) {
 		if(e instanceof MiniSquirrel) {
@@ -15,10 +14,10 @@ public class MasterSquirrel extends Squirrel {
 		return false;
 	}
 
-	public MiniSquirrel creatMiniSquirrel(int id, int energy, int x, int y) {
+	public MiniSquirrel creatMiniSquirrel(int id, int energy) {
 		if(energy < this.getEnergy()) {
 			this.updateEnergy(-energy);
-			return new MiniSquirrel(this.getId(), id, energy, x, y);
+			return new MiniSquirrel(this.getId(), id, energy, this.getX()+1, this.getY());
 		} return null;
 		
 	}
@@ -28,7 +27,6 @@ public class MasterSquirrel extends Squirrel {
 	}
 	
 	private void HandOperatedMasterSquirrel() {
-		try {
 			int input = read();
 			System.out.println(input);
 			switch(input) {
@@ -45,13 +43,11 @@ public class MasterSquirrel extends Squirrel {
 				setLocation(getX()-1, getY());
 				break;
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 	
-	private int read() throws IOException{
+	private int read(){
+		try {
 		// nächsten Spielzug einlesen
 		System.out.println("Next Step");
 		int input;
@@ -62,6 +58,10 @@ public class MasterSquirrel extends Squirrel {
 		} else {														// wenn nicht wiederholen
 			while((char) System.in.read() != '\n');
 			System.out.println("wrong Input");
+			return read();
+		}
+		} catch (IOException read) {
+			System.out.println("Error reading, please try again");
 			return read();
 		}
 	}

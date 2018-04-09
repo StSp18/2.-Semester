@@ -26,12 +26,27 @@ public class EntitySet {
 	}
 
 	public void nextStep() {
+		
 		for (int i = 0; i < tail; i++) {
 			entity[i].nextStep();
-
+			if(entity[i] instanceof MasterSquirrel) {
+				Collision((Squirrel)entity[i]);
+			}
 		}
 	}
 
+	public void Collision(Squirrel s) {
+		for(int i=0; i < tail; i++) {
+			if(entity[i] instanceof GoodPlant) {
+				if (entity[i].Collision(s)) {
+					removeEntity(entity[i]);
+					System.out.println("Ate Plant");
+				}
+			}
+		}
+	}
+	
+	
 	public String toString() {
 		String s= "";
 		for (int i = 0; i < tail; i++) {
