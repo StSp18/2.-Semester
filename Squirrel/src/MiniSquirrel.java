@@ -5,6 +5,11 @@ public class MiniSquirrel extends Squirrel {
 		super(id, energy, x, y);
 		this.mId = mId;
 	}
+	
+	public void nextStep() {
+		xy = xy.rndDirection();
+	}
+	
 	public int getMId() {
 		return mId;
 	}

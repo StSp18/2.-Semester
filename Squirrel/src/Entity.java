@@ -2,7 +2,7 @@
 public abstract class Entity {
 	private int id, energy;
 	private final int startEnergy;
-	private XY xy;
+	public XY xy;
 	Entity(int id, int energy, int x,int y){
 		this.id = id;
 		this.energy = energy;
@@ -10,17 +10,10 @@ public abstract class Entity {
 		xy = new XY(x, y);	
 	}
 
-	public boolean collision(Entity e) {
-		return false;
-	}
-	
-	public void setLocation(int x, int y) {
-		xy.setLocation(x, y);
-	}
+	public abstract boolean collision(Entity e);
 
-	public void nextStep() {
-		xy.rndDirection();
-	}
+	public abstract void nextStep();
+	
 	public void updateEnergy(int dEnergy) {
 		energy += dEnergy;
 	}

@@ -1,10 +1,10 @@
 
 public class GoodPlant extends Entity {
 
-	GoodPlant(int id, int energy, int x, int y) {
-		super(id, energy, x, y);
-		// TODO Auto-generated constructor stub
+	GoodPlant(int id, int x, int y) {
+		super(id, 100, x, y);
 	}
+	
 	public boolean collision(Entity e) {
 		if(e.getX() == this.getX() && e.getY() == this.getY()) {
 			e.updateEnergy(this.getEnergy());

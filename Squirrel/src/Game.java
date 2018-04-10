@@ -1,27 +1,41 @@
 
-public class Game {
+public abstract class Game {
 
 	public void run() {
+		while(true) {
+			render();
+			processInput();
+			update();
+		}
+		
+	
+		
+	}
+	public abstract void render();
+	public abstract void processInput();
+	
+	public void update() {
 		
 	}
 	
+	
 	public static void main(String[] args) {
 		EntitySet e = new EntitySet();
-		GoodBeast gB = new GoodBeast(0, 200, 5, 5);
+		GoodBeast gB = new GoodBeast(0, 5, 5);
 		e.newEntity(gB);
-		BadBeast bB = new BadBeast(1, -150, 7, 4);
+		BadBeast bB = new BadBeast(1, 7, 4);
 		e.newEntity(bB);
-		GoodPlant gP = new GoodPlant(2, 100, 11, 3);
+		GoodPlant gP = new GoodPlant(2, 11, 3);
 		e.newEntity(gP);
-		BadPlant bP = new BadPlant(3, -100, 2, 11);
+		BadPlant bP = new BadPlant(3, 2, 11);
 		e.newEntity(bP);
-		Wall w = new Wall(4, -10, 2, 2);
+		Wall w = new Wall(4, 2, 2);
 		e.newEntity(w);
-		MasterSquirrel mM = new MasterSquirrel(5, 1000, 11, 2);
+		HandOperatedMasterSquirrel mM = new HandOperatedMasterSquirrel(5, 11, 2);
 		e.newEntity(mM);
 		MiniSquirrel mS = mM.creatMiniSquirrel(6, 100);
 		e.newEntity(mS);
-		MasterSquirrel pM = new MasterSquirrel(7, 1000, 7, 7);
+		HandOperatedMasterSquirrel pM = new HandOperatedMasterSquirrel(7, 7, 7);
 		e.newEntity(pM);
 		MiniSquirrel pS = pM.creatMiniSquirrel(8, 100);
 		e.newEntity(pS);

@@ -1,53 +1,49 @@
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class XY {
-	private int x, y;
+	private final int x, y;
 	XY(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public void rndDirection() {
+	public XY rndDirection() {
 		int randomNum = ThreadLocalRandom.current().nextInt(1, 9);
 		switch (randomNum) {
 		case 1:
-			x -= 1;
-			y -= 1;
-			break;
+			return new XY(x-1, y-1);
 		case 2:
-			y -= 1;
-			break;
+			return new XY(x, y-1);
 		case 3:
-			x += 1;
-			y -= 1;
-			break;
+			return new XY(x+1, y-1);
 		case 4:
-			x -= 1;
-			break;
+			return new XY(x-1, y);
 		case 5:
-			x += 1;
-			break;
+			return new XY(x+1, y);
 		case 6:
-			x -= 1;
-			y += 1;
-			break;
+			return new XY(x-1, y+1);
 		case 7:
-			y += 1;
-			break;
+			return new XY(x, y+1);
 		case 8:
-			x += 1;
-			y += 1;
-			break;
-			
-		
+		default:
+			return new XY(x+1, y+1);
 		}
+		
 	}
 
-	public void setLocation(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public XY up() {
+		return new XY(x, y-1);
 	}
-
+	public XY down() {
+		return new XY(x, y+1);
+	}
+	public XY right() {
+		return new XY(x+1, y);
+	}
+	public XY left() {
+		return new XY(x-1, y);
+	}
+	
 	public int getX() {
 		return x;
 	}

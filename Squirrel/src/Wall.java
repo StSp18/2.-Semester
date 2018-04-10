@@ -1,9 +1,11 @@
 
 public class Wall extends Entity {
 
-	Wall(int id, int energy, int x, int y) {
-		super(id, energy, x, y);
-		// TODO Auto-generated constructor stub
+	Wall(int id, int x, int y) {
+		super(id, -10, x, y);
+	}
+	public boolean collision(Entity e) {
+		return false;
 	}
 	
 	public void nextStep() {

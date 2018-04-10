@@ -1,11 +1,14 @@
 
 public class BadPlant extends Entity {
 
-	BadPlant(int id, int energy, int x, int y) {
-		super(id, energy, x, y);
-		// TODO Auto-generated constructor stub
+	BadPlant(int id, int x, int y) {
+		super(id, -100, x, y);
 	}
 
+	public boolean collision(Entity e) {
+		return false;
+	}
+	
 	public void nextStep() {
 	}
 	
