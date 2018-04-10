@@ -1,8 +1,8 @@
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class xy {
+public final class XY {
 	private int x, y;
-	xy(int x, int y) {
+	XY(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}

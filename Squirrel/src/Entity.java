@@ -2,12 +2,12 @@
 public abstract class Entity {
 	private int id, energy;
 	private final int startEnergy;
-	private xy xy;
+	private XY xy;
 	Entity(int id, int energy, int x,int y){
 		this.id = id;
 		this.energy = energy;
 		startEnergy = energy;
-		xy = new xy(x, y);	
+		xy = new XY(x, y);	
 	}
 
 	public boolean Collision(Entity e) {
