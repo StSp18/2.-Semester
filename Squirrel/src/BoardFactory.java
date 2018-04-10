@@ -44,7 +44,7 @@ public class BoardFactory {
 		}
 		return board;
 	}
-
+	
 	private int[][] rndCor(int maxX, int maxY, int maxE) {
 		int[][] ranCor = new int[2][maxE];
 		int count = 0;
