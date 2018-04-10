@@ -1,6 +1,10 @@
 
 public class Game {
 
+	public void run() {
+		
+	}
+	
 	public static void main(String[] args) {
 		EntitySet e = new EntitySet();
 		GoodBeast gB = new GoodBeast(0, 200, 5, 5);
