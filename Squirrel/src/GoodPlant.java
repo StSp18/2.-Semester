@@ -5,7 +5,7 @@ public class GoodPlant extends Entity {
 		super(id, energy, x, y);
 		// TODO Auto-generated constructor stub
 	}
-	public boolean Collision(Entity e) {
+	public boolean collision(Entity e) {
 		if(e.getX() == this.getX() && e.getY() == this.getY()) {
 			e.updateEnergy(this.getEnergy());
 			return true;

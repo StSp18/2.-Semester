@@ -21,10 +21,10 @@ public class MasterSquirrel extends Squirrel {
 	}
 	
 	public void nextStep() {
-		HandOperatedMasterSquirrel();
+		handOperatedMasterSquirrel();
 	}
 	
-	private void HandOperatedMasterSquirrel() {
+	private void handOperatedMasterSquirrel() {
 			int input = read();
 //			System.out.println(input);
 			switch(input) {

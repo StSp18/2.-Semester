@@ -38,7 +38,7 @@ public class EntitySet {
 	public void Collision(Squirrel s) {
 		for(int i=0; i < tail; i++) {
 			if(entity[i] instanceof GoodPlant) {
-				if (entity[i].Collision(s)) {
+				if (entity[i].collision(s)) {
 					removeEntity(entity[i]);
 					System.out.println("Ate Plant");
 				}

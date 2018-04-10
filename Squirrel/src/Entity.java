@@ -10,7 +10,7 @@ public abstract class Entity {
 		xy = new XY(x, y);	
 	}
 
-	public boolean Collision(Entity e) {
+	public boolean collision(Entity e) {
 		return false;
 	}
 	
