@@ -6,10 +6,8 @@ public class MasterSquirrel extends Squirrel {
 		super(id, energy, x, y);
 	}
 	public boolean myMiniSquirrel(Entity e) {
-		if(e instanceof MiniSquirrel) {
-			if(getId() == ((MiniSquirrel) e).getMId()) {
-				return true;
-			}
+		if(e instanceof MiniSquirrel && getId() == ((MiniSquirrel) e).getMId()) {
+			return true;
 		} 
 		return false;
 	}
@@ -28,7 +26,7 @@ public class MasterSquirrel extends Squirrel {
 	
 	private void HandOperatedMasterSquirrel() {
 			int input = read();
-			System.out.println(input);
+//			System.out.println(input);
 			switch(input) {
 			case 1:
 				setLocation(getX(), getY()-1);
@@ -49,7 +47,7 @@ public class MasterSquirrel extends Squirrel {
 	private int read(){
 		try {
 		// nächsten Spielzug einlesen
-		System.out.println("Next Step");
+		System.out.println("Next Step, 1: up, 2: down, 3: right, 4: left");
 		int input;
 		input = System.in.read();
 		if (input > '0' && input <= '4' && System.in.read() == '\r') {	// gültige Eingabe?

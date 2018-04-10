@@ -1,12 +1,12 @@
 
 public class MiniSquirrel extends Squirrel {
-	private int mid;
-	MiniSquirrel(int mid, int id, int energy, int x, int y) {
+	private int mId;
+	MiniSquirrel(int mId, int id, int energy, int x, int y) {
 		super(id, energy, x, y);
-		this.mid = mid;
+		this.mId = mId;
 	}
 	public int getMId() {
-		return mid;
+		return mId;
 	}
 	public String toString() {
 		return "Type: MiniSquirrel, " + super.toString();

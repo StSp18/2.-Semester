@@ -1,5 +1,5 @@
 
-public class Squirrel extends Entity {
+public abstract class Squirrel extends Entity {
 
 	Squirrel(int id, int energy, int x, int y) {
 		super(id, energy, x, y);

@@ -7,8 +7,8 @@ public class BadPlant extends Entity {
 	}
 
 	public void nextStep() {
-
 	}
+	
 	public String toString() {
 		return "Type: BadPlant, " + super.toString();
 	}

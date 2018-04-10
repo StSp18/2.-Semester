@@ -14,7 +14,6 @@ public class GoodPlant extends Entity {
 	}
 	
 	public void nextStep() {
-		
 	}
 	public String toString() {
 		return "Type: GoodPlant, " + super.toString();

@@ -6,10 +6,6 @@ public class GoodBeast extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void nextStep() {
-		rndDirection();
-	}
-	
 	public String toString() {
 		return "Type: GoodBeast, " + super.toString();
 	}
