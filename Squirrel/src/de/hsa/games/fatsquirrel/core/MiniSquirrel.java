@@ -1,3 +1,4 @@
+package de.hsa.games.fatsquirrel.core;
 
 public class MiniSquirrel extends Squirrel {
 	private int mId;

@@ -1,3 +1,4 @@
+package de.hsa.games.fatsquirrel.core;
 import java.io.IOException;
 
 public class HandOperatedMasterSquirrel extends MasterSquirrel {

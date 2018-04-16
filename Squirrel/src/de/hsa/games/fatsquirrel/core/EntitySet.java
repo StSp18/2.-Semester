@@ -1,3 +1,4 @@
+package de.hsa.games.fatsquirrel.core;
 
 public class EntitySet {
 	private Entity[] entity = new Entity[20];

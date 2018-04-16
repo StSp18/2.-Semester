@@ -1,3 +1,5 @@
+package de.hsa.games.fatsquirrel.core;
+
 public abstract class MasterSquirrel extends Squirrel {
 
 	MasterSquirrel(int id, int x, int y) {
