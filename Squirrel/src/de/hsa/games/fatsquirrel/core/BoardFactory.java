@@ -1,62 +1,91 @@
 package de.hsa.games.fatsquirrel.core;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class BoardFactory {
-	BoardConfig bc = new BoardConfig();
 
-	public Entity[][] factoryBoard() {
+
+public class BoardFactory extends BoardConfig{
+	public BoardFactory() {
+		
+		
+	}
+	
+	public Entity[] factoryBoard() {
 		int id = 0;
-		XY[] rndCor = rndCor(bc.getX(), bc.getY(), bc.getAmountOfEntity());
-		Entity[][] board = new Entity[bc.getX() + 2][bc.getY() + 2];
-
-		for (int i = 0; i < board[0].length; i++, id++) {
-			board[i][0] = new Wall(id, i, 0);
+		XY[] rndCor = rndCor();
+		Entity[] board = new Entity[getAmountOfEntity()+getWallCount()];
+		System.out.println(getWallCount());
+		System.out.println(board.length);
+		System.out.println("oben");
+		for (int i = 0; i < getSize().getX()+2; i++, id++) {
+			System.out.println(id);
+			board[id] = new Wall(id, i, 0);
 		}
-		for (int i = 0; i < board[0].length; i++, id++) {
-			board[i][board[0].length-1] = new Wall(id, i, 0);
+		System.out.println("unten");
+		for (int i = 0; i < getSize().getX()+2; i++, id++) {
+			System.out.println(id);
+			board[id] = new Wall(id, i, getSize().getY()+1);
 		}
-		for (int i = 1; i < board[1].length - 1; i++, id++) {
-			board[0][i] = new Wall(id, i, 0);
+		System.out.println("links");
+		for (int i = 1; i < getSize().getY()+1; i++, id++) {
+			System.out.println(id);
+			board[id] = new Wall(id, 0, i);
 		}
-		for (int i = 1; i < board[1].length - 1; i++, id++) {
-			board[board[1].length-1][i] = new Wall(id, i, 0);
+		System.out.println("rechts");
+		for (int i = 1; i < getSize().getY()+1; i++, id++) {
+			System.out.println(id);
+			board[id] = new Wall(id, getSize().getX()+1, i);
 		}
+		System.out.println(getAmountOfEntity());
 		int k = 0;
-		for (int i = 0; i < bc.getAmountOfWall(); i++, k++, id++) {
-			board[rndCor[k].getX()][rndCor[k].getY()] = new Wall(id, rndCor[k].getX(), rndCor[k].getY());
+		System.out.println("Wall" + getAmountOfWall());
+		for (int i = 0; i < getAmountOfWall(); i++, k++, id++) {
+			System.out.println(id);
+			board[id] = new Wall(id, rndCor[k].getX(), rndCor[k].getY());
 		}
-		for (int i = 0; i < bc.getAmountOfHandOperatedMasterSquirrel(); i++, k++, id++) {
-			board[rndCor[k].getX()][rndCor[k].getY()] = new HandOperatedMasterSquirrel(id, rndCor[k].getX(), rndCor[k].getY());
+		System.out.println("HandOperatedMasterSquirrel" + getAmountOfHandOperatedMasterSquirrel());
+		for (int i = 0; i < getAmountOfHandOperatedMasterSquirrel(); i++, k++, id++) {
+			System.out.println(id);
+			board[id] = new HandOperatedMasterSquirrel(id, rndCor[k].getX(), rndCor[k].getY());
 		}
-		for (int i = 0; i < bc.getAmountOfAutomatedMasterSquirrel(); i++, k++, id++) {
-			board[rndCor[k].getX()][rndCor[k].getY()] = new AutomatedMasterSquirrel(id, rndCor[k].getX(), rndCor[k].getY());
+		System.out.println("getAmountOfAutomatedMasterSquirrel" + getAmountOfAutomatedMasterSquirrel());
+		for (int i = 0; i < getAmountOfAutomatedMasterSquirrel(); i++, k++, id++) {
+			System.out.println(id);
+			board[id] = new AutomatedMasterSquirrel(id, rndCor[k].getX(), rndCor[k].getY());
 		}
-		for (int i = 0; i < bc.getAmountOfGoodPlant(); i++, k++, id++) {
-			board[rndCor[k].getX()][rndCor[k].getY()] = new GoodPlant(id, rndCor[k].getX(), rndCor[k].getY());
+		System.out.println("GoodPlant" + getAmountOfGoodPlant());
+		for (int i = 0; i < getAmountOfGoodPlant(); i++, k++, id++) {
+			System.out.println(id);
+			board[id] = new GoodPlant(id, rndCor[k].getX(), rndCor[k].getY());
 		}
-		for (int i = 0; i < bc.getAmountOfBadPlant(); i++, k++, id++) {
-			board[rndCor[k].getX()][rndCor[k].getY()] = new BadPlant(id, rndCor[k].getX(), rndCor[k].getY());
+		System.out.println("BadPlant" + getAmountOfBadPlant());
+		for (int i = 0; i < getAmountOfBadPlant(); i++, k++, id++) {
+			System.out.println(id);
+			board[id] = new BadPlant(id, rndCor[k].getX(), rndCor[k].getY());
 		}
-		for (int i = 0; i < bc.getAmountOfGoodBeast(); i++, k++, id++) {
-			board[rndCor[k].getX()][rndCor[k].getY()] = new GoodBeast(id, rndCor[k].getX(), rndCor[k].getY());
+		System.out.println("GoodBeast" + getAmountOfGoodBeast());
+		for (int i = 0; i < getAmountOfGoodBeast(); i++, k++, id++) {
+			System.out.println(id);
+			board[id] = new GoodBeast(id, rndCor[k].getX(), rndCor[k].getY());
 		}
-		for (int i = 0; i < bc.getAmountOfBadBeast(); i++, k++, id++) {
-			board[rndCor[k].getX()][rndCor[k].getY()] = new BadBeast(id, rndCor[k].getX(), rndCor[k].getY());
+		System.out.println("BadBeast" + getAmountOfBadBeast());
+		for (int i = 0; i < getAmountOfBadBeast(); i++, k++, id++) {
+			System.out.println(id);
+			board[id] = new BadBeast(id, rndCor[k].getX(), rndCor[k].getY());
 		}
 		return board;
 	}
 	
-	private XY[] rndCor(int maxX, int maxY, int maxE) {
-		XY[] ranCor = new XY[maxE];
+	private XY[] rndCor() {
+		XY[] ranCor = new XY[getAmountOfEntity()];
 		int count = 0;
 		int rndX;
 		int rndY;
 		boolean check;
 
-		while (ranCor[maxE-1] == null) {
+		while (ranCor[getAmountOfEntity()-1] == null) {
 			check = true;
-			rndX = ThreadLocalRandom.current().nextInt(1, maxX + 1);
-			rndY = ThreadLocalRandom.current().nextInt(1, maxY + 1);
+			rndX = ThreadLocalRandom.current().nextInt(1, getSize().getX() + 1);
+			rndY = ThreadLocalRandom.current().nextInt(1, getSize().getX() + 1);
 			for (int i = 0; i < count; i++) {
 				if (ranCor[i].getX() == rndX && ranCor[i].getY() == rndY) {
 					check = false;

@@ -8,8 +8,8 @@ public class BoardConfig {
 	private int amountOfBadBeast;
 	private int amountOfHandOperatedMasterSquirrel;
 	private int amountOfAutomatedMasterSquirrel;
-	private int x;
-	private int y;
+	private XY size;
+	private int wallCount;
 	private int amountOfEntity;
 	BoardConfig(){
 		
@@ -20,8 +20,8 @@ public class BoardConfig {
 		amountOfBadPlant= 4;
 		amountOfGoodPlant= 6;
 		amountOfWall=10;
-		x=30;
-		y=30;
+		size = new XY(30, 30);
+		wallCount=size.getX()*2+4+size.getY()*2;
 		amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast+ amountOfGoodBeast+ amountOfBadPlant + amountOfWall + amountOfGoodPlant;
 	}
 	public int getAmountOfWall() {
@@ -52,15 +52,14 @@ public class BoardConfig {
 		return amountOfAutomatedMasterSquirrel;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
+	public XY getSize() {
+		return size;
 	}
 	public int getAmountOfEntity() {
 		return amountOfEntity;
+	}
+	public int getWallCount() {
+		return wallCount;
 	}
 	
 	

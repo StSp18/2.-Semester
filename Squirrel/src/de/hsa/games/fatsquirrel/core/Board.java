@@ -1,42 +1,41 @@
 package de.hsa.games.fatsquirrel.core;
 
-public class Board{
-	private Entity[][] board;
-	
+public class Board implements BoardView {
+	private Entity[] board;
+	private BoardFactory bf = new BoardFactory();
+
 	public Board() {
-		System.out.println("Constructor");
-		BoardFactory bf = new BoardFactory();
 		board = bf.factoryBoard();
 	}
-	
-	
-	public String toString() {
-		String s ="";
-		for(int i=0; i<board[0].length;i++) {
-			for(int k=0; k<board[1].length;k++) {
-				if(board[i][k]!=null) {
-					if(board[i][k] instanceof Wall) {
-						s += "|";
-					} else if(board[i][k] instanceof BadBeast) {
-						s += "M";
-					} else if(board[i][k] instanceof BadPlant) {
-						s += "-";
-					} else if(board[i][k] instanceof GoodBeast) {
-						s += "G";
-					} else if(board[i][k] instanceof GoodPlant) {
-						s += "+";
-					} else if(board[i][k] instanceof MasterSquirrel) {
-						s += "O";
-					} else if(board[i][k] instanceof MiniSquirrel) {
-						s += "o";
-					}
-				} else {
-					s +=" ";
-				}
-			}
-			s+="\n";
+
+	public Entity[][] flatten() {
+		Entity[][] flattnedBoard = new Entity[bf.getSize().getX()+2][bf.getSize().getY()+2];
+		for(int i=0; i < board.length; i++) {
+			flattnedBoard[board[i].getX()][board[i].getY()] = board[i];
 		}
-		
+		return flattnedBoard;
+	}
+
+	public String toString() {
+		String s = "";
+		for (int i = 0; i < board.length; i++) {
+			if (board[i] instanceof Wall) {
+				s += "Wall";
+			} else if (board[i] instanceof BadBeast) {
+				s += "BadBeast";
+			} else if (board[i] instanceof BadPlant) {
+				s += "BadPlant";
+			} else if (board[i] instanceof GoodBeast) {
+				s += "GoodBeast";
+			} else if (board[i] instanceof GoodPlant) {
+				s += "GoodPlant";
+			} else if (board[i] instanceof MasterSquirrel) {
+				s += "MasterSquirrel";
+			} else if (board[i] instanceof MiniSquirrel) {
+				s += "MiniSquirrel";
+			}
+			s += ", X: " + board[i].xy.getX() + ", Y: " + board[i].xy.getY() + '\n';
+		}
 		return s;
 	}
 }
