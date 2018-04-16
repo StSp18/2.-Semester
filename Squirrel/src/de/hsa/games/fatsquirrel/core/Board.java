@@ -16,6 +16,10 @@ public class Board implements BoardView {
 		return flattnedBoard;
 	}
 
+	public XY getSize() {
+		return bf.getSize();
+	}
+	
 	public String toString() {
 		String s = "";
 		for (int i = 0; i < board.length; i++) {
