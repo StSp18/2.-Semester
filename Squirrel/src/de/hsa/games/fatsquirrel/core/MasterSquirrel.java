@@ -10,7 +10,10 @@ public abstract class MasterSquirrel extends Squirrel {
 		if(getEnergy()<0) {
 			updateEnergy(-getEnergy());
 		}
+		System.out.println("Master Squirrel nextStep, " + getMoveDirection().toString());
+		System.out.println("Before Move: " + toString());
 		xy = xy.move(getMoveDirection());
+		System.out.println("After Move" + toString());
 	}
 	
 	public boolean myMiniSquirrel(Entity e) {

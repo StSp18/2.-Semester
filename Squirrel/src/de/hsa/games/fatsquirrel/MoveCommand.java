@@ -14,15 +14,19 @@ public class MoveCommand {
 		int input = read();
 		switch (input) {
 		case 1:
+			System.out.println("move up, " + MoveDirection.up.getMoveDirection().toString());
 			return MoveDirection.up;
 
 		case 2:
+			System.out.println("move down, " + MoveDirection.down.getMoveDirection().toString());
 			return MoveDirection.down;
 
 		case 3:
+			System.out.println("move right, " + MoveDirection.right.getMoveDirection().toString());
 			return MoveDirection.right;
 
 		case 4:
+			System.out.println("move left, " + MoveDirection.left.getMoveDirection().toString());
 			return MoveDirection.left;
 		 default:
 			 return null;

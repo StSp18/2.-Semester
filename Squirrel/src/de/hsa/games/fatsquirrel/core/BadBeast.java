@@ -13,6 +13,7 @@ public class BadBeast extends Character {
 	
 	public boolean collision(Entity e) {
 		if(e instanceof Squirrel) {
+			System.out.println("BadBeast bites");
 			bite(e);
 			if(lifes==0) {
 				return false;

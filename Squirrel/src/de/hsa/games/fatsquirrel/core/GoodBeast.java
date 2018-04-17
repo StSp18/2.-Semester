@@ -20,6 +20,7 @@ public class GoodBeast extends Character {
 	
 	public boolean collision(Entity e) {
 		if(e instanceof Squirrel) {
+			System.out.println("GoodBeast got farmed");
 			e.updateEnergy(getEnergy());
 			return false;
 		}

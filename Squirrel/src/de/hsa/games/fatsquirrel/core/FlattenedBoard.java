@@ -65,7 +65,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public XY moveAway(Entity e, Entity s) {
-		XY xy = moveAway(e, s);
+		XY xy = moveTowards(e, s);
 		return new XY(-xy.getX(), -xy.getY());
 	}
 
@@ -157,13 +157,19 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	public void tryMove(MasterSquirrel master, XY moveDirection) {
 		int x = master.getX() + moveDirection.getX();
-		int y = master.getX() + moveDirection.getX();
+		int y = master.getY() + moveDirection.getY();
 		if (getEntityType(x, y) != EntityType.Air) {
 			if (fb[x][y].collision(master)) {
+				System.out.println("MasterSquirrel cant't move");
 				master.setMoveDirection(new XY(0, 0));
 				return;
 			}
 		}
+		if(master.Stunned()) {
+			System.out.println("MasterSquirrel is Stunned");
+			master.setMoveDirection(new XY(0, 0));
+		}
+		System.out.println("Move MasterSquirrel, " + moveDirection.toString());
 		master.setMoveDirection(moveDirection);
 	}
 

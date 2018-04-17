@@ -45,4 +45,7 @@ public final class XY {
 		return y;
 	}
 	
+	public String toString() {
+		return ("X: " + x + ", Y: " + y);
+	}
 }

@@ -10,6 +10,7 @@ public abstract class Squirrel extends Character {
 	
 	public boolean Stunned() {
 		if(stunned != 0) {
+			System.out.println("Stunned for :" + stunned);
 			stunned--;
 			return true;
 		}
@@ -17,6 +18,7 @@ public abstract class Squirrel extends Character {
 	}
 	
 	public void wallBump() {
+		System.out.println("You got stunned");
 		stunned = 3;
 	}
 	

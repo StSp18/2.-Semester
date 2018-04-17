@@ -8,6 +8,7 @@ public class GoodPlant extends Entity {
 	
 	public boolean collision(Entity e) {
 		if(e instanceof Squirrel) {
+			System.out.println("GoodPlant got eaten");
 			e.updateEnergy(getEnergy());
 			return false;
 		}
