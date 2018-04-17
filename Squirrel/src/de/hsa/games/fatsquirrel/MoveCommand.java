@@ -3,18 +3,15 @@ package de.hsa.games.fatsquirrel;
 import java.io.IOException;
 
 import de.hsa.games.fatsquirrel.core.EntityType;
-import de.hsa.games.fatsquirrel.core.MoveDirection;
 
 public class MoveCommand {
-	public MoveCommand(EntityType et) {
-
+	MoveDirection mD;
+	public MoveCommand() {
+		mD = handOperatedMasterSquirrel();
 	}
 
-	
-	
 	private MoveDirection handOperatedMasterSquirrel() {
 		int input = read();
-		// System.out.println(input);
 		switch (input) {
 		case 1:
 			return MoveDirection.up;
@@ -53,5 +50,7 @@ public class MoveCommand {
 			return read();
 		}
 	}
-	public 
+	public MoveDirection getMD() {
+		return mD;
+	}
 }

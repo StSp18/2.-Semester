@@ -35,7 +35,48 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			return EntityType.Wall;
 		}
 	}
+	
+	public void process() {
+		for(int i=0; i<fb[0].length;i++) {
+			for(int k=0; k<fb[1].length;k++) {
+				if(fb[i][k] instanceof BadBeast) {
+					Squirrel s;
+					if((s= nearestPlayerEntity(new XY(i,k)))  != null)
+						tryMove((BadBeast) fb[i][k], moveTowards(fb[i][k], s));
+					else
+						tryMove((BadBeast) fb[i][k], (new XY(0,0).rndDirection()));
+				}
+				if(fb[i][k] instanceof GoodBeast) {
+					Squirrel s;
+					if((s= nearestPlayerEntity(new XY(i,k)))  != null)
+						tryMove((BadBeast) fb[i][k], moveAway(fb[i][k], s));
+					else
+						tryMove((BadBeast) fb[i][k], (new XY(0,0).rndDirection()));
+				}
+			}
+		}
+	}
 
+	public XY moveAway(Entity e, Entity s) {
+		XY xy = moveAway(e, s);
+		return new XY(-xy.getX(), -xy.getY());
+	}
+	
+	public XY moveTowards(Entity e, Entity s) {
+		int x = 0;
+		int y = 0;
+		if(s.getX() < e.getX())
+			x=-1;
+		if(s.getX() > e.getX())
+			x=1;
+		if(s.getY() < e.getY())
+			y=-1;
+		if(s.getY() > e.getY())
+			y=1;
+		return new XY(x, y);
+		
+	}
+	
 	public EntityType getEntityType(int x, int y) {
 		Entity e = fb[x][y];
 		if (e instanceof BadPlant) {
@@ -120,38 +161,41 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public Squirrel nearestPlayerEntity(XY pos) {
-//		int i;
-//		if(pos.getX()-6>0)
-//			i = pos.getX()-6;
-//		else
-//			i = 1;
-//		int maxi;
-//		if(pos.getX()+6<fb[0].length-1)
-//			maxi = pos.getX()+6;
-//		else
-//			maxi = fb[0].length-2;
-//		int k;
-//		if(pos.getY()-6>0)
-//			k = pos.getY()-6;
-//		else
-//			k = 1;
-//		int maxk;
-//		if(pos.getX()+6<fb[1].length-1)
-//			maxk = pos.getX()+6;
-//		else
-//			maxk = fb[1].length-2;
-//
-//		for(;i < maxi; i++) {
-//			for(; k < maxk; k++) {
-//				if(fb[i][k] instanceof Squirrel) {
-//					return (Squirrel) fb[i][k];
-//				}
-//			}
-//		}
-//		return null;
 		for(int i=0; i<=6;i++) {
-			
+			// oben
+			if(fb[pos.getX()][pos.getY()-i] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()][pos.getY()-i];
+			}
+			// unten
+			if(fb[pos.getX()][pos.getY()+i] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()][pos.getY()+i];
+			}
+			// rechts
+			if(fb[pos.getX()+i][pos.getY()] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()+i][pos.getY()];
+			}
+			// links
+			if(fb[pos.getX()-i][pos.getY()] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()-i][pos.getY()];
+			}
+			// obenrechts
+			if(fb[pos.getX()+i][pos.getY()-i] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()+i][pos.getY()-i];
+			}
+			// obenlinks
+			if(fb[pos.getX()-i][pos.getY()-i] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()-i][pos.getY()-i];
+			}
+			// untenrechts
+			if(fb[pos.getX()+i][pos.getY()+i] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()+i][pos.getY()+i];
+			}
+			// untenlinks
+			if(fb[pos.getX()-i][pos.getY()+i] instanceof Squirrel) {
+				return (Squirrel)fb[pos.getX()-i][pos.getY()+i];
+			}
 		}
+		return null;
 	}
 
 	public void kill(Entity e) {

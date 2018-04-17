@@ -13,7 +13,7 @@ public class State {
 	}
 	
 	public void update() {
-		
+		board.update(flattenedBoard());
 	}
 	
 	public int getHighscore() {

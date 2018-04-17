@@ -15,7 +15,13 @@ public class Board{
 		}
 		return flattnedBoard;
 	}
-
+	
+	public Entity[] userControlled() {
+		for(int i=0; i<board.length;i++)
+			if(board[i] instanceof HandOperatedMasterSquirrel)
+				
+	}
+	
 	public void add(Entity e) {
 		Entity [] tboard = new Entity[board.length]; 
 		for(int i=0; i<board.length; i++) {
@@ -45,6 +51,14 @@ public class Board{
 			}
 		}
 		
+	}
+	
+	public void update(EntityContext context) {
+		for(int i=0; i<board.length ;i++) {
+			if(board[i] instanceof Character) {
+				((Character)board[i]).nextStep(context);
+			}
+		}
 	}
 	
 	public XY getSize() {

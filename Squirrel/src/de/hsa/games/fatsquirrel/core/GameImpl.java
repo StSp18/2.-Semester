@@ -4,21 +4,27 @@ import de.hsa.games.fatsquirrel.ConsoleUI;
 import de.hsa.games.fatsquirrel.UI;
 
 public class GameImpl extends Game {
+	State s;
 	BoardView view;
 	UI ui;
 	public GameImpl(State s) {
 		super(s);
+		this.s = s;
 		view = s.flattenedBoard();
 		ui = new ConsoleUI();
 	}
 
-	public void render() {
+	protected void render() {
 		ui.render(view);
 	}
 
-	public void processInput() {
-		// TODO Auto-generated method stub
-
+	protected void processInput() {
+		view = s.flattenedBoard();
+		s.flattenedBoard().process();
+		s.flattenedBoard().
 	}
+	protected void update() {
+			s.update();
+		}
 
 }

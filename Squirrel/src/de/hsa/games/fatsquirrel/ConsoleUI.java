@@ -16,6 +16,6 @@ public class ConsoleUI implements UI{
 	}
 
 	public MoveCommand getCommand() {
-		return null;
+		return new MoveCommand();
 	}
 }
