@@ -7,10 +7,11 @@ public class BadPlant extends Entity {
 	}
 
 	public boolean collision(Entity e) {
-		return false;
-	}
-	
-	public void nextStep() {
+		if(e instanceof Squirrel) {
+			e.updateEnergy(getEnergy());
+			return false;
+		}
+		return true;
 	}
 	
 	public String toString() {

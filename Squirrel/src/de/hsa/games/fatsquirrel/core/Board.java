@@ -1,6 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
-public class Board implements BoardView {
+public class Board{
 	private Entity[] board;
 	private BoardFactory bf = new BoardFactory();
 
@@ -16,6 +16,37 @@ public class Board implements BoardView {
 		return flattnedBoard;
 	}
 
+	public void add(Entity e) {
+		Entity [] tboard = new Entity[board.length]; 
+		for(int i=0; i<board.length; i++) {
+			tboard[i]= board[i];
+		}
+		tboard[board.length] = e;
+		board = tboard;
+	}
+	
+	public void remove(Entity e) {
+		int k = 0;
+		Entity [] tboard = new Entity[board.length]; 
+		for(int i=0; i<board.length; i++) {
+			if(board[i] == e) {
+				k=1;
+			} else {
+				tboard[i-k]=board[i];
+			}
+			board = tboard;
+		}
+	}
+	
+	public void relocate(Entity oldE, Entity newE) {
+		for(int i=0; i<board.length; i++) {
+			if(board[i] == oldE) {
+				board[i] = newE;
+			}
+		}
+		
+	}
+	
 	public XY getSize() {
 		return bf.getSize();
 	}

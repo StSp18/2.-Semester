@@ -5,11 +5,12 @@ public class Wall extends Entity {
 	Wall(int id, int x, int y) {
 		super(id, -10, x, y);
 	}
-	public boolean collision(Entity e) {
-		return false;
-	}
 	
-	public void nextStep() {
+	public boolean collision(Entity e) {
+		if(e instanceof Squirrel) {
+			((Squirrel) e).wallBump();
+		}
+		return true;
 	}
 	
 	public String toString() {

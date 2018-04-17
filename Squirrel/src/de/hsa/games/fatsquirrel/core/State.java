@@ -6,7 +6,13 @@ public class State {
 	public State(Board board){
 		highscore = 0;
 		this.board= board;
-		
+	}
+	
+	public FlattenedBoard flattenedBoard() {
+		return new FlattenedBoard(board);
+	}
+	
+	public void update() {
 		
 	}
 	

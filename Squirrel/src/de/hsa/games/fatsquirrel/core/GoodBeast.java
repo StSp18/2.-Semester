@@ -1,18 +1,38 @@
 package de.hsa.games.fatsquirrel.core;
 
-public class GoodBeast extends Entity {
-
+public class GoodBeast extends Character {
+	private int sleep;
+	private boolean alive;
 	GoodBeast(int id, int x, int y) {
 		super(id, 200, x, y);
-		// TODO Auto-generated constructor stub
+		alive = true;
+		sleep = 0;
 	}
 
-	public void nextStep() {
-		xy = xy.rndDirection();
+	public void nextStep(EntityContext context) {
+		if(sleep == 0) {
+			xy = xy.rndDirection();
+			sleep = 3;
+		} else {
+			sleep--;
+		}
 	}
 	
 	public boolean collision(Entity e) {
-		return false;
+		if(e instanceof Squirrel) {
+			e.updateEnergy(getEnergy());
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public void kill() {
+		alive = false;
+	}
+	
+	public boolean alive() {
+		return alive;
 	}
 	
 	public String toString() {

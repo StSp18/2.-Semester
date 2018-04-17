@@ -12,8 +12,6 @@ public abstract class Entity {
 	}
 
 	public abstract boolean collision(Entity e);
-
-	public abstract void nextStep();
 	
 	public void updateEnergy(int dEnergy) {
 		energy += dEnergy;

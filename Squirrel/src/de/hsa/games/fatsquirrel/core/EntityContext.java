@@ -6,7 +6,7 @@ public interface EntityContext {
 	public void tryMove(GoodBeast goodBeast, XY moveDirection);
 	public void tryMove(BadBeast badBeast, XY moveDirection);
 	public void tryMove(MasterSquirrel master, XY moveDirection);
-	public XY nearestPlayerEntity(XY pos);
+	public Squirrel nearestPlayerEntity(XY pos);
 	public void kill(Entity entity);
 	public void killAndReplace(Entity entity);
 	public EntityType getEntityType(XY xy);

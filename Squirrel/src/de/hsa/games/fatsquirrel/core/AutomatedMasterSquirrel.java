@@ -6,7 +6,5 @@ public class AutomatedMasterSquirrel  extends MasterSquirrel{
 		super(id, x, y);
 	}
 
-	public void nextStep() {
-	}
 
 }

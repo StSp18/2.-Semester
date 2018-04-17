@@ -5,6 +5,14 @@ public abstract class MasterSquirrel extends Squirrel {
 	MasterSquirrel(int id, int x, int y) {
 		super(id, 1000, x, y);
 	}
+	
+	public void nextStep(EntityContext context) {
+		if(getEnergy()<0) {
+			updateEnergy(-getEnergy());
+		}
+		xy = xy.move(getMoveDirection());
+	}
+	
 	public boolean myMiniSquirrel(Entity e) {
 		if(e instanceof MiniSquirrel && getId() == ((MiniSquirrel) e).getMId()) {
 			return true;
@@ -12,6 +20,24 @@ public abstract class MasterSquirrel extends Squirrel {
 		return false;
 	}
 
+	public boolean collision(Entity e) {
+		if(e instanceof BadBeast) {
+			updateEnergy(e.getEnergy());
+			((BadBeast)e).bite(this);
+		} else if(e instanceof MiniSquirrel) {
+			if(myMiniSquirrel(e)) {
+				updateEnergy(e.getEnergy());
+			} else {
+				updateEnergy(150);
+			}
+			e.updateEnergy(-e.getEnergy());
+		} else if(e instanceof GoodBeast) {
+			updateEnergy(e.getEnergy());
+			((GoodBeast) e).kill();
+		}
+		return true;
+	}
+	
 	public MiniSquirrel creatMiniSquirrel(int id, int energy) {
 		if(energy < this.getEnergy()) {
 			this.updateEnergy(-energy);

@@ -7,15 +7,13 @@ public class GoodPlant extends Entity {
 	}
 	
 	public boolean collision(Entity e) {
-		if(e.getX() == this.getX() && e.getY() == this.getY()) {
-			e.updateEnergy(this.getEnergy());
-			return true;
+		if(e instanceof Squirrel) {
+			e.updateEnergy(getEnergy());
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
-	public void nextStep() {
-	}
 	public String toString() {
 		return "Type: GoodPlant, " + super.toString();
 	}

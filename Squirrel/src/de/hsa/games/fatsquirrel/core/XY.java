@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class XY {
 	private final int x, y;
-	XY(int x, int y) {
+	public XY(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -33,17 +33,8 @@ public final class XY {
 		
 	}
 
-	public XY up() {
-		return new XY(x, y-1);
-	}
-	public XY down() {
-		return new XY(x, y+1);
-	}
-	public XY right() {
-		return new XY(x+1, y);
-	}
-	public XY left() {
-		return new XY(x-1, y);
+	public XY move(XY moveDirection) {
+		return new XY(x+moveDirection.getX(),y+moveDirection.getY() );
 	}
 	
 	public int getX() {
