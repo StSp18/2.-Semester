@@ -35,48 +35,55 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			return EntityType.Wall;
 		}
 	}
-	
-	public void process() {
-		for(int i=0; i<fb[0].length;i++) {
-			for(int k=0; k<fb[1].length;k++) {
-				if(fb[i][k] instanceof BadBeast) {
+
+	public HandOperatedMasterSquirrel[] process() {
+		HandOperatedMasterSquirrel[] sA = new HandOperatedMasterSquirrel[b.userControlled()];
+		int count = 0;
+		for (int i = 0; i < fb[0].length; i++) {
+			for (int k = 0; k < fb[1].length; k++) {
+				if (fb[i][k] instanceof BadBeast) {
 					Squirrel s;
-					if((s= nearestPlayerEntity(new XY(i,k)))  != null)
+					if ((s = nearestPlayerEntity(new XY(i, k))) != null)
 						tryMove((BadBeast) fb[i][k], moveTowards(fb[i][k], s));
 					else
-						tryMove((BadBeast) fb[i][k], (new XY(0,0).rndDirection()));
+						tryMove((BadBeast) fb[i][k], (new XY(0, 0).rndDirection()));
 				}
-				if(fb[i][k] instanceof GoodBeast) {
+				if (fb[i][k] instanceof GoodBeast) {
 					Squirrel s;
-					if((s= nearestPlayerEntity(new XY(i,k)))  != null)
-						tryMove((BadBeast) fb[i][k], moveAway(fb[i][k], s));
+					if ((s = nearestPlayerEntity(new XY(i, k))) != null)
+						tryMove((GoodBeast) fb[i][k], moveAway(fb[i][k], s));
 					else
-						tryMove((BadBeast) fb[i][k], (new XY(0,0).rndDirection()));
+						tryMove((GoodBeast) fb[i][k], (new XY(0, 0).rndDirection()));
+				}
+				if (fb[i][k] instanceof HandOperatedMasterSquirrel) {
+					sA[count] = (HandOperatedMasterSquirrel) fb[i][k];
+					count++;
 				}
 			}
 		}
+		return sA;
 	}
 
 	public XY moveAway(Entity e, Entity s) {
 		XY xy = moveAway(e, s);
 		return new XY(-xy.getX(), -xy.getY());
 	}
-	
+
 	public XY moveTowards(Entity e, Entity s) {
 		int x = 0;
 		int y = 0;
-		if(s.getX() < e.getX())
-			x=-1;
-		if(s.getX() > e.getX())
-			x=1;
-		if(s.getY() < e.getY())
-			y=-1;
-		if(s.getY() > e.getY())
-			y=1;
+		if (s.getX() < e.getX())
+			x = -1;
+		if (s.getX() > e.getX())
+			x = 1;
+		if (s.getY() < e.getY())
+			y = -1;
+		if (s.getY() > e.getY())
+			y = 1;
 		return new XY(x, y);
-		
+
 	}
-	
+
 	public EntityType getEntityType(int x, int y) {
 		Entity e = fb[x][y];
 		if (e instanceof BadPlant) {
@@ -106,25 +113,25 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		int x = miniSquirrel.getX() + moveDirection.getX();
 		int y = miniSquirrel.getX() + moveDirection.getX();
 		if (getEntityType(x, y) != EntityType.Air) {
-			if(fb[x][y].collision(miniSquirrel)) {
-				if(miniSquirrel.getEnergy()<0) {
+			if (fb[x][y].collision(miniSquirrel)) {
+				if (miniSquirrel.getEnergy() < 0) {
 					kill(miniSquirrel);
 				}
-				miniSquirrel.setMoveDirection(new XY(0,0));
+				miniSquirrel.setMoveDirection(new XY(0, 0));
 				return;
 			}
 		}
 		miniSquirrel.setMoveDirection(moveDirection);
-		
+
 	}
 
 	public void tryMove(GoodBeast goodBeast, XY moveDirection) {
 		int x = goodBeast.getX() + moveDirection.getX();
 		int y = goodBeast.getX() + moveDirection.getX();
 		if (getEntityType(x, y) != EntityType.Air) {
-			if(fb[x][y].collision(goodBeast)) {
-				if(goodBeast.alive()) {
-					goodBeast.setMoveDirection(new XY(0,0));
+			if (fb[x][y].collision(goodBeast)) {
+				if (goodBeast.alive()) {
+					goodBeast.setMoveDirection(new XY(0, 0));
 				} else {
 					killAndReplace(goodBeast);
 				}
@@ -137,9 +144,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		int x = badBeast.getX() + moveDirection.getX();
 		int y = badBeast.getX() + moveDirection.getX();
 		if (getEntityType(x, y) != EntityType.Air) {
-			if(fb[x][y].collision(badBeast)) {
-				if(badBeast.alive()) {
-					badBeast.setMoveDirection(new XY(0,0));
+			if (fb[x][y].collision(badBeast)) {
+				if (badBeast.alive()) {
+					badBeast.setMoveDirection(new XY(0, 0));
 				} else {
 					killAndReplace(badBeast);
 				}
@@ -152,8 +159,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		int x = master.getX() + moveDirection.getX();
 		int y = master.getX() + moveDirection.getX();
 		if (getEntityType(x, y) != EntityType.Air) {
-			if(fb[x][y].collision(master)) {
-				master.setMoveDirection(new XY(0,0));
+			if (fb[x][y].collision(master)) {
+				master.setMoveDirection(new XY(0, 0));
 				return;
 			}
 		}
@@ -161,39 +168,51 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public Squirrel nearestPlayerEntity(XY pos) {
-		for(int i=0; i<=6;i++) {
+		boolean right = true;
+		boolean left = true;
+		boolean up = true;
+		boolean down = true;
+		for (int i = 0; i <= 6; i++) {
+			if(pos.getX()+i > fb[0].length-1)
+				right = false;
+			if(pos.getX()-i < 0)
+				left = false;
+			if(pos.getY()+i > fb[1].length-1)
+				down = false;
+			if(pos.getY()-i < 0)
+				up = false;
 			// oben
-			if(fb[pos.getX()][pos.getY()-i] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()][pos.getY()-i];
-			}
+			if (up && fb[pos.getX()][pos.getY() - i] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX()][pos.getY() - i];
+				}
 			// unten
-			if(fb[pos.getX()][pos.getY()+i] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()][pos.getY()+i];
-			}
+			if (down && fb[pos.getX()][pos.getY() + i] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX()][pos.getY() + i];
+				}
 			// rechts
-			if(fb[pos.getX()+i][pos.getY()] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()+i][pos.getY()];
-			}
+			if (right && fb[pos.getX() + i][pos.getY()] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX() + i][pos.getY()];
+				}
 			// links
-			if(fb[pos.getX()-i][pos.getY()] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()-i][pos.getY()];
-			}
+			if (left && fb[pos.getX() - i][pos.getY()] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX() - i][pos.getY()];
+				}
 			// obenrechts
-			if(fb[pos.getX()+i][pos.getY()-i] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()+i][pos.getY()-i];
-			}
+			if (right && up && fb[pos.getX() + i][pos.getY() - i] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX() + i][pos.getY() - i];
+				}
 			// obenlinks
-			if(fb[pos.getX()-i][pos.getY()-i] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()-i][pos.getY()-i];
-			}
+			if (left && up && fb[pos.getX() - i][pos.getY() - i] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX() - i][pos.getY() - i];
+				}
 			// untenrechts
-			if(fb[pos.getX()+i][pos.getY()+i] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()+i][pos.getY()+i];
-			}
+			if (right && down && fb[pos.getX() + i][pos.getY() + i] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX() + i][pos.getY() + i];
+				}
 			// untenlinks
-			if(fb[pos.getX()-i][pos.getY()+i] instanceof Squirrel) {
-				return (Squirrel)fb[pos.getX()-i][pos.getY()+i];
-			}
+			if (left && down && fb[pos.getX() - i][pos.getY() + i] instanceof Squirrel) {
+					return (Squirrel) fb[pos.getX() - i][pos.getY() + i];
+				}
 		}
 		return null;
 	}
@@ -209,14 +228,14 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			rndX = ThreadLocalRandom.current().nextInt(1, getSize().getX() + 1);
 			rndY = ThreadLocalRandom.current().nextInt(1, getSize().getX() + 1);
 		} while (!(getEntityType(rndX, rndY) == EntityType.Air));
-		if(e instanceof BadBeast) {
-			
-		} else if(e instanceof GoodBeast) {
-			
-		} else if(e instanceof GoodPlant) {
-			
-		} else if(e instanceof BadPlant) {
-			
+		if (e instanceof BadBeast) {
+
+		} else if (e instanceof GoodBeast) {
+
+		} else if (e instanceof GoodPlant) {
+
+		} else if (e instanceof BadPlant) {
+
 		}
 	}
 

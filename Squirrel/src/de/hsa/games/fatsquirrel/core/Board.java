@@ -16,10 +16,12 @@ public class Board{
 		return flattnedBoard;
 	}
 	
-	public Entity[] userControlled() {
+	public int userControlled() {
+		int count = 0;
 		for(int i=0; i<board.length;i++)
 			if(board[i] instanceof HandOperatedMasterSquirrel)
-				
+				count++;
+		return count;
 	}
 	
 	public void add(Entity e) {

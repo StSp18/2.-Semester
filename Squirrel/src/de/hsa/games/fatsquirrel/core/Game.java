@@ -1,9 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
 public abstract class Game {
-	private State s;
 	public Game(State s) {
-		this.s = s;
 	}
 	
 	public void run() {

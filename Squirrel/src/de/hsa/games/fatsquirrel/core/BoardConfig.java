@@ -20,7 +20,7 @@ public class BoardConfig {
 		amountOfBadPlant= 4;
 		amountOfGoodPlant= 6;
 		amountOfWall=10;
-		size = new XY(30, 30);
+		size = new XY(20, 20);
 		wallCount=size.getX()*2+4+size.getY()*2;
 		amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast+ amountOfGoodBeast+ amountOfBadPlant + amountOfWall + amountOfGoodPlant;
 	}

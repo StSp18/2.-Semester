@@ -20,8 +20,10 @@ public class GameImpl extends Game {
 
 	protected void processInput() {
 		view = s.flattenedBoard();
-		s.flattenedBoard().process();
-		s.flattenedBoard().
+		HandOperatedMasterSquirrel [] sA = s.flattenedBoard().process();
+		for(int i=0;i<sA.length;i++) {
+			s.flattenedBoard().tryMove(sA[i], ui.getCommand().getMD().getMoveDirection());
+		}
 	}
 	protected void update() {
 			s.update();
