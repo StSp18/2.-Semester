@@ -10,8 +10,6 @@ public abstract class Entity {
 		startEnergy = energy;
 		xy = new XY(x, y);	
 	}
-
-	public abstract boolean collision(Entity e);
 	
 	public void updateEnergy(int dEnergy) {
 		energy += dEnergy;

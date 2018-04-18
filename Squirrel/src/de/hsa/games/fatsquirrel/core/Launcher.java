@@ -1,5 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.console.GameImpl;
+
 public class Launcher {
 
 	public static void main(String[] args) {

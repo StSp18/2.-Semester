@@ -1,12 +1,14 @@
-package de.hsa.games.fatsquirrel;
+package de.hsa.games.fatsquirrel.console;
 
+import de.hsa.games.fatsquirrel.MoveCommand;
+import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.core.BoardView;
 
 public class ConsoleUI implements UI{
 	public void render(BoardView view) {
 		String s = "";
-		for (int i = 0; i < view.getSize().getY()+2; i++) {
-			for (int k = 0; k < view.getSize().getX()+2; k++) {
+		for (int i = 0; i < view.getSize().getY(); i++) {
+			for (int k = 0; k < view.getSize().getX(); k++) {
 				s += view.getEntityType(k, i).getChar();
 			}
 			s += '\n';

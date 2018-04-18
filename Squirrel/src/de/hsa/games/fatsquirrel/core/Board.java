@@ -16,12 +16,13 @@ public class Board{
 		return flattnedBoard;
 	}
 	
-	public int userControlled() {
-		int count = 0;
-		for(int i=0; i<board.length;i++)
-			if(board[i] instanceof HandOperatedMasterSquirrel)
-				count++;
-		return count;
+	
+	public void moveCharacter(XY moveDirection, int x, int y) {
+		int i = 0;
+		while(!(board[i].getX() == x && board[i].getY() == y)) {
+			i++;
+		}
+		((Character) board[i]).setMoveDirection(moveDirection);
 	}
 	
 	public void add(Entity e) {
@@ -66,6 +67,10 @@ public class Board{
 	
 	public XY getSize() {
 		return bf.getSize();
+	}
+	
+	public int getConsoleControlledEntitys() {
+		return bf.getAmountOfHandOperatedMasterSquirrel();
 	}
 	
 	public String toString() {

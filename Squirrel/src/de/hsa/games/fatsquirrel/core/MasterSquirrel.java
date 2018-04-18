@@ -1,19 +1,18 @@
 package de.hsa.games.fatsquirrel.core;
 
 public abstract class MasterSquirrel extends Squirrel {
-
-	MasterSquirrel(int id, int x, int y) {
+	int player;
+	MasterSquirrel(int id, int x, int y, int player) {
 		super(id, 1000, x, y);
+		this.player = player;
+	}
+	
+	public int getPlayer() {
+		return player;
 	}
 	
 	public void nextStep(EntityContext context) {
-		if(getEnergy()<0) {
-			updateEnergy(-getEnergy());
-		}
-		System.out.println("Master Squirrel nextStep, " + getMoveDirection().toString());
-		System.out.println("Before Move: " + toString());
-		xy = xy.move(getMoveDirection());
-		System.out.println("After Move" + toString());
+		context.tryMove(this, moveDirection);
 	}
 	
 	public boolean myMiniSquirrel(Entity e) {
@@ -23,24 +22,6 @@ public abstract class MasterSquirrel extends Squirrel {
 		return false;
 	}
 
-	public boolean collision(Entity e) {
-		if(e instanceof BadBeast) {
-			updateEnergy(e.getEnergy());
-			((BadBeast)e).bite(this);
-		} else if(e instanceof MiniSquirrel) {
-			if(myMiniSquirrel(e)) {
-				updateEnergy(e.getEnergy());
-			} else {
-				updateEnergy(150);
-			}
-			e.updateEnergy(-e.getEnergy());
-		} else if(e instanceof GoodBeast) {
-			updateEnergy(e.getEnergy());
-			((GoodBeast) e).kill();
-		}
-		return true;
-	}
-	
 	public MiniSquirrel creatMiniSquirrel(int id, int energy) {
 		if(energy < this.getEnergy()) {
 			this.updateEnergy(-energy);

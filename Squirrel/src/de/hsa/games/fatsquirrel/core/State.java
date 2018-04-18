@@ -12,8 +12,16 @@ public class State {
 		return new FlattenedBoard(board);
 	}
 	
+	public void setMoveDirection(XY moveDirection, int x, int y) {
+		board.moveCharacter(moveDirection, x, y);
+	}
+	
 	public void update() {
-		board.update(flattenedBoard());
+		flattenedBoard().update();
+	}
+	
+	public int getUserControlled() {
+		return board.getConsoleControlledEntitys();
 	}
 	
 	public int getHighscore() {

@@ -6,13 +6,6 @@ public class Wall extends Entity {
 		super(id, -10, x, y);
 	}
 	
-	public boolean collision(Entity e) {
-		if(e instanceof Squirrel) {
-			((Squirrel) e).wallBump();
-		}
-		return true;
-	}
-	
 	public String toString() {
 		return "Type: Wall, " + super.toString();
 	}

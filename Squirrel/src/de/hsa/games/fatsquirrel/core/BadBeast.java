@@ -8,27 +8,13 @@ public class BadBeast extends Character {
 	}
 	
 	public void nextStep(EntityContext context) {
-		xy = xy.rndDirection();
+		context.tryMove(this, moveDirection);
 	}
 	
-	public boolean collision(Entity e) {
-		if(e instanceof Squirrel) {
-			System.out.println("BadBeast bites");
-			bite(e);
-			if(lifes==0) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public boolean alive() {
-		return lifes > 0;
-	}
-	
-	public void bite(Entity e) {
+	public boolean bite(Entity e) {
 		e.updateEnergy(getEnergy());
 		lifes--;
+		return lifes == 0;
 	}
 	
 	public String toString() {
