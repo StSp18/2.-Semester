@@ -12,6 +12,7 @@ public abstract class MasterSquirrel extends Squirrel {
 	}
 	
 	public void nextStep(EntityContext context) {
+		System.out.println("MasterSqirrel next Step");
 		context.tryMove(this, moveDirection);
 	}
 	

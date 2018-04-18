@@ -8,6 +8,7 @@ public class GoodBeast extends Character {
 	}
 
 	public void nextStep(EntityContext context) {
+		System.out.println("GoodBeast next Step");
 		context.tryMove(this, moveDirection);
 	}
 	

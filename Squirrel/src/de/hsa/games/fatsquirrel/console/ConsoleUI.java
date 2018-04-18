@@ -1,6 +1,5 @@
 package de.hsa.games.fatsquirrel.console;
 
-import de.hsa.games.fatsquirrel.MoveCommand;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.core.BoardView;
 

@@ -8,6 +8,7 @@ public class BadBeast extends Character {
 	}
 	
 	public void nextStep(EntityContext context) {
+		System.out.println("BadBeast next Step");
 		context.tryMove(this, moveDirection);
 	}
 	

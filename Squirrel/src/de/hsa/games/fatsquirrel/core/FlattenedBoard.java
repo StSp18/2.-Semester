@@ -54,14 +54,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			return EntityType.AutomatedMasterSquirrel;
 		} else if (e instanceof MiniSquirrel) {
 			return EntityType.MiniSquirrel;
-		} else {
+		} else if (e instanceof Wall) {
 			return EntityType.Wall;
+		} else {
+			return EntityType.Air;
 		}
-	}
-
-	public void update() {
-		b.update(this);
-		fb = flatten();
 	}
 
 	private XY rndMoveDirection() {
@@ -110,35 +107,36 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void tryMove(MasterSquirrel master, XY moveDirection) {
+		System.out.println("tryMove MasterSquirrel");
 		XY newCorrdinates = new XY(master.getX() + moveDirection.getX(), master.getY() + moveDirection.getY());
 		if(master.Stunned()) {
 			return;
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Air) {
-			master.move(moveDirection);
+			master.move();
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Wall) {
 			master.wallBump();
 		}
 		if (getEntityType(newCorrdinates) == EntityType.BadBeast) {
 			if (((BadBeast) getEntity(newCorrdinates)).bite(master)) {
-				master.move(moveDirection);
+				master.move();
 				killAndReplace(getEntity(newCorrdinates));
 			}
 		}
 		if (getEntityType(newCorrdinates) == EntityType.GoodBeast) {
 			master.updateEnergy(getEntity(newCorrdinates).getEnergy());
-			master.move(moveDirection);
+			master.move();
 			killAndReplace(getEntity(newCorrdinates));
 		}
 		if (getEntityType(newCorrdinates) == EntityType.BadPlant) {
 			master.updateEnergy(getEntity(newCorrdinates).getEnergy());
-			master.move(moveDirection);
+			master.move();
 			killAndReplace(getEntity(newCorrdinates));
 		}
 		if (getEntityType(newCorrdinates) == EntityType.GoodPlant) {
 			master.updateEnergy(getEntity(newCorrdinates).getEnergy());
-			master.move(moveDirection);
+			master.move();
 			killAndReplace(getEntity(newCorrdinates));
 		}
 		if (getEntityType(newCorrdinates) == EntityType.MiniSquirrel) {
@@ -147,41 +145,42 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			} else {
 				master.updateEnergy(150);
 			}
-			master.move(moveDirection);
+			master.move();
 			kill(getEntity(newCorrdinates));
 		}
 	}
 
 	public void tryMove(MiniSquirrel miniSquirrel, XY moveDirection) {
+		System.out.println("tryMove miniSquirrel");
 		XY newCorrdinates = new XY(miniSquirrel.getX() + moveDirection.getX(), miniSquirrel.getY() + moveDirection.getY());
 		if(miniSquirrel.Stunned()) {
 			return;
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Air) {
-			miniSquirrel.move(moveDirection);
+			miniSquirrel.move();
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Wall) {
 			miniSquirrel.wallBump();
 		}
 		if (getEntityType(newCorrdinates) == EntityType.BadBeast) {
 			if (((BadBeast) getEntity(newCorrdinates)).bite(miniSquirrel)) {
-				miniSquirrel.move(moveDirection);
+				miniSquirrel.move();
 				killAndReplace(getEntity(newCorrdinates));
 			}
 		}
 		if (getEntityType(newCorrdinates) == EntityType.GoodBeast) {
 			miniSquirrel.updateEnergy(getEntity(newCorrdinates).getEnergy());
-			miniSquirrel.move(moveDirection);
+			miniSquirrel.move();
 			killAndReplace(getEntity(newCorrdinates));
 		}
 		if (getEntityType(newCorrdinates) == EntityType.BadPlant) {
 			miniSquirrel.updateEnergy(getEntity(newCorrdinates).getEnergy());
-			miniSquirrel.move(moveDirection);
+			miniSquirrel.move();
 			killAndReplace(getEntity(newCorrdinates));
 		}
 		if (getEntityType(newCorrdinates) == EntityType.GoodPlant) {
 			miniSquirrel.updateEnergy(getEntity(newCorrdinates).getEnergy());
-			miniSquirrel.move(moveDirection);
+			miniSquirrel.move();
 			killAndReplace(getEntity(newCorrdinates));
 		}
 		if (getEntityType(newCorrdinates) == EntityType.MiniSquirrel) {
@@ -199,9 +198,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void tryMove(GoodBeast goodBeast, XY moveDirection) {
+		System.out.println("tryMove goodBeast");
 		XY newCorrdinates = new XY(goodBeast.getX() + moveDirection.getX(), goodBeast.getY() + moveDirection.getY());
 		if(getEntityType(newCorrdinates) == EntityType.Air) {
-			goodBeast.move(moveDirection);
+			goodBeast.move();
 		}
 		if(getEntity(newCorrdinates) instanceof Squirrel) {
 			getEntity(newCorrdinates).updateEnergy(goodBeast.getEnergy());
@@ -210,15 +210,22 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void tryMove(BadBeast badBeast, XY moveDirection) {
+		System.out.println("tryMove badBeast");
 		XY newCorrdinates = new XY(badBeast.getX() + moveDirection.getX(), badBeast.getY() + moveDirection.getY());
+		System.out.println(getEntityType(newCorrdinates));
 		if(getEntityType(newCorrdinates) == EntityType.Air) {
-			badBeast.move(moveDirection);
+			System.out.println("moved --> Air");
+			badBeast.move();
+			return;
 		}
 		if(getEntity(newCorrdinates) instanceof Squirrel) {
 			if(badBeast.bite(getEntity(newCorrdinates))) {
 				killAndReplace(badBeast);
+				System.out.println("didn't move --> Squirrel");
+				return;
 			}
 		}
+		System.out.println("didn't move --> End of Method");
 	}
 
 	public Squirrel nearestPlayerEntity(XY pos) {
@@ -237,64 +244,64 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				up = false;
 			// oben
 			if (up && fb[pos.getX()][pos.getY() - i] instanceof Squirrel) {
-				System.out.print("Found Squirrel up, ");
+//				System.out.print("Found Squirrel up, ");
 				return (Squirrel) fb[pos.getX()][pos.getY() - i];
 			}
 			// unten
 			if (down && fb[pos.getX()][pos.getY() + i] instanceof Squirrel) {
-				System.out.print("Found Squirrel down, ");
+//				System.out.print("Found Squirrel down, ");
 				return (Squirrel) fb[pos.getX()][pos.getY() + i];
 			}
 			// rechts
 			if (right && fb[pos.getX() + i][pos.getY()] instanceof Squirrel) {
-				System.out.print("Found Squirrel right, ");
+//				System.out.print("Found Squirrel right, ");
 				return (Squirrel) fb[pos.getX() + i][pos.getY()];
 			}
 			// links
 			if (left && fb[pos.getX() - i][pos.getY()] instanceof Squirrel) {
-				System.out.print("Found Squirrel left, ");
+//				System.out.print("Found Squirrel left, ");
 				return (Squirrel) fb[pos.getX() - i][pos.getY()];
 			}
 			for (int k = 0; k <= i; k++) {
 				// obenrechts
 				if (right && up && fb[pos.getX() + k][pos.getY() - i] instanceof Squirrel) {
-					System.out.print("Found Squirrel upright, ");
+//					System.out.print("Found Squirrel upright, ");
 					return (Squirrel) fb[pos.getX() + k][pos.getY() - i];
 				}
 				if (right && up && fb[pos.getX() + i][pos.getY() - k] instanceof Squirrel) {
-					System.out.print("Found Squirrel upright, ");
+//					System.out.print("Found Squirrel upright, ");
 					return (Squirrel) fb[pos.getX() + i][pos.getY() - k];
 				}
 				// obenlinks
 				if (left && up && fb[pos.getX() - i][pos.getY() - k] instanceof Squirrel) {
-					System.out.print("Found Squirrel upleft, ");
+//					System.out.print("Found Squirrel upleft, ");
 					return (Squirrel) fb[pos.getX() - i][pos.getY() - k];
 				}
 				if (left && up && fb[pos.getX() - k][pos.getY() - i] instanceof Squirrel) {
-					System.out.print("Found Squirrel upleft, ");
+//					System.out.print("Found Squirrel upleft, ");
 					return (Squirrel) fb[pos.getX() - k][pos.getY() - i];
 				}
 				// untenrechts
 				if (right && down && fb[pos.getX() + k][pos.getY() + i] instanceof Squirrel) {
-					System.out.print("Found Squirrel downright, ");
+//					System.out.print("Found Squirrel downright, ");
 					return (Squirrel) fb[pos.getX() + k][pos.getY() + i];
 				}
 				if (right && down && fb[pos.getX() + i][pos.getY() + k] instanceof Squirrel) {
-					System.out.print("Found Squirrel downright, ");
+//					System.out.print("Found Squirrel downright, ");
 					return (Squirrel) fb[pos.getX() + i][pos.getY() + k];
 				}
 				// untenlinks
 				if (left && down && fb[pos.getX() - i][pos.getY() + k] instanceof Squirrel) {
-					System.out.print("Found Squirrel downleft, ");
+//					System.out.print("Found Squirrel downleft, ");
 					return (Squirrel) fb[pos.getX() - i][pos.getY() + k];
 				}
 				if (left && down && fb[pos.getX() - k][pos.getY() + i] instanceof Squirrel) {
-					System.out.print("Found Squirrel downleft, ");
+//					System.out.print("Found Squirrel downleft, ");
 					return (Squirrel) fb[pos.getX() - k][pos.getY() + i];
 				}
 			}
 		}
-		System.out.print("Found no Squirrel nearby, ");
+//		System.out.print("Found no Squirrel nearby, ");
 		return null;
 	}
 

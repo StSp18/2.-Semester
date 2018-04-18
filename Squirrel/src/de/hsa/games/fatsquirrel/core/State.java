@@ -17,7 +17,7 @@ public class State {
 	}
 	
 	public void update() {
-		flattenedBoard().update();
+		board.update(flattenedBoard());
 	}
 	
 	public int getUserControlled() {
