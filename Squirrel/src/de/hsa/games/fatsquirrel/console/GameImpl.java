@@ -19,6 +19,7 @@ public class GameImpl extends Game {
 	}
 	
 	protected void render() {
+		view = s.flattenedBoard();
 		ui.render(view);
 	}
 

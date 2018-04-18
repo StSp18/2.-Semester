@@ -6,8 +6,11 @@ public abstract class Game {
 	
 	public void run() {
 		while(true) {
+			System.out.println("render");
 			render();
+			System.out.println("processInput");
 			processInput();
+			System.out.println("update");
 			update();
 		}
 	
