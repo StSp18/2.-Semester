@@ -59,7 +59,7 @@ public class Board{
 	
 	public void update(EntityContext context) {
 		for(int i=0; i<board.length ;i++) {
-			if(board[i] instanceof GoodBeast || board[i] instanceof BadBeast || board[i] instanceof MiniSquirrel || board[i] instanceof MasterSquirrel) {
+			if(board[i] instanceof Character) {
 				((Character)board[i]).nextStep(context);
 			}
 		}
