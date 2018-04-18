@@ -60,13 +60,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void update() {
-		for (int i = 1; i < fb[1].length - 1; i++) {
-			for (int k = 1; k < fb[0].length - 1; k++) {
-				if (fb[k][i] instanceof Character) {
-					((Character) fb[k][i]).nextStep(this);
-				}
-			}
-		}
+		b.update(this);
+		fb = flatten();
 	}
 
 	private XY rndMoveDirection() {

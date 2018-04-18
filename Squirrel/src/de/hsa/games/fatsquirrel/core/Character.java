@@ -10,6 +10,7 @@ public abstract class Character extends Entity{
 	public abstract void nextStep(EntityContext context);
 	
 	public void move(XY moveDirection) {
+		System.out.println("move");
 		xy = xy.move(moveDirection);
 	}
 	

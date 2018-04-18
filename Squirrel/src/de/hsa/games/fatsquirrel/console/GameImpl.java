@@ -9,15 +9,16 @@ import de.hsa.games.fatsquirrel.core.State;
 public class GameImpl extends Game {
 	private State s;
 	private BoardView view;
-	private UI ui = new ConsoleUI();
+	private UI ui;
 
 	public GameImpl(State s) {
 		super(s);
 		this.s = s;
+		view = s.flattenedBoard();
+		ui = new ConsoleUI();
 	}
 	
 	protected void render() {
-		view = s.flattenedBoard();
 		ui.render(view);
 	}
 

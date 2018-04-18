@@ -61,7 +61,6 @@ public class Board{
 		for(int i=0; i<board.length ;i++) {
 			if(board[i] instanceof Character) {
 				((Character)board[i]).nextStep(context);
-//				System.out.println("test:\n" + context.toString());
 			}
 		}
 	}
