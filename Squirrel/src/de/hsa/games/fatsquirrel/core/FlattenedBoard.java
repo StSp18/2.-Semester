@@ -50,10 +50,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return new XY(0, 0).rndDirection();
 	}
 
-	private XY stop() {
-		return new XY(0, 0);
-	}
-
 	public XY moveAway(Entity e, Entity s) {
 		int x = 0;
 		int y = 0;
