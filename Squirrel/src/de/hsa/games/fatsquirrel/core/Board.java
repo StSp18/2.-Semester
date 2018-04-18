@@ -22,6 +22,7 @@ public class Board{
 		while(!(board[i].getX() == x && board[i].getY() == y)) {
 			i++;
 		}
+		System.out.println("Moving " + board[i].toString());
 		((Character) board[i]).setMoveDirection(moveDirection);
 	}
 	

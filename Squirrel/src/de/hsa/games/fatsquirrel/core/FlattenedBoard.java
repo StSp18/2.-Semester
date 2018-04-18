@@ -15,6 +15,29 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return b.flatten();
 	}
 
+	public EntityType getEntityType(int x, int y) {
+		Entity e = fb[x][y];
+		if (e instanceof BadPlant) {
+			return EntityType.BadPlant;
+		} else if (e instanceof GoodPlant) {
+			return EntityType.GoodPlant;
+		} else if (e instanceof BadBeast) {
+			return EntityType.BadBeast;
+		} else if (e instanceof GoodBeast) {
+			return EntityType.GoodBeast;
+		} else if (e instanceof HandOperatedMasterSquirrel) {
+			return EntityType.HandOperatedMasterSquirrel;
+		} else if (e instanceof AutomatedMasterSquirrel) {
+			return EntityType.AutomatedMasterSquirrel;
+		} else if (e instanceof MiniSquirrel) {
+			return EntityType.MiniSquirrel;
+		} else if (e instanceof Wall) {
+			return EntityType.Wall;
+		} else {
+			return EntityType.Air;
+		}
+	}
+	
 	public EntityType getEntityType(XY xy) {
 		Entity e = fb[xy.getX()][xy.getY()];
 		if (e instanceof BadPlant) {
@@ -87,29 +110,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	}
 
-	public EntityType getEntityType(int x, int y) {
-		Entity e = fb[x][y];
-		if (e instanceof BadPlant) {
-			return EntityType.BadPlant;
-		} else if (e instanceof GoodPlant) {
-			return EntityType.GoodPlant;
-		} else if (e instanceof BadBeast) {
-			return EntityType.BadBeast;
-		} else if (e instanceof GoodBeast) {
-			return EntityType.GoodBeast;
-		} else if (e instanceof HandOperatedMasterSquirrel) {
-			return EntityType.HandOperatedMasterSquirrel;
-		} else if (e instanceof AutomatedMasterSquirrel) {
-			return EntityType.AutomatedMasterSquirrel;
-		} else if (e instanceof MiniSquirrel) {
-			return EntityType.MiniSquirrel;
-		} else if (e instanceof Wall) {
-			return EntityType.Wall;
-		} else {
-			return EntityType.Air;
-		}
-	}
-
 	public XY getSize() {
 		return new XY(fb[0].length, fb[1].length);
 	}
@@ -118,6 +118,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY newCorrdinates = new XY(master.getX() + moveDirection.getX(), master.getY() + moveDirection.getY());
 		if(master.Stunned()) {
 			return;
+		}
+		if (getEntityType(newCorrdinates) == EntityType.Air) {
+			master.move(moveDirection);
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Wall) {
 			master.wallBump();
@@ -158,6 +161,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY newCorrdinates = new XY(miniSquirrel.getX() + moveDirection.getX(), miniSquirrel.getY() + moveDirection.getY());
 		if(miniSquirrel.Stunned()) {
 			return;
+		}
+		if (getEntityType(newCorrdinates) == EntityType.Air) {
+			miniSquirrel.move(moveDirection);
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Wall) {
 			miniSquirrel.wallBump();
@@ -330,6 +336,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void planNextMove(int x, int y) {
+		System.out.println("Plan next Move for a Beast");
 		if (getEntityType(x, y) == EntityType.BadBeast) {
 			if (nearestPlayerEntity(new XY(x, y)) != null) {
 				((Character) fb[x][y]).setMoveDirection(moveTowards(fb[x][y], (nearestPlayerEntity(new XY(x, y)))));

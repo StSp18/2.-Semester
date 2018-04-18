@@ -9,7 +9,7 @@ import de.hsa.games.fatsquirrel.core.State;
 public class GameImpl extends Game {
 	private State s;
 	private BoardView view;
-	private UI ui;
+	private UI ui = new ConsoleUI();
 
 	public GameImpl(State s) {
 		super(s);
@@ -18,7 +18,6 @@ public class GameImpl extends Game {
 	
 	protected void render() {
 		view = s.flattenedBoard();
-		ui = new ConsoleUI();
 		ui.render(view);
 	}
 
@@ -26,12 +25,15 @@ public class GameImpl extends Game {
 		for(int i=0; i<view.getSize().getY();i++) {
 			for(int k=0; k<view.getSize().getX();k++) {
 				if(view.getEntityType(k, i) == EntityType.HandOperatedMasterSquirrel) {
+					System.out.println("Plan next move for MasterSquirrel");
 					s.setMoveDirection(ui.getCommand().getMD().getMoveDirection(), k, i);
 				}
-				if(view.getEntityType(k, i) == EntityType.GoodPlant) {
+				if(view.getEntityType(k, i) == EntityType.GoodBeast) {
+					System.out.println("Plan next move for GoodBeast");
 					s.flattenedBoard().planNextMove(k, i);
 				}
-				if(view.getEntityType(k, i) == EntityType.BadPlant) {
+				if(view.getEntityType(k, i) == EntityType.BadBeast) {
+					System.out.println("Plan next move for BadBeast");
 					s.flattenedBoard().planNextMove(k, i);
 				}
 			}
