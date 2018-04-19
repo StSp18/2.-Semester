@@ -15,6 +15,10 @@ public abstract class Entity {
 		energy += dEnergy;
 	}
 	
+	public XY getXY() {
+		return xy;
+	}
+
 	public int getId() {
 		return id;
 	}

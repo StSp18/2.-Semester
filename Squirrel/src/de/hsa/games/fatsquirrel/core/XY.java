@@ -32,7 +32,11 @@ public final class XY {
 		}
 		
 	}
-
+	
+	public XY add(XY xy) {
+		return new XY(x+xy.getX(),y+xy.getY());
+	}
+	
 	public XY move(XY moveDirection) {
 		return new XY(x+moveDirection.getX(),y+moveDirection.getY() );
 	}

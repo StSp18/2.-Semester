@@ -2,9 +2,11 @@ package de.hsa.games.fatsquirrel.core;
 
 public class BadBeast extends Character {
 	int lifes;
+	private int sleep;
 	BadBeast(int id, int x, int y) {
 		super(id, -150, x, y);
 		lifes = 7;
+		sleep = 0;
 	}
 	
 	public void nextStep(EntityContext context) {
@@ -18,6 +20,16 @@ public class BadBeast extends Character {
 		return lifes == 0;
 	}
 	
+	public boolean aSleep() {
+		if(sleep == 0) {
+			sleep = 3;
+			return false;
+		} else {
+			sleep--;
+			return true;
+		}
+	}
+
 	public String toString() {
 		return "Type: BadBeast, " + super.toString();
 	}
