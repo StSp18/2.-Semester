@@ -2,23 +2,21 @@ package de.hsa.games.fatsquirrel.core;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import de.hsa.games.fatsquirrel.console.MoveCommand;
-
 public class FlattenedBoard implements BoardView, EntityContext {
 	private Board b;
 	private Entity[][] fb;
 
 	public FlattenedBoard(Board b) {
 		this.b = b;
-		fb = flatten();
+		fb = b.flatten();
 	}
 
-	public Entity[][] flatten() {
-		return b.flatten();
+	public Entity[][] getFlattenedBoard() {
+		return fb;
 	}
 
 	private void update() {
-		fb = flatten();
+		fb = b.flatten();
 	}
 	
 	public EntityType getEntityType(int x, int y) {
