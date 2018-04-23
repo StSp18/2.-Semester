@@ -1,6 +1,6 @@
-package de.hsa.games.fatsquirrel.console;
+package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.core.XY;
+import java.util.concurrent.ThreadLocalRandom;
 
 public enum MoveDirection {
 	up(new XY(0, -1)), down(new XY(0, 1)), right(new XY(1, 0)), left(new XY(-1, 0)), upright(
@@ -30,6 +30,29 @@ public enum MoveDirection {
 		if(upleft.getMoveDirection() == movedirection)
 			return downleft;
 		return stay;
+	}
+	
+	public MoveDirection rndMoveDirection() {
+		int randomNum = ThreadLocalRandom.current().nextInt(1, 9);
+		switch (randomNum) {
+		case 1:
+			return up;
+		case 2:
+			return down;
+		case 3:
+			return left;
+		case 4:
+			return right;
+		case 5:
+			return upleft;
+		case 6:
+			return upright;
+		case 7:
+			return downleft;
+		default:
+			return downright;
+		}
+		
 	}
 	
 	public XY getMoveDirection() {

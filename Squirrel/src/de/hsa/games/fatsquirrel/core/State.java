@@ -12,7 +12,7 @@ public class State {
 		return new FlattenedBoard(board);
 	}
 	
-	public void setMoveDirection(XY moveDirection, int x, int y) {
+	public void setMoveDirection(MoveDirection moveDirection, int x, int y) {
 		board.moveCharacter(moveDirection, x, y);
 	}
 	

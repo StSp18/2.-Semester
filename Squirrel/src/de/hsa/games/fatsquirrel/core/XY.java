@@ -9,30 +9,6 @@ public final class XY {
 		this.y = y;
 	}
 	
-	public XY rndDirection() {
-		int randomNum = ThreadLocalRandom.current().nextInt(1, 9);
-		switch (randomNum) {
-		case 1:
-			return new XY(x-1, y-1);
-		case 2:
-			return new XY(x, y-1);
-		case 3:
-			return new XY(x+1, y-1);
-		case 4:
-			return new XY(x-1, y);
-		case 5:
-			return new XY(x+1, y);
-		case 6:
-			return new XY(x-1, y+1);
-		case 7:
-			return new XY(x, y+1);
-		case 8:
-		default:
-			return new XY(x+1, y+1);
-		}
-		
-	}
-	
 	public XY add(XY xy) {
 		return new XY(x+xy.getX(),y+xy.getY());
 	}

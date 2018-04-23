@@ -17,7 +17,7 @@ public class Board{
 	}
 	
 	
-	public void moveCharacter(XY moveDirection, int x, int y) {
+	public void moveCharacter(MoveDirection moveDirection, int x, int y) {
 		int i = 0;
 		while(!(board[i].getX() == x && board[i].getY() == y)) {
 			i++;

@@ -2,6 +2,8 @@ package de.hsa.games.fatsquirrel.core;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import de.hsa.games.fatsquirrel.console.MoveCommand;
+
 public class FlattenedBoard implements BoardView, EntityContext {
 	private Board b;
 	private Entity[][] fb;
@@ -65,11 +67,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		}
 	}
 
-	private XY rndMoveDirection() {
-		return new XY(0, 0).rndDirection();
+	private MoveDirection rndMoveDirection() {
+		MoveDirection md = MoveDirection.stay;
+		md = md.rndMoveDirection();
+		return md;
 	}
 
-	public XY moveAway(Entity e, Entity s) {
+	public MoveDirection moveAway(Entity e, Entity s) {
 		int x = 0;
 		int y = 0;
 		if (s.getX() > e.getX()) {
@@ -84,10 +88,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		if (s.getY() < e.getY()) {
 			y = 1;
 		}
-		return new XY(x, y);
+		MoveDirection md = MoveDirection.stay;
+		md.searchMoveDirection(new XY(x, y));
+		return md;
 	}
 
-	public XY moveTowards(Entity e, Entity s) {
+	public MoveDirection moveTowards(Entity e, Entity s) {
 		int x = 0;
 		int y = 0;
 		if (s.getX() < e.getX()) {
@@ -102,7 +108,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		if (s.getY() > e.getY()) {
 			y = 1;
 		}
-		return new XY(x, y);
+		MoveDirection md = MoveDirection.stay;
+		md.searchMoveDirection(new XY(x, y));
+		return md;
 
 	}
 

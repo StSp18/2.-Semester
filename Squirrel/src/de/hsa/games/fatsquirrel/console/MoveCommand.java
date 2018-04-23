@@ -2,7 +2,7 @@ package de.hsa.games.fatsquirrel.console;
 
 import java.io.IOException;
 
-import de.hsa.games.fatsquirrel.core.EntityType;
+import de.hsa.games.fatsquirrel.core.MoveDirection;
 
 public class MoveCommand {
 	MoveDirection mD;

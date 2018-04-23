@@ -28,7 +28,7 @@ public class GameImpl extends Game {
 			for(int k=0; k<view.getSize().getX();k++) {
 				if(view.getEntityType(k, i) == EntityType.HandOperatedMasterSquirrel) {
 					System.out.println("Plan next move for MasterSquirrel");
-					s.setMoveDirection(ui.getCommand().getMD().getMoveDirection(), k, i);
+					s.setMoveDirection(ui.getCommand().getMD(), k, i);
 				}
 				if(view.getEntityType(k, i) == EntityType.GoodBeast) {
 					System.out.println("Plan next move for GoodBeast");
