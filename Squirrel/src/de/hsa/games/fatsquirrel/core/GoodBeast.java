@@ -8,8 +8,12 @@ public class GoodBeast extends Character {
 	}
 
 	public void nextStep(EntityContext context) {
-		System.out.println("GoodBeast next Step");
-		context.tryMove(this, moveDirection);
+		if(!aSleep()) {
+			System.out.println("GoodBeast next Step");
+			context.tryMove(this, moveDirection);
+		} else {
+			System.out.println("GoodBeast is asleep");
+		}
 	}
 	
 	public boolean aSleep() {

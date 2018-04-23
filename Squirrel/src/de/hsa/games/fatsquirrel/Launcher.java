@@ -1,6 +1,8 @@
-package de.hsa.games.fatsquirrel.core;
+package de.hsa.games.fatsquirrel;
 
 import de.hsa.games.fatsquirrel.console.GameImpl;
+import de.hsa.games.fatsquirrel.core.Board;
+import de.hsa.games.fatsquirrel.core.State;
 
 public class Launcher {
 

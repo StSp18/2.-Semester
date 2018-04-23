@@ -9,8 +9,10 @@ public class MiniSquirrel extends Squirrel {
 	}
 
 	public void nextStep(EntityContext context) {
-		System.out.println("MiniSqirrel next Step");
-		context.tryMove(this, moveDirection);
+		if (!Stunned()) {
+			System.out.println("MiniSqirrel next Step");
+			context.tryMove(this, moveDirection);
+		}
 	}
 
 	public int getMId() {

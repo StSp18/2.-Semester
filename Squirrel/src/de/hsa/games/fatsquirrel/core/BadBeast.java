@@ -10,8 +10,12 @@ public class BadBeast extends Character {
 	}
 	
 	public void nextStep(EntityContext context) {
-		System.out.println("BadBeast next Step");
-		context.tryMove(this, moveDirection);
+		if(!aSleep()) {
+			System.out.println("BadBeast next Step");
+			context.tryMove(this, moveDirection);
+		} else {
+			System.out.println("BadBeast is asleep");
+		}
 	}
 	
 	public boolean bite(Entity e) {
