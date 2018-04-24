@@ -103,8 +103,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		switch(getEntityType(newCorrdinates)) {
 		case Air:
 			break;
-		case AutomatedMasterSquirrel:
-			return;
 		case BadBeast:
 			if (((BadBeast) getEntity(newCorrdinates)).bite(master)) {
 				killAndReplace(getEntity(newCorrdinates));
@@ -125,6 +123,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			killAndReplace(getEntity(newCorrdinates));
 			break;
 		case HandOperatedMasterSquirrel:
+		case AutomatedMasterSquirrel:
 			return;
 		case MiniSquirrel:
 			if(master.myMiniSquirrel(getEntity(newCorrdinates))) {

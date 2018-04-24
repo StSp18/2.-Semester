@@ -15,7 +15,7 @@ public class State {
 	}
 	
 	public void setMoveDirection(MoveDirection moveDirection, int x, int y) {
-		board.moveCharacter(moveDirection, x, y);
+		board.setMoveDirection(moveDirection, x, y);
 	}
 	
 	public void update() {
