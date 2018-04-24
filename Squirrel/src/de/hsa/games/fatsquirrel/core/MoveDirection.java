@@ -13,21 +13,21 @@ public enum MoveDirection {
 	}
 
 	public MoveDirection searchMoveDirection (XY movedirection) {
-		if(up.getMoveDirection() == movedirection)
+		if(up.getMoveDirection().getX() == movedirection.getX() && up.getMoveDirection().getY() == movedirection.getY())
 			return up;
-		if(down.getMoveDirection() == movedirection)
+		if(down.getMoveDirection().getX() == movedirection.getX() && down.getMoveDirection().getY() == movedirection.getY())
 			return down;
-		if(right.getMoveDirection() == movedirection)
+		if(right.getMoveDirection().getX() == movedirection.getX() && right.getMoveDirection().getY() == movedirection.getY())
 			return right;
-		if(left.getMoveDirection() == movedirection)
+		if(left.getMoveDirection().getX() == movedirection.getX() && left.getMoveDirection().getY() == movedirection.getY())
 			return left;
-		if(upright.getMoveDirection() == movedirection)
+		if(upright.getMoveDirection().getX() == movedirection.getX() && upright.getMoveDirection().getY() == movedirection.getY())
 			return upright;
-		if(upleft.getMoveDirection() == movedirection)
+		if(upleft.getMoveDirection().getX() == movedirection.getX() && upleft.getMoveDirection().getY() == movedirection.getY())
 			return upleft;
-		if(upleft.getMoveDirection() == movedirection)
+		if(downright.getMoveDirection().getX() == movedirection.getX() && downright.getMoveDirection().getY() == movedirection.getY())
 			return downright;
-		if(upleft.getMoveDirection() == movedirection)
+		if(downleft.getMoveDirection().getX() == movedirection.getX() && downleft.getMoveDirection().getY() == movedirection.getY())
 			return downleft;
 		return stay;
 	}

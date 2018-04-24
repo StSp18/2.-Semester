@@ -87,7 +87,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			y = 1;
 		}
 		MoveDirection md = MoveDirection.stay;
-		md.searchMoveDirection(new XY(x, y));
+		md = md.searchMoveDirection(new XY(x, y));
 		return md;
 	}
 
@@ -107,7 +107,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			y = 1;
 		}
 		MoveDirection md = MoveDirection.stay;
-		md.searchMoveDirection(new XY(x, y));
+		md = md.searchMoveDirection(new XY(x, y));
 		return md;
 
 	}
@@ -119,13 +119,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	public void tryMove(MasterSquirrel master, XY moveDirection) {
 		System.out.println("tryMove MasterSquirrel");
 		XY newCorrdinates = master.getXY().add(moveDirection);
-		if(master.Stunned()) {
-			return;
-		}
 		if (getEntityType(newCorrdinates) == EntityType.Air) {
 			master.move();
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Wall) {
+			master.updateEnergy(getEntity(newCorrdinates).getEnergy());
 			master.wallBump();
 		}
 		if (getEntityType(newCorrdinates) == EntityType.BadBeast) {
@@ -165,6 +163,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		System.out.println("tryMove miniSquirrel");
 		XY newCorrdinates = miniSquirrel.getXY().add(moveDirection);
 		if (getEntityType(newCorrdinates) == EntityType.Air) {
+			miniSquirrel.updateEnergy(getEntity(newCorrdinates).getEnergy());
 			miniSquirrel.move();
 		}
 		if (getEntityType(newCorrdinates) == EntityType.Wall) {
@@ -305,7 +304,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		do {
 			rndX = ThreadLocalRandom.current().nextInt(1, fb[0].length);
 			rndY = ThreadLocalRandom.current().nextInt(1, fb[1].length);
-		} while (getEntityType(rndX, rndY) != EntityType.Air);
+		} while (getEntityType(rndX, rndY) != EntityType.Air || (e.getX()== rndX && e.getY() == rndY));
 		if (e instanceof BadBeast) {
 			b.relocate(e, new BadBeast(e.getId(), rndX, rndY));
 			;
@@ -326,18 +325,21 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void planNextMove(int x, int y) {
-		System.out.println("Plan next Move for a Beast");
 		if (getEntityType(x, y) == EntityType.BadBeast) {
 			if (nearestPlayerEntity(new XY(x, y)) != null) {
+				System.out.println("BadBeast move towards Player");
 				((Character) fb[x][y]).setMoveDirection(moveTowards(fb[x][y], (nearestPlayerEntity(new XY(x, y)))));
 			} else {
+				System.out.println("BadBeast move anywhere");
 				((Character) fb[x][y]).setMoveDirection(rndMoveDirection());
 			}
 		}
 		if (getEntityType(x, y) == EntityType.GoodBeast) {
 			if (nearestPlayerEntity(new XY(x, y)) != null) {
+				System.out.println("GoodBeast move away from Player");
 				((Character) fb[x][y]).setMoveDirection(moveAway(fb[x][y], (nearestPlayerEntity(new XY(x, y)))));
 			} else {
+				System.out.println("GoodBeast move anywhere");
 				((Character) fb[x][y]).setMoveDirection(rndMoveDirection());
 			}
 		}
