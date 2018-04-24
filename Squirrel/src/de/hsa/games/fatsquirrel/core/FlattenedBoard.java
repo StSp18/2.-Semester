@@ -41,7 +41,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		}
 	}
 
-	private MoveDirection rndMoveDirection() {
+	public MoveDirection rndMoveDirection() {
 		MoveDirection md = MoveDirection.stay;
 		md = md.rndMoveDirection();
 		return md;
@@ -316,18 +316,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	private Entity getEntity(XY coordinates) {
 		return fb[coordinates.getX()][coordinates.getY()];
-	}
-
-	public XY planNextMove(int x, int y) {
-		if (nearestPlayerEntity(new XY(x, y)) != null) {
-			if (getEntityType(x, y) == EntityType.BadBeast) {
-				return moveTowards(fb[x][y], (nearestPlayerEntity(new XY(x, y)))).getMoveDirection();
-			} else {
-				return moveAway(fb[x][y], (nearestPlayerEntity(new XY(x, y)))).getMoveDirection();
-			}
-		} else {
-			return rndMoveDirection().getMoveDirection();
-		}
 	}
 
 	public String toString() {

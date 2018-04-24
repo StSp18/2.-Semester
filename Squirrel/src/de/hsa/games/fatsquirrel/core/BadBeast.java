@@ -11,7 +11,10 @@ public class BadBeast extends Character {
 	
 	public void nextStep(EntityContext context) {
 		if(!aSleep()) {
-			context.tryMove(this, context.planNextMove(getX(), getY()));
+			if(context.nearestPlayerEntity(getXY()) != null) {
+				context.tryMove(this, context.moveTowards(this, context.nearestPlayerEntity(getXY())).getMoveDirection());
+			}
+			context.tryMove(this, context.rndMoveDirection().getMoveDirection());
 		} else {
 			System.out.println("BadBeast is asleep");
 		}

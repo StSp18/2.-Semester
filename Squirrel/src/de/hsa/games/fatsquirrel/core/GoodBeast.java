@@ -9,13 +9,16 @@ public class GoodBeast extends Character {
 
 	public void nextStep(EntityContext context) {
 		if(!aSleep()) {
-			context.tryMove(this, context.planNextMove(getX(), getY()));
+			if(context.nearestPlayerEntity(getXY()) != null) {
+				context.tryMove(this, context.moveAway(this, context.nearestPlayerEntity(getXY())).getMoveDirection());
+			}
+			context.tryMove(this, context.rndMoveDirection().getMoveDirection());
 		} else {
 			System.out.println("GoodBeast is asleep");
 		}
 	}
 	
-	public boolean aSleep() {
+	private boolean aSleep() {
 		if(sleep == 0) {
 			sleep = 3;
 			return false;
