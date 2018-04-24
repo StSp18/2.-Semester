@@ -6,19 +6,14 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	private Board b;
 	private Entity[][] fb;
 
-	public FlattenedBoard(Board b) {
-		this.b = b;
-		fb = b.flatten();
+	public FlattenedBoard(Entity[][] fb) {
+		this.fb = fb;
 	}
 
 	public Entity[][] getFlattenedBoard() {
 		return fb;
 	}
 
-	private void update() {
-		fb = b.flatten();
-	}
-	
 	public EntityType getEntityType(int x, int y) {
 		return getEntityType(new XY(x, y));
 	}
@@ -140,8 +135,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		default:
 			break;
 		}
-		master.move();
-		update();
+		master.move(moveDirection);
 	}
 
 	public void tryMove(MiniSquirrel miniSquirrel, XY moveDirection) {
@@ -193,9 +187,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		if(miniSquirrel.getEnergy() <= 0) {
 			kill(miniSquirrel);
 		} else {
-			miniSquirrel.move();
+			miniSquirrel.move(moveDirection);
 		}
-		update();
 	}
 
 	public void tryMove(GoodBeast goodBeast, XY moveDirection) {
@@ -203,37 +196,37 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		XY newCorrdinates = goodBeast.getXY().add(moveDirection);
 		switch (getEntityType(newCorrdinates)) {
 		case Air:
-			goodBeast.move();
+			goodBeast.move(moveDirection);
 			break;
 		case AutomatedMasterSquirrel:
 		case HandOperatedMasterSquirrel:
 		case MiniSquirrel:
 			getEntity(newCorrdinates).updateEnergy(goodBeast.getEnergy());
-			kill(goodBeast);
+			killAndReplace(goodBeast);
 			break;
 		default:
 			return;
 		}
-		update();
 	}
 
 	public void tryMove(BadBeast badBeast, XY moveDirection) {
+		// Implement bite
 		System.out.println("tryMove badBeast");
 		XY newCorrdinates = badBeast.getXY().add(moveDirection);
 		switch (getEntityType(newCorrdinates)) {
 		case Air:
-			badBeast.move();
+			badBeast.move(moveDirection);
 			break;
 		case AutomatedMasterSquirrel:
 		case HandOperatedMasterSquirrel:
 		case MiniSquirrel:
-			getEntity(newCorrdinates).updateEnergy(badBeast.getEnergy());
-			kill(badBeast);
+			if(badBeast.bite(getEntity(newCorrdinates))) {
+				killAndReplace(badBeast);
+			}
 			break;
 		default:
 			return;
 		}
-		update();
 	}
 
 	public Squirrel nearestPlayerEntity(XY pos) {
@@ -325,26 +318,16 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		return fb[coordinates.getX()][coordinates.getY()];
 	}
 
-	public void planNextMove(int x, int y) {
-		if (getEntityType(x, y) == EntityType.BadBeast) {
-			if (nearestPlayerEntity(new XY(x, y)) != null) {
-				System.out.println("BadBeast move towards Player");
-				((Character) fb[x][y]).setMoveDirection(moveTowards(fb[x][y], (nearestPlayerEntity(new XY(x, y)))));
+	public XY planNextMove(int x, int y) {
+		if (nearestPlayerEntity(new XY(x, y)) != null) {
+			if (getEntityType(x, y) == EntityType.BadBeast) {
+				return moveTowards(fb[x][y], (nearestPlayerEntity(new XY(x, y)))).getMoveDirection();
 			} else {
-				System.out.println("BadBeast move anywhere");
-				((Character) fb[x][y]).setMoveDirection(rndMoveDirection());
+				return moveAway(fb[x][y], (nearestPlayerEntity(new XY(x, y)))).getMoveDirection();
 			}
+		} else {
+			return rndMoveDirection().getMoveDirection();
 		}
-		if (getEntityType(x, y) == EntityType.GoodBeast) {
-			if (nearestPlayerEntity(new XY(x, y)) != null) {
-				System.out.println("GoodBeast move away from Player");
-				((Character) fb[x][y]).setMoveDirection(moveAway(fb[x][y], (nearestPlayerEntity(new XY(x, y)))));
-			} else {
-				System.out.println("GoodBeast move anywhere");
-				((Character) fb[x][y]).setMoveDirection(rndMoveDirection());
-			}
-		}
-
 	}
 
 	public String toString() {

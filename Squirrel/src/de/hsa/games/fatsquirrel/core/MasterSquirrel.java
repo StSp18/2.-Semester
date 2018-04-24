@@ -2,7 +2,7 @@ package de.hsa.games.fatsquirrel.core;
 
 public abstract class MasterSquirrel extends Squirrel {
 	int player;
-
+	private MoveDirection moveDirection;
 	MasterSquirrel(int id, int x, int y, int player) {
 		super(id, 1000, x, y);
 		this.player = player;
@@ -12,6 +12,9 @@ public abstract class MasterSquirrel extends Squirrel {
 		return player;
 	}
 
+	public void setMoveDirection(MoveDirection moveDirection) {
+		this.moveDirection = moveDirection;
+	}
 	public void nextStep(EntityContext context) {
 		if (!Stunned()) {
 			System.out.println("MasterSqirrel next Step");

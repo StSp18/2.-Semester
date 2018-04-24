@@ -11,8 +11,7 @@ public class BadBeast extends Character {
 	
 	public void nextStep(EntityContext context) {
 		if(!aSleep()) {
-			System.out.println("BadBeast next Step: " + moveDirection.toString());
-			context.tryMove(this, moveDirection.getMoveDirection());
+			context.tryMove(this, context.planNextMove(getX(), getY()));
 		} else {
 			System.out.println("BadBeast is asleep");
 		}

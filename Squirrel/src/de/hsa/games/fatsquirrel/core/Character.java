@@ -1,23 +1,17 @@
 package de.hsa.games.fatsquirrel.core;
 
 public abstract class Character extends Entity{
-	protected MoveDirection moveDirection;
-	Character(int id, int energy, int x, int y) {
+	protected Character(int id, int energy, int x, int y) {
 		super(id, energy, x, y);
-		moveDirection = MoveDirection.stay;
 	}
 
 	public abstract void nextStep(EntityContext context);
 	
-	public void move() {
+	public void move(XY moveDirection) {
 		System.out.println("Before move: " + xy.toString());
 		System.out.println("move: " + moveDirection.toString());
-		xy = xy.move(moveDirection.getMoveDirection());
+		xy = xy.move(moveDirection);
 		System.out.println("After move: " + xy.toString());
-	}
-	
-	public void setMoveDirection(MoveDirection moveDirection) {
-		this.moveDirection = moveDirection;
 	}
 	
 	public String toString() {

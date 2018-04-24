@@ -19,6 +19,10 @@ public final class XY {
 		return x;
 	}
 	
+	public boolean equals(XY xy) {
+		return (this.x == xy.getX() && this.y == xy.getY());
+	}
+	
 	public int getY() {
 		return y;
 	}

@@ -8,22 +8,29 @@ public class Board{
 		board = bf.factoryBoard();
 	}
 
-	public Entity[][] flatten() {
-		Entity[][] flattnedBoard = new Entity[bf.getSize().getX()+2][bf.getSize().getY()+2];
-		for(int i=0; i < board.length; i++) {
-			flattnedBoard[board[i].getX()][board[i].getY()] = board[i];
+	public HandOperatedMasterSquirrel getPlayer( ) {
+		for(int i=0;i<board.length;i++) {
+			if(board[i] instanceof HandOperatedMasterSquirrel) {
+				return (HandOperatedMasterSquirrel) board[i];
+			}
 		}
-		return flattnedBoard;
+		return null;
 	}
 	
-	
-	public void setMoveDirection(MoveDirection moveDirection, int x, int y) {
-		int i = 0;
-		while(!(board[i].getX() == x && board[i].getY() == y)) {
-			i++;
+	public FlattenedBoard createflattenedBoard() {
+		Entity[][] flattenedBoard = new Entity[bf.getSize().getX()+2][bf.getSize().getY()+2];
+		for(int i=0; i < board.length; i++) {
+			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
 		}
-		System.out.println("Moving " + board[i].toString());
-		((Character) board[i]).setMoveDirection(moveDirection);
+		return new FlattenedBoard(flattenedBoard);
+	}
+	
+	public Entity[][] flatten() {
+		Entity[][] flattenedBoard = new Entity[bf.getSize().getX()+2][bf.getSize().getY()+2];
+		for(int i=0; i < board.length; i++) {
+			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
+		}
+		return flattenedBoard;
 	}
 	
 	public void add(Entity e) {
@@ -57,10 +64,10 @@ public class Board{
 		
 	}
 	
-	public void update(EntityContext context) {
+	public void update() {
 		for(int i=0; i<board.length ;i++) {
 			if(board[i] instanceof Character) {
-				((Character)board[i]).nextStep(context);
+				((Character)board[i]).nextStep(createflattenedBoard());
 			}
 		}
 	}

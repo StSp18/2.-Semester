@@ -3,23 +3,17 @@ package de.hsa.games.fatsquirrel.core;
 public class State {
 	private int highscore;
 	private Board board;
-	private FlattenedBoard flattenedBoard;
-	public State(Board board){
+	public State(Board board) {
 		highscore = 0;
 		this.board= board;
-		flattenedBoard = new FlattenedBoard(this.board);
 	}
 	
 	public FlattenedBoard flattenedBoard() {
-		return flattenedBoard;
+		return board.createflattenedBoard();
 	}
-	
-	public void setMoveDirection(MoveDirection moveDirection, int x, int y) {
-		board.setMoveDirection(moveDirection, x, y);
-	}
-	
+
 	public void update() {
-		board.update(flattenedBoard());
+		board.update();
 	}
 	
 	public int getUserControlled() {
