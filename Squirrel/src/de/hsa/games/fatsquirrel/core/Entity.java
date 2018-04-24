@@ -2,12 +2,10 @@ package de.hsa.games.fatsquirrel.core;
 
 public abstract class Entity {
 	private int id, energy;
-	private final int startEnergy;
 	public XY xy;
 	Entity(int id, int energy, int x,int y){
 		this.id = id;
 		this.energy = energy;
-		startEnergy = energy;
 		xy = new XY(x, y);	
 	}
 	
@@ -33,6 +31,6 @@ public abstract class Entity {
 	}
 	
 	public String toString() {
-		return ("Id: " + id + ", Start Energy: " + startEnergy + ", Energy: " + energy + ", X: " + getX() + ", Y: " + getY());
+		return ("Id: " + id + ", Energy: " + energy + ", X: " + getX() + ", Y: " + getY());
 	}
 }

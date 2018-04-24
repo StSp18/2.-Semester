@@ -8,7 +8,7 @@ public abstract class Squirrel extends Character {
 		stunned  = 0;
 	}
 	
-	public boolean Stunned() {
+	protected boolean Stunned() {
 		if(stunned > 0) {
 			System.out.println("Stunned for :" + stunned);
 			stunned--;
