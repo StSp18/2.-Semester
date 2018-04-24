@@ -1,7 +1,5 @@
 package de.hsa.games.fatsquirrel.core;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public final class XY {
 	private final int x, y;
 	public XY(int x, int y) {
