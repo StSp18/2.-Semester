@@ -2,7 +2,7 @@ package de.hsa.games.fatsquirrel.core;
 
 public class GoodPlant extends Entity {
 
-	GoodPlant(int id, int x, int y) {
+	public GoodPlant(int id, int x, int y) {
 		super(id, 100, x, y);
 	}
 	

@@ -2,7 +2,7 @@ package de.hsa.games.fatsquirrel.core;
 
 public class Wall extends Entity {
 
-	Wall(int id, int x, int y) {
+	public Wall(int id, int x, int y) {
 		super(id, -10, x, y);
 	}
 	

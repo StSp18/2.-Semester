@@ -3,7 +3,7 @@ package de.hsa.games.fatsquirrel.core;
 public class BadBeast extends Character {
 	int lifes;
 	private int sleep;
-	BadBeast(int id, int x, int y) {
+	public BadBeast(int id, int x, int y) {
 		super(id, -150, x, y);
 		lifes = 7;
 		sleep = 0;
