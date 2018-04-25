@@ -2,10 +2,11 @@ package de.hsa.games.fatsquirrel.core;
 
 public class Board{
 	private Entity[] board;
-	private BoardFactory bf = new BoardFactory();
-
-	public Board() {
+	private XY size;
+	
+	public Board(BoardFactory bf) {
 		board = bf.factoryBoard();
+		size = bf.getSize();
 	}
 
 	public HandOperatedMasterSquirrel getPlayer( ) {
@@ -18,7 +19,7 @@ public class Board{
 	}
 	
 	public FlattenedBoard createflattenedBoard() {
-		Entity[][] flattenedBoard = new Entity[bf.getSize().getX()+2][bf.getSize().getY()+2];
+		Entity[][] flattenedBoard = new Entity[size.getX()+2][size.getY()+2];
 		for(int i=0; i < board.length; i++) {
 			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
 		}
@@ -26,7 +27,7 @@ public class Board{
 	}
 	
 	public Entity[][] flatten() {
-		Entity[][] flattenedBoard = new Entity[bf.getSize().getX()+2][bf.getSize().getY()+2];
+		Entity[][] flattenedBoard = new Entity[size.getX()+2][size.getY()+2];
 		for(int i=0; i < board.length; i++) {
 			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
 		}
@@ -73,13 +74,9 @@ public class Board{
 	}
 	
 	public XY getSize() {
-		return bf.getSize();
+		return size;
 	}
-	
-	public int getConsoleControlledEntitys() {
-		return bf.getAmountOfHandOperatedMasterSquirrel();
-	}
-	
+
 	public String toString() {
 		String s = "";
 		for (int i = 0; i < board.length; i++) {
