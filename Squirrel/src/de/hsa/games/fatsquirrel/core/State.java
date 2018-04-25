@@ -16,10 +16,6 @@ public class State {
 		board.update();
 	}
 	
-	public int getUserControlled() {
-		return board.getConsoleControlledEntitys();
-	}
-	
 	public int getHighscore() {
 		return highscore;
 	}

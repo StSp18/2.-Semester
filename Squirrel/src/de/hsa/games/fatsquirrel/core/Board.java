@@ -22,7 +22,7 @@ public class Board{
 		for(int i=0; i < board.length; i++) {
 			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
 		}
-		return new FlattenedBoard(flattenedBoard);
+		return new FlattenedBoard(flattenedBoard, this);
 	}
 	
 	public Entity[][] flatten() {

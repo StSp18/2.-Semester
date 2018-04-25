@@ -6,8 +6,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	private Board b;
 	private Entity[][] fb;
 
-	public FlattenedBoard(Entity[][] fb) {
+	public FlattenedBoard(Entity[][] fb, Board b) {
 		this.fb = fb;
+		this.b = b;
 	}
 
 	public Entity[][] getFlattenedBoard() {

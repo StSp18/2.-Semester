@@ -1,11 +1,10 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.UI;
-
 public abstract class Game {
 	private State s;
 	public Game(State s) {
 		this.s = s;
+		
 	}
 	
 	public void run() {
