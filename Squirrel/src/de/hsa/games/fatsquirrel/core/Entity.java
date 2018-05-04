@@ -30,6 +30,10 @@ public abstract class Entity {
 		return xy.getY();
 	}
 	
+	public boolean equals(Entity e) {
+		return getId() == e.getId();
+	}
+	
 	public String toString() {
 		return ("Id: " + id + ", Energy: " + energy + ", X: " + getX() + ", Y: " + getY());
 	}

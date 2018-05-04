@@ -20,7 +20,7 @@ public final class XY {
 	}
 	
 	public boolean equals(XY xy) {
-		return (this.x == xy.getX() && this.y == xy.getY());
+		return (x == xy.getX() && y == xy.getY());
 	}
 	
 	public int getY() {
