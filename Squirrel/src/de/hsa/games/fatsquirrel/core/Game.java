@@ -21,7 +21,7 @@ public abstract class Game {
 	
 	protected abstract void render();
 	protected abstract void processInput();
-	private void update() {
+	protected void update() {
 		s.update();
 	}
 

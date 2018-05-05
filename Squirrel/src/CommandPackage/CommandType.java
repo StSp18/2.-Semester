@@ -30,6 +30,10 @@ public enum CommandType implements CommandTypeInfo{
 		return helpText;
 	}
 	
+	public String getMethod() {
+		return "";
+	}
+	
 	public Class<?>[] getParamTypes() {
 		if(param1 == null && param2 == null) {
 			return null;

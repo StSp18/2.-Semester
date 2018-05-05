@@ -1,9 +1,19 @@
 package de.hsa.games.fatsquirrel.console;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+
+import CommandPackage.Command;
+import CommandPackage.CommandScanner;
+import CommandPackage.ScanException;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.core.BoardView;
 
 public class ConsoleUI implements UI{
+	private PrintStream outputStream = System.out;
+	private BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 	public void render(BoardView view) {
 		String s = "";
 		for (int i = 0; i < view.getSize().getY(); i++) {
@@ -16,7 +26,15 @@ public class ConsoleUI implements UI{
 		
 	}
 
-	public MoveCommand getCommand() {
-		return new MoveCommand();
+	public Command getCommand() {
+		CommandScanner cS = new CommandScanner(GameCommandType.values(), inputReader, outputStream);
+		try {
+			return cS.next();
+		} catch (IOException e) {
+			outputStream.println(e.getLocalizedMessage());
+		} catch (ScanException e) {
+			outputStream.println(e.getLocalizedMessage());
+		}
+		return getCommand();
 	}
 }
