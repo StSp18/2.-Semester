@@ -35,18 +35,18 @@ public class CommandScanner {
 		if(cTI == null) {
 			throw new ScanException();
 		} else {
-			outputStream.println(cTI.getName());
+//			outputStream.println(cTI.getName());
 		}
 		
 		if(cTI.getParamTypes() != null) {
 			command = command.substring(command.indexOf(",")+1).trim();
-			outputStream.println(command);
+//			outputStream.println(command);
 			o = new Object[cTI.getParamTypes().length];
 			for(int i=0; i<cTI.getParamTypes().length;i++) {
 				if(command.contains(" ")) {
 					o[i] = objectParser(command.substring(0, command.indexOf(' ')), cTI.getParamTypes()[i]);
 					command = command.substring(command.indexOf(' ')).trim();
-					outputStream.println(command);
+//					outputStream.println(command);
 				} else {
 					o[i] = objectParser(command.trim(), cTI.getParamTypes()[i]);
 				}

@@ -11,6 +11,7 @@ public class MiniSquirrel extends Squirrel {
 	public void nextStep(EntityContext context) {
 		if (!Stunned()) {
 			System.out.println("MiniSqirrel next Step");
+			context.tryMove(this, context.rndMoveDirection().getMoveDirection());
 		}
 	}
 

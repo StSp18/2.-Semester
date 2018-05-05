@@ -23,7 +23,7 @@ public enum MoveDirection {
 	}
 	
 	public MoveDirection rndMoveDirection() {
-		int randomNum = ThreadLocalRandom.current().nextInt(1, 9);
+		int randomNum = ThreadLocalRandom.current().nextInt(0, 8);
 		return values()[randomNum];
 		
 	}

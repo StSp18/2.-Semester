@@ -1,10 +1,10 @@
 package de.hsa.games.fatsquirrel.console;
 
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import CommandPackage.Command;
-import CommandPackage.CommandType;
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.Game;
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
@@ -16,27 +16,48 @@ public class GameImpl extends Game {
 	private HandOperatedMasterSquirrel player;
 	private ConsoleUI ui;
 	private State s;
+	private Board b;
+	private Command command;
 	
 	public GameImpl(State s, Board b) {
 		super(s);
 		player = b.getPlayer();
 		this.s = s;
 		ui = new ConsoleUI();
+		this.b = b;
 	}
-	
-	
+
 	protected void processInput() {
-		Command command;
 		do {
 			command = ui.getCommand();
-			Class cl = this.getClass();
+			Method method;
+			Class<?> [] params;
+			if(command.getParams() == null) {
+				params = new Class[] {};
+			} else {
+				params = new Class[command.getParams().length];
+				for(int i=0; i< command.getParams().length;i++) {
+					params[i] = command.getParams()[i].getClass();
+				}
+			}
 			try {
-				cl.getDeclaredMethod(command.getCommandType().getMethod(), new Class[] {});
+				method = this.getClass().getDeclaredMethod(command.getCommandType().getMethod(), params);
+				method.invoke(this, command.getParams());
 			} catch (NoSuchMethodException e) {
-				
+				outputStream.println("NoSuchMethodException: " + e.getMessage());
+				exit();
+			} catch (IllegalAccessException e) {
+				outputStream.println("IllegalAccessException: " + e.getMessage());
+				exit();
+			} catch (IllegalArgumentException e) {
+				outputStream.println("IllegalArgumentException: " + e.getMessage());
+				exit();
+			} catch (InvocationTargetException e) {
+				outputStream.println("InvocationTargetException: " + e.getMessage());
+				exit();
 			}
 			
-		} while(command.getCommandType().getMethod()== "move" || command.getCommandType().getMethod() == "spawnMini");
+		} while(command.getCommandType().getMethod() != "move" && command.getCommandType().getMethod() != "spawnMini");
 		
 	}
 
@@ -44,14 +65,28 @@ public class GameImpl extends Game {
 		ui.render(s.flattenedBoard());
 	}
 	
-	public void spawnMini(int e) {
-		if(player.getEnergy() < e) {
-			
+	public void spawnMini(Integer energy){
+		try {
+			if(player.getEnergy() < energy) {
+				throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
+			} else {
+				b.add(player.creatMiniSquirrel(b.getIdcount(), energy));
+			}
+		} catch (NotEnoughEnergyException e) {
+			processInput();
 		}
 	}
 	
-	public void movePlayer(MoveDirection md) {
-		player.setMoveDirection(md);
+	public void all() {
+		
+	}
+	
+	public void energy() {
+		outputStream.println("Current energy" + player.getEnergy());
+	}
+	
+	public void move() {
+		player.setMoveDirection(MoveDirection.valueOf(command.getCommandType().getName()));
 	}
 	
 	public void exit() {
@@ -59,8 +94,8 @@ public class GameImpl extends Game {
 	}
 	
 	public void help() {
-		for (int i = 0; i < CommandType.values().length; i++) {
-			outputStream.println(CommandType.values()[i].getName() + CommandType.values()[i].getHelpText());
+		for (int i = 0; i < GameCommandType.values().length; i++) {
+			outputStream.println(GameCommandType.values()[i].getName() + ": "+ GameCommandType.values()[i].getHelpText());
 		}
 	}
 
