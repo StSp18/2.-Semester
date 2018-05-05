@@ -18,7 +18,7 @@ public class GameImpl extends Game {
 	private State s;
 	private Board b;
 	private Command command;
-	
+
 	public GameImpl(State s, Board b) {
 		super(s);
 		player = b.getPlayer();
@@ -27,25 +27,31 @@ public class GameImpl extends Game {
 		this.b = b;
 	}
 
+	public GameImpl(State s, Board b, Command command) {
+		super(s);
+		player = b.getPlayer();
+		this.s = s;
+		ui = new ConsoleUI();
+		this.b = b;
+		this.command = command;
+	}
+
 	protected void processInput() {
 		do {
 			command = ui.getCommand();
 			Method method;
-			Class<?> [] params;
-			if(command.getParams() == null) {
-				params = new Class[] {};
+			Class<?>[] params;
+			if (command.getParams() == null) {
+				params = new Class<?>[] {};
 			} else {
-				params = new Class[command.getParams().length];
-				for(int i=0; i< command.getParams().length;i++) {
+				params = new Class<?>[command.getParams().length];
+				for (int i = 0; i < command.getParams().length; i++) {
 					params[i] = command.getParams()[i].getClass();
 				}
 			}
 			try {
 				method = this.getClass().getDeclaredMethod(command.getCommandType().getMethod(), params);
 				method.invoke(this, command.getParams());
-			} catch (NoSuchMethodException e) {
-				outputStream.println("NoSuchMethodException: " + e.getMessage());
-				exit();
 			} catch (IllegalAccessException e) {
 				outputStream.println("IllegalAccessException: " + e.getMessage());
 				exit();
@@ -55,19 +61,22 @@ public class GameImpl extends Game {
 			} catch (InvocationTargetException e) {
 				outputStream.println("InvocationTargetException: " + e.getMessage());
 				exit();
+			} catch (NoSuchMethodException e) {
+				outputStream.println("NoSuchMethodException: " + e.getMessage());
+				exit();
 			}
-			
-		} while(command.getCommandType().getMethod() != "move" && command.getCommandType().getMethod() != "spawnMini");
-		
+
+		} while (command.getCommandType().getMethod() != "move" && command.getCommandType().getMethod() != "spawnMini");
+
 	}
 
 	protected void render() {
 		ui.render(s.flattenedBoard());
 	}
-	
-	public void spawnMini(Integer energy){
+
+	public void spawnMini(Integer energy) {
 		try {
-			if(player.getEnergy() < energy) {
+			if (player.getEnergy() < energy) {
 				throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
 			} else {
 				b.add(player.creatMiniSquirrel(b.getIdcount(), energy));
@@ -76,26 +85,27 @@ public class GameImpl extends Game {
 			processInput();
 		}
 	}
-	
+
 	public void all() {
-		
+
 	}
-	
+
 	public void energy() {
 		outputStream.println("Current energy" + player.getEnergy());
 	}
-	
+
 	public void move() {
 		player.setMoveDirection(MoveDirection.valueOf(command.getCommandType().getName()));
 	}
-	
+
 	public void exit() {
 		System.exit(0);
 	}
-	
+
 	public void help() {
 		for (int i = 0; i < GameCommandType.values().length; i++) {
-			outputStream.println(GameCommandType.values()[i].getName() + ": "+ GameCommandType.values()[i].getHelpText());
+			outputStream
+					.println(GameCommandType.values()[i].getName() + ": " + GameCommandType.values()[i].getHelpText());
 		}
 	}
 
