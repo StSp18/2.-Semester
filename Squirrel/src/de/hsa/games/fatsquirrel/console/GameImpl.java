@@ -69,7 +69,7 @@ public class GameImpl extends Game {
 			if (player.getEnergy() < energy) {
 				throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
 			} else {
-				b.add(player.creatMiniSquirrel(b.getIdcount(), energy, b.createflattenedBoard().getMoveableTile(player.getXY())));
+				b.add(player.creatMiniSquirrel(b.getIdcount(), energy));
 			}
 		} catch (NotEnoughEnergyException e) {
 			processInput();
@@ -82,7 +82,7 @@ public class GameImpl extends Game {
 	}
 
 	public void energy() {
-		outputStream.println("Current energy" + player.getEnergy());
+		outputStream.println("Current energy: " + player.getEnergy());
 	}
 
 	public void move() {

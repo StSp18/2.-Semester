@@ -4,7 +4,7 @@ public class MiniSquirrel extends Squirrel {
 	private int mId;
 	
 	public MiniSquirrel(int mId, int id, int energy, int x, int y) {
-		super(id, energy, x, y, 1);
+		super(id, energy, x, y);
 		this.mId = mId;
 	}
 
