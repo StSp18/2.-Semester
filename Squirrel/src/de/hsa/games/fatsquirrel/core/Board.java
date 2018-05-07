@@ -11,6 +11,10 @@ public class Board{
 		idcount = board.length;
 	}
 
+	public boolean blocked(XY xy) {
+		return (flatten()[xy.getX()][xy.getY()] instanceof Character || flatten()[xy.getX()][xy.getY()] instanceof Wall);
+	}
+	
 	public HandOperatedMasterSquirrel getPlayer( ) {
 		for(int i=0;i<board.length;i++) {
 			if(board[i] instanceof HandOperatedMasterSquirrel) {
@@ -43,14 +47,6 @@ public class Board{
 		}
 		tboard[board.length] = e;
 		board = tboard;
-		if(e instanceof Character) {
-			MoveDirection md;
-			do{
-				md = MoveDirection.stay.rndMoveDirection();
-			} while(flatten()[e.getX() + md.getMoveDirection().getX()][e.getY() + md.getMoveDirection().getY()] instanceof Character || flatten()[e.getX() + md.getMoveDirection().getX()][e.getY() + md.getMoveDirection().getY()] instanceof Wall);
-			((Character) e).setMoveDirection(md);
-			((Character) e).nextStep(createflattenedBoard());
-		}
 		idcount++;
 	}
 		

@@ -13,7 +13,6 @@ public class MiniSquirrel extends Squirrel {
 
 	public void nextStep(EntityContext context) {
 		if(spawned) {
-			context.tryMove(this, moveDirection.getMoveDirection());
 			spawned = false;
 			return;
 		}
