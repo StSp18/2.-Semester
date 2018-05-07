@@ -70,7 +70,6 @@ public class GameImpl extends Game {
 	}
 
 	public void spawnMini(Integer energy) {
-		int ener = energy;
 		try {
 			if (player.getEnergy() < energy) {
 				throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
