@@ -6,6 +6,18 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	private Board b;
 	private Entity[][] fb;
 
+	public XY getMoveableTile(XY xy) {
+		XY md;
+		int x;
+		int y;
+		do {
+			md = MoveDirection.stay.rndMoveDirection().getMoveDirection();
+			x = xy.getX() + md.getX();
+			y = xy.getX() + md.getX();
+		} while(fb[x][y] instanceof Squirrel || fb[x][y] instanceof Wall || (fb[x][y] instanceof BadBeast && ((BadBeast) fb[x][y]).getLifes()>1));
+		return md;
+	}
+	
 	public FlattenedBoard(Entity[][] fb, Board b) {
 		this.fb = fb;
 		this.b = b;

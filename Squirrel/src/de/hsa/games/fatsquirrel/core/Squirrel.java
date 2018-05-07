@@ -8,6 +8,11 @@ public abstract class Squirrel extends Character {
 		stunned  = 0;
 	}
 	
+	protected Squirrel(int id, int energy, int x, int y, int stunned) {
+		super(id, energy, x, y);
+		stunned  = stunned;
+	}
+	
 	protected boolean Stunned() {
 		if(stunned > 0) {
 			System.out.println("Stunned for :" + stunned);

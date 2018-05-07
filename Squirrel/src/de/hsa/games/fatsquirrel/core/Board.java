@@ -10,10 +10,6 @@ public class Board{
 		size = bf.getSize();
 		idcount = board.length;
 	}
-
-	public boolean blocked(XY xy) {
-		return (flatten()[xy.getX()][xy.getY()] instanceof Character || flatten()[xy.getX()][xy.getY()] instanceof Wall);
-	}
 	
 	public HandOperatedMasterSquirrel getPlayer( ) {
 		for(int i=0;i<board.length;i++) {

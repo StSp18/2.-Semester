@@ -20,6 +20,10 @@ public class BadBeast extends Character {
 		}
 	}
 	
+	public int getLifes() {
+		return lifes;
+	}
+	
 	public boolean bite(Entity e) {
 		System.out.println("Bite");
 		e.updateEnergy(getEnergy());

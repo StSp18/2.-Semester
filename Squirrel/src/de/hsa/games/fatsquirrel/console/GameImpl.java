@@ -10,7 +10,6 @@ import de.hsa.games.fatsquirrel.core.Game;
 import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MoveDirection;
 import de.hsa.games.fatsquirrel.core.State;
-import de.hsa.games.fatsquirrel.core.XY;
 
 public class GameImpl extends Game {
 	private PrintStream outputStream = System.out;
@@ -70,12 +69,7 @@ public class GameImpl extends Game {
 			if (player.getEnergy() < energy) {
 				throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
 			} else {
-				XY md;
-				do {
-					md = MoveDirection.stay.rndMoveDirection().getMoveDirection();
-				} while(b.blocked(player.getXY().add(md)));
-				
-				b.add(player.creatMiniSquirrel(b.getIdcount(), energy, md));
+				b.add(player.creatMiniSquirrel(b.getIdcount(), energy, b.createflattenedBoard().getMoveableTile(player.getXY())));
 			}
 		} catch (NotEnoughEnergyException e) {
 			processInput();
