@@ -18,7 +18,6 @@ public class GameImpl extends Game {
 	private State s;
 	private Board b;
 	private Command command;
-
 	public GameImpl(State s, Board b) {
 		super(s);
 		player = b.getPlayer();

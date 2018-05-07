@@ -32,7 +32,7 @@ public abstract class MasterSquirrel extends Squirrel {
 	public MiniSquirrel creatMiniSquirrel(int id, int energy) {
 		if (energy < this.getEnergy()) {
 			this.updateEnergy(-energy);
-			return new MiniSquirrel(this.getId(), id, energy, this.getX() + 1, this.getY());
+			return new MiniSquirrel(this.getId(), id, energy, this.getX(), this.getY());
 		}
 		return null;
 
