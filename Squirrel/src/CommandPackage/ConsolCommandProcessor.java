@@ -22,7 +22,7 @@ public class ConsolCommandProcessor {
 			command = commandScanner.next();
 			Object[] params = command.getParams();
 
-			CommandType commandType = (CommandType) command.getCommandType();
+			CommandType commandType = (CommandType) command.getCommandTypeInfo();
 
 			switch (commandType) {
 			case EXIT:

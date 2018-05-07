@@ -9,7 +9,7 @@ public class Command {
 		this.params = params;
 	}
 	
-	public CommandTypeInfo getCommandType() {
+	public CommandTypeInfo getCommandTypeInfo() {
 		return commandType;
 	}
 	

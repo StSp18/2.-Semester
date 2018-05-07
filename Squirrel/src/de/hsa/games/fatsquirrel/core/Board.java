@@ -37,7 +37,7 @@ public class Board{
 	}
 	
 	public void add(Entity e) {
-		Entity [] tboard = new Entity[board.length]; 
+		Entity [] tboard = new Entity[board.length+1]; 
 		for(int i=0; i<board.length; i++) {
 			tboard[i]= board[i];
 		}

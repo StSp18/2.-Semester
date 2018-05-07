@@ -27,31 +27,26 @@ public class GameImpl extends Game {
 		this.b = b;
 	}
 
-	public GameImpl(State s, Board b, Command command) {
-		super(s);
-		player = b.getPlayer();
-		this.s = s;
-		ui = new ConsoleUI();
-		this.b = b;
-		this.command = command;
-	}
-
 	protected void processInput() {
 		do {
 			command = ui.getCommand();
 			Method method;
 			Class<?>[] params;
+			Object[] o;
 			if (command.getParams() == null) {
 				params = new Class<?>[] {};
+				o = new Object[] {};
 			} else {
+				o = new Object[command.getParams().length];
 				params = new Class<?>[command.getParams().length];
 				for (int i = 0; i < command.getParams().length; i++) {
+					o[i] = command.getParams()[i];
 					params[i] = command.getParams()[i].getClass();
 				}
 			}
 			try {
-				method = this.getClass().getDeclaredMethod(command.getCommandType().getMethod(), params);
-				method.invoke(this, command.getParams());
+				method = this.getClass().getDeclaredMethod(command.getCommandTypeInfo().getMethod(), params);
+				method.invoke(this, o);
 			} catch (IllegalAccessException e) {
 				outputStream.println("IllegalAccessException: " + e.getMessage());
 				exit();
@@ -66,7 +61,7 @@ public class GameImpl extends Game {
 				exit();
 			}
 
-		} while (command.getCommandType().getMethod() != "move" && command.getCommandType().getMethod() != "spawnMini");
+		} while (command.getCommandTypeInfo().getMethod() != "move" && command.getCommandTypeInfo().getMethod() != "spawnMini");
 
 	}
 
@@ -75,6 +70,7 @@ public class GameImpl extends Game {
 	}
 
 	public void spawnMini(Integer energy) {
+		int ener = energy;
 		try {
 			if (player.getEnergy() < energy) {
 				throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
@@ -84,6 +80,7 @@ public class GameImpl extends Game {
 		} catch (NotEnoughEnergyException e) {
 			processInput();
 		}
+		player.setMoveDirection(MoveDirection.stay);
 	}
 
 	public void all() {
@@ -95,7 +92,7 @@ public class GameImpl extends Game {
 	}
 
 	public void move() {
-		player.setMoveDirection(MoveDirection.valueOf(command.getCommandType().getName()));
+		player.setMoveDirection(MoveDirection.valueOf(command.getCommandTypeInfo().getName()));
 	}
 
 	public void exit() {
