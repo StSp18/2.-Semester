@@ -14,8 +14,6 @@ public class MiniSquirrel extends Squirrel {
 			context.tryMove(this, context.rndMoveDirection().getMoveDirection());
 		}
 	}
-
-	
 	
 	public int getMId() {
 		return mId;
