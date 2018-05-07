@@ -23,11 +23,11 @@ public class CommandScanner {
 		Object[] o = null;
 		for(int i=0; i<commandTypeInfos.length; i++) {
 			if(command.contains(",")) {
-				if(command.substring(0, command.indexOf(',')).equals(commandTypeInfos[i].getName())) {
+				if(command.substring(0, command.indexOf(',')).trim().equals(commandTypeInfos[i].getName())) {
 					cTI = commandTypeInfos[i];
 					break;
 				}
-			} else if (command.equals(commandTypeInfos[i].getName())) {
+			} else if (command.trim().equals(commandTypeInfos[i].getName())) {
 				cTI = commandTypeInfos[i];
 				break;
 			}
@@ -62,11 +62,11 @@ public class CommandScanner {
 		}
 		switch(c.getName()) {
 		case "java.lang.String":
-			return object;
+			return object.trim();
 		case "int":
-			return Integer.parseInt(object);
+			return Integer.parseInt(object.trim());
 		case "float":
-			return Float.parseFloat(object);
+			return Float.parseFloat(object.trim());
 		default:
 			throw new ScanException();
 		}		
