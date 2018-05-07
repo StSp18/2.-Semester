@@ -43,20 +43,28 @@ public class Board{
 		}
 		tboard[board.length] = e;
 		board = tboard;
+		if(e instanceof Character) {
+			MoveDirection md;
+			do{
+				md = MoveDirection.stay.rndMoveDirection();
+			} while(flatten()[e.getX() + md.getMoveDirection().getX()][e.getY() + md.getMoveDirection().getY()] instanceof Character || flatten()[e.getX() + md.getMoveDirection().getX()][e.getY() + md.getMoveDirection().getY()] instanceof Wall);
+			((Character) e).setMoveDirection(md);
+			((Character) e).nextStep(createflattenedBoard());
+		}
 		idcount++;
 	}
+		
 	
-	public void remove(Entity e) {
+	public void remove(int id) {
 		int k = 0;
-		Entity [] tboard = new Entity[board.length]; 
+		Entity [] tboard = new Entity[board.length-1]; 
 		for(int i=0; i<board.length; i++) {
-			if(board[i] == e) {
+			if(board[i].getId() == id) {
 				k=1;
 			} else {
 				tboard[i-k]=board[i];
 			}
 			board = tboard;
-			idcount--;
 		}
 	}
 	

@@ -36,7 +36,7 @@ public enum CommandType implements CommandTypeInfo{
 	
 	public Class<?>[] getParamTypes() {
 		if(param1 == null && param2 == null) {
-			return null;
+			return new Class<?>[] {};
 		}
 		return new Class<?>[] {param1, param2};
 	}

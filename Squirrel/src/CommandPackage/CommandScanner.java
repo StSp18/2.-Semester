@@ -38,7 +38,7 @@ public class CommandScanner {
 //			outputStream.println(cTI.getName());
 		}
 		
-		if(cTI.getParamTypes() != null) {
+		if(cTI.getParamTypes() != new Class <?>[] {}) {
 			command = command.substring(command.indexOf(",")+1).trim();
 //			outputStream.println(command);
 			o = new Object[cTI.getParamTypes().length];

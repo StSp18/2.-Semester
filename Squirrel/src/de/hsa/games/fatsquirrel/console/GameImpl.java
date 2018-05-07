@@ -18,6 +18,7 @@ public class GameImpl extends Game {
 	private State s;
 	private Board b;
 	private Command command;
+
 	public GameImpl(State s, Board b) {
 		super(s);
 		player = b.getPlayer();
@@ -30,22 +31,16 @@ public class GameImpl extends Game {
 		do {
 			command = ui.getCommand();
 			Method method;
-			Class<?>[] params;
-			Object[] o;
-			if (command.getParams() == null) {
-				params = new Class<?>[] {};
-				o = new Object[] {};
-			} else {
-				o = new Object[command.getParams().length];
+			Class<?>[] params = new Class<?>[] {};
+			if (command.getParams().length != 0) {
 				params = new Class<?>[command.getParams().length];
 				for (int i = 0; i < command.getParams().length; i++) {
-					o[i] = command.getParams()[i];
 					params[i] = command.getParams()[i].getClass();
 				}
 			}
 			try {
 				method = this.getClass().getDeclaredMethod(command.getCommandTypeInfo().getMethod(), params);
-				method.invoke(this, o);
+				method.invoke(this, command.getParams());
 			} catch (IllegalAccessException e) {
 				outputStream.println("IllegalAccessException: " + e.getMessage());
 				exit();
@@ -60,7 +55,8 @@ public class GameImpl extends Game {
 				exit();
 			}
 
-		} while (command.getCommandTypeInfo().getMethod() != "move" && command.getCommandTypeInfo().getMethod() != "spawnMini");
+		} while (command.getCommandTypeInfo().getMethod() != "move"
+				&& command.getCommandTypeInfo().getMethod() != "spawnMini");
 
 	}
 

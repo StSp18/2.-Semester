@@ -288,8 +288,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public void kill(Entity e) {
-		System.out.println("kill " + getEntityType(e.getX(), e.getY()).getChar());
-		b.remove(e);
+		System.out.println("kill " + getEntityType(e.getXY()).getChar());
+		b.remove(e.getId());
 	}
 
 	public void killAndReplace(Entity e) {

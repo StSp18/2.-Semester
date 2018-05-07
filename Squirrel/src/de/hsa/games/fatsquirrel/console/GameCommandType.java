@@ -35,7 +35,7 @@ public enum GameCommandType implements CommandTypeInfo{
 	
 	public Class<?>[] getParamTypes() {
 		if(value == null) {
-			return null;
+			return new Class<?> [] {};
 		} else {
 			return new Class<?>[] {value};
 		}
