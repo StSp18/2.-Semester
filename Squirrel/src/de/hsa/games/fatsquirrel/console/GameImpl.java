@@ -66,12 +66,12 @@ public class GameImpl extends Game {
 
 	public void spawnMini(Integer energy) {
 		try {
-			throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
+			outputStream.println("Spawn mini");
+			player.setSpawn(b.getIdcount(), energy);
 		} catch (NotEnoughEnergyException e) {
 			outputStream.println(e.getMessage());
 			processInput();
 		}
-		player.setMoveDirection(MoveDirection.stay);
 	}
 
 	public void all() {

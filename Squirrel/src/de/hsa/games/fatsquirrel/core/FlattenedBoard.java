@@ -53,6 +53,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	public void tryMove(MasterSquirrel master, XY moveDirection) {
 		System.out.println("tryMove MasterSquirrel");
 		XY newCorrdinates = master.getXY().add(moveDirection);
+		if(master.getSpawn()) {
+			b.add(master.creatMiniSquirrel());
+			return;
+		}
 		if (!newCorrdinates.equals(master.getXY())) {
 			switch (getEntityType(newCorrdinates)) {
 			case Air:
