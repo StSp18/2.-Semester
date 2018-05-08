@@ -11,9 +11,17 @@ import CommandPackage.ScanException;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.core.BoardView;
 
-public class ConsoleUI implements UI{
-	private PrintStream outputStream = System.out;
-	private BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+public class ConsoleUI implements UI {
+	private PrintStream outputStream;
+	private BufferedReader inputReader;
+	private CommandScanner cS;
+
+	public ConsoleUI() {
+		outputStream = System.out;
+		inputReader = new BufferedReader(new InputStreamReader(System.in));
+		cS = new CommandScanner(GameCommandType.values(), inputReader, outputStream);
+	}
+	
 	public void render(BoardView view) {
 		String s = "";
 		for (int i = 0; i < view.getSize().getY(); i++) {
@@ -23,18 +31,10 @@ public class ConsoleUI implements UI{
 			s += '\n';
 		}
 		System.out.println(s);
-		
+
 	}
 
 	public Command getCommand() {
-		CommandScanner cS = new CommandScanner(GameCommandType.values(), inputReader, outputStream);
-		try {
-			return cS.next();
-		} catch (IOException e) {
-			outputStream.println(e.getLocalizedMessage());
-		} catch (ScanException e) {
-			outputStream.println(e.getLocalizedMessage());
-		}
-		return getCommand();
+		return cS.next();
 	}
 }

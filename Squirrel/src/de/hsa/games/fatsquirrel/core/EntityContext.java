@@ -10,7 +10,4 @@ public interface EntityContext {
 	public void kill(Entity entity);
 	public void killAndReplace(Entity entity);
 	public EntityType getEntityType(XY xy);
-	public MoveDirection moveTowards(Entity e, Entity s);
-	public MoveDirection moveAway(Entity e, Entity s);
-	public MoveDirection rndMoveDirection();
 }

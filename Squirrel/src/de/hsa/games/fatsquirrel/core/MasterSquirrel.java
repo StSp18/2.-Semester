@@ -1,5 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
+
 public abstract class MasterSquirrel extends Squirrel {
 	int player;
 	private MoveDirection moveDirection;
@@ -31,12 +33,15 @@ public abstract class MasterSquirrel extends Squirrel {
 		return false;
 	}
 
-	public MiniSquirrel creatMiniSquirrel(int id, int energy) {
+	public MiniSquirrel creatMiniSquirrel(int id, int energy) throws NotEnoughEnergyException {
+		if (energy <= 0) {
+			throw new NotEnoughEnergyException("Can't create a MiniSquirrel with negative energy");
+		}
 		if (energy < this.getEnergy()) {
 			this.updateEnergy(-energy);
 			return new MiniSquirrel(this.getId(), id, energy, getX(), getY());
 		}
-		return null;
+		throw new NotEnoughEnergyException("I don't have the energy to do that");
 
 	}
 

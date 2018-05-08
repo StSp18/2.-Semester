@@ -56,7 +56,9 @@ public class Board{
 			} else {
 				tboard[i-k]=board[i];
 			}
-			board = tboard;
+			if(k == 1) {
+				board = tboard;	
+			}
 		}
 	}
 	

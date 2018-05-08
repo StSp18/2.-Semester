@@ -43,16 +43,16 @@ public class GameImpl extends Game {
 				method.invoke(this, command.getParams());
 			} catch (IllegalAccessException e) {
 				outputStream.println("IllegalAccessException: " + e.getMessage());
-				exit();
+				System.exit(-1);
 			} catch (IllegalArgumentException e) {
 				outputStream.println("IllegalArgumentException: " + e.getMessage());
-				exit();
+				System.exit(-1);
 			} catch (InvocationTargetException e) {
 				outputStream.println("InvocationTargetException: " + e.getMessage());
-				exit();
+				System.exit(-1);
 			} catch (NoSuchMethodException e) {
 				outputStream.println("NoSuchMethodException: " + e.getMessage());
-				exit();
+				System.exit(-1);
 			}
 
 		} while (command.getCommandTypeInfo().getMethod() != "move"
@@ -66,12 +66,9 @@ public class GameImpl extends Game {
 
 	public void spawnMini(Integer energy) {
 		try {
-			if (player.getEnergy() < energy) {
-				throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
-			} else {
-				b.add(player.creatMiniSquirrel(b.getIdcount(), energy));
-			}
+			throw new NotEnoughEnergyException("Your Mastersquirrel has not enough energy");
 		} catch (NotEnoughEnergyException e) {
+			outputStream.println(e.getMessage());
 			processInput();
 		}
 		player.setMoveDirection(MoveDirection.stay);

@@ -15,12 +15,16 @@ public class CommandScanner {
 		this.outputStream = outputStream;
 	}
 
-	public Command next() throws ScanException, IOException{
+	public Command next(){
 		outputStream.println("Next Command");
-		String command = inputReader.readLine();
+		String command;
+		try {
+			command = inputReader.readLine();
+		
 		
 		CommandTypeInfo cTI = null;
 		Object[] o = null;
+		
 		for(int i=0; i<commandTypeInfos.length; i++) {
 			if(command.contains(",")) {
 				if(command.substring(0, command.indexOf(',')).trim().equals(commandTypeInfos[i].getName())) {
@@ -33,7 +37,7 @@ public class CommandScanner {
 			}
 		}
 		if(cTI == null) {
-			throw new ScanException();
+			throw new ScanException("No such Command");
 		} else {
 //			outputStream.println(cTI.getName());
 		}
@@ -54,11 +58,18 @@ public class CommandScanner {
 			}
 		}
 		return new Command(cTI, o);
+		} catch (IOException e) {
+			outputStream.println(e.getMessage() + "\ntry again");
+			return next();
+		} catch (ScanException e) {
+			outputStream.println(e.getMessage() + "\ntry again");
+			return next();
+		}
 	}
 	
 	private Object objectParser(String object, Class<?> c) throws ScanException{
 		if(object.isEmpty()) {
-			throw new ScanException();
+			throw new ScanException("Parameter is missing");
 		}
 		switch(c.getName()) {
 		case "java.lang.String":
@@ -68,7 +79,7 @@ public class CommandScanner {
 		case "float":
 			return Float.parseFloat(object.trim());
 		default:
-			throw new ScanException();
+			throw new ScanException("Ups somesthing went terribly wrong");
 		}		
 	}
 }

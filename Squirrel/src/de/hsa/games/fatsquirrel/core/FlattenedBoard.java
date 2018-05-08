@@ -42,48 +42,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		}
 	}
 
-	public MoveDirection rndMoveDirection() {
-		return MoveDirection.stay.rndMoveDirection();
-	}
 
-	public MoveDirection moveAway(Entity e, Entity s) {
-		int x = 0;
-		int y = 0;
-		if (s.getX() > e.getX()) {
-			x = -1;
-		}
-		if (s.getX() < e.getX()) {
-			x = 1;
-		}
-		if (s.getY() > e.getY()) {
-			y = -1;
-		}
-		if (s.getY() < e.getY()) {
-			y = 1;
-		}
-		return MoveDirection.stay.searchMoveDirection(new XY(x, y));
-	}
 
-	public MoveDirection moveTowards(Entity e, Entity s) {
-		int x = 0;
-		int y = 0;
-		if (s.getX() < e.getX()) {
-			x = -1;
-		}
-		if (s.getX() > e.getX()) {
-			x = 1;
-		}
-		if (s.getY() < e.getY()) {
-			y = -1;
-		}
-		if (s.getY() > e.getY()) {
-			y = 1;
-		}
-		MoveDirection md = MoveDirection.stay;
-		md = md.searchMoveDirection(new XY(x, y));
-		return md;
 
-	}
 
 	public XY getSize() {
 		return new XY(fb[0].length, fb[1].length);
