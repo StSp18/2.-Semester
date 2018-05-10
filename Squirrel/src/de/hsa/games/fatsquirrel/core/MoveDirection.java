@@ -14,21 +14,7 @@ public enum MoveDirection {
 	}
 
 	public static MoveDirection moveAway(XY e, XY s) {
-		int x = 0;
-		int y = 0;
-		if (s.getX() > e.getX()) {
-			x = -1;
-		}
-		if (s.getX() < e.getX()) {
-			x = 1;
-		}
-		if (s.getY() > e.getY()) {
-			y = -1;
-		}
-		if (s.getY() < e.getY()) {
-			y = 1;
-		}
-		return searchMoveDirection(new XY(x, y));
+		return moveTowards(s, e);
 	}
 
 	public static MoveDirection moveTowards(XY e, XY s) {

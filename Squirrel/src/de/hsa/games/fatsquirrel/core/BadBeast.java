@@ -15,7 +15,7 @@ public class BadBeast extends Character {
 			if(context.nearestPlayerEntity(getXY()) == null) {
 				md = MoveDirection.rndMoveDirection();
 			} else {
-				md = MoveDirection.moveTowards(context.nearestPlayerEntity(getXY()).getXY(), getXY());
+				md = MoveDirection.moveTowards(getXY(), context.nearestPlayerEntity(getXY()).getXY());
 			}
 			context.tryMove(this, md.getMoveDirection());
 		} else {

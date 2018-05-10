@@ -13,7 +13,7 @@ public class GoodBeast extends Character {
 			if(context.nearestPlayerEntity(getXY()) == null) {
 				md = MoveDirection.rndMoveDirection();
 			} else {
-				md = MoveDirection.moveAway(context.nearestPlayerEntity(getXY()).getXY(), getXY());
+				md = MoveDirection.moveAway(getXY(), context.nearestPlayerEntity(getXY()).getXY());
 			}
 			context.tryMove(this, md.getMoveDirection());
 		} else {

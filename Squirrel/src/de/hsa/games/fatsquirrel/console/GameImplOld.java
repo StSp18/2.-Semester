@@ -11,22 +11,27 @@ import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.MoveDirection;
 import de.hsa.games.fatsquirrel.core.State;
 
-public class GameImpl extends Game {
+public class GameImplOld extends Game {
 	private PrintStream outputStream = System.out;
 	private HandOperatedMasterSquirrel player;
-	private ConsoleUI ui;
-	private State s;
 	private Board b;
 	private Command command;
 
-	public GameImpl(State s, Board b) {
+	public GameImplOld(State s, Board b) {
 		super(s);
 		player = b.getPlayer();
-		this.s = s;
 		ui = new ConsoleUI();
 		this.b = b;
 	}
 
+	public void run() {
+		while (true) {
+			render();
+			processInput();
+			update();
+		}
+	}
+	
 	protected void processInput() {
 		do {
 			command = ui.getCommand();
@@ -58,10 +63,6 @@ public class GameImpl extends Game {
 		} while (command.getCommandTypeInfo().getMethod() != "move"
 				&& command.getCommandTypeInfo().getMethod() != "spawnMini");
 
-	}
-
-	protected void render() {
-		ui.render(s.flattenedBoard());
 	}
 
 	public void spawnMini(Integer energy) {
