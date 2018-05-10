@@ -10,6 +10,7 @@ public enum GameCommandType implements CommandTypeInfo{
 	UP("up", "moves Player up", "move"),
 	DOWN("down", "moves Player down", "move"),
 	RIGHT("right", "moves Player right", "move"),
+	STAY("stay", "Player doesn't move", "move"),
 	MASTER_ENERGY("master_energy", "Displays player energy", "energy"),
 	SPAWN_MINI("spawn_mini", "Spawns a Minisquirrel, <param1>", "spawnMini" , int.class);
 	

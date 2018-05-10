@@ -15,7 +15,6 @@ public class GameFps extends Game {
 	private final long fps;
 	private PrintStream outputStream = System.out;
 	private HandOperatedMasterSquirrel player;
-	private ConsoleUI ui;
 	private State s;
 	private Board b;
 	private Command buffer;
