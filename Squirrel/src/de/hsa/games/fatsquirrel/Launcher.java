@@ -64,8 +64,8 @@ public class Launcher extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FxUI fxUI = FxUI.createInstance(boardFactory.getSize());
+		game = new GameImplFxUI(state, board, fxUI);
 
-		primaryStage.setScene(fxUI);
 		primaryStage.setTitle("Diligent Squirrel");
 		fxUI.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -73,9 +73,10 @@ public class Launcher extends Application {
                 System.exit(-1);
             }
         });
-		primaryStage.show();
 
-		game = new GameImplFxUI(state, board, fxUI);
+
+		primaryStage.setScene(fxUI);
+		primaryStage.show();
 
 		startGame(game);
 	}

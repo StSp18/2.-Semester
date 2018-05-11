@@ -18,7 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class FxUI extends Scene implements UI {
+public class FxUI extends S0cene implements UI {
     private Canvas boardCanvas;
     private Label msgLabel;
     private static final int CELL_SIZE = 50;
