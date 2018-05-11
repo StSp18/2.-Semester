@@ -21,7 +21,7 @@ public class Board{
 	}
 	
 	public FlattenedBoard createflattenedBoard() {
-		Entity[][] flattenedBoard = new Entity[size.getX()+2][size.getY()+2];
+		Entity[][] flattenedBoard = new Entity[size.getX()][size.getY()];
 		for(int i=0; i < board.length; i++) {
 			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
 		}
@@ -29,7 +29,7 @@ public class Board{
 	}
 	
 	public Entity[][] flatten() {
-		Entity[][] flattenedBoard = new Entity[size.getX()+2][size.getY()+2];
+		Entity[][] flattenedBoard = new Entity[size.getX()][size.getY()];
 		for(int i=0; i < board.length; i++) {
 			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
 		}

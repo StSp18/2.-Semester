@@ -28,6 +28,7 @@ public class FxUI extends Scene implements UI {
         super(parent);
         this.boardCanvas = boardCanvas;
         this.msgLabel = msgLabel;
+        command = new Command(GameCommandType.STAY, new Object[] {});
         this.setOnKeyPressed(
                 new EventHandler<KeyEvent>() {
                     @Override

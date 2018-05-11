@@ -14,11 +14,10 @@ import de.hsa.games.fatsquirrel.core.State;
 public class GameImplOld extends Game {
 	private PrintStream outputStream = System.out;
 	private HandOperatedMasterSquirrel player;
-	private Board b;
 	private Command command;
 
 	public GameImplOld(State s, Board b) {
-		super(s);
+		super(s, b);
 		player = b.getPlayer();
 		ui = new ConsoleUI();
 		this.b = b;
@@ -32,7 +31,7 @@ public class GameImplOld extends Game {
 		}
 	}
 	
-	protected void processInput() {
+	public void processInput() {
 		do {
 			command = ui.getCommand();
 			Method method;

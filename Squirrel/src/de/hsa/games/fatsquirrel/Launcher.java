@@ -4,12 +4,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import FXUI.FxUI;
-import de.hsa.games.fatsquirrel.console.GameFps;
+import FXUI.GameImplFxUI;
+import de.hsa.games.fatsquirrel.console.GameImplFps;
 import de.hsa.games.fatsquirrel.console.GameImplOld;
-import de.hsa.games.fatsquirrel.core.Board;
-import de.hsa.games.fatsquirrel.core.BoardFactory;
-import de.hsa.games.fatsquirrel.core.Game;
-import de.hsa.games.fatsquirrel.core.State;
+import de.hsa.games.fatsquirrel.core.*;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -31,16 +29,15 @@ public class Launcher extends Application {
 
 
 	public void startGame(Game game) {
-	    GameFps g = (GameFps) game;
 		Timer t = new Timer();
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
-				g.run();
+				game.run();
 			}
 		};
-		t.scheduleAtFixedRate(task, g.getFPS(), g.getFPS());
-		g.processInput();
+		t.scheduleAtFixedRate(task, game.getFps(), game.getFps());
+		game.processInput();
 	}
 
 	public static void main(String[] args) {
@@ -51,11 +48,10 @@ public class Launcher extends Application {
 			launcher.game.run();
 			break;
 		case "fps":
-			launcher.game = new GameFps(launcher.state, launcher.board, new Long(10000));
-			launcher.startGame((GameFps)launcher.game);
+			launcher.game = new GameImplFps(launcher.state, launcher.board);
+			launcher.startGame((GameImplFps)launcher.game);
 			break;
 		case "gui":
-		    launcher.game = new GameFps(launcher.state, launcher.board, new Long(100));
 			Application.launch(args);
 			break;
 		default:
@@ -78,6 +74,8 @@ public class Launcher extends Application {
             }
         });
 		primaryStage.show();
+
+		game = new GameImplFxUI(state, board, fxUI);
 
 		startGame(game);
 	}

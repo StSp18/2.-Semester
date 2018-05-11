@@ -3,10 +3,14 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.UI;
 
 public abstract class Game {
-	private State s;
+	protected State s;
 	protected UI ui;
-	public Game(State s) {
+	protected Board b;
+	protected long fps = 100;
+
+	public Game(State s, Board b) {
 		this.s = s;
+		this.b = b;
 	}
 
 	public abstract void run();
@@ -15,9 +19,13 @@ public abstract class Game {
 		ui.render(s.flattenedBoard());
 	}
 
-	protected abstract void processInput();
+	public abstract void processInput();
 
 	protected void update() {
 		s.update();
 	}
+
+	public long getFps(){
+	    return fps;
+    }
 }

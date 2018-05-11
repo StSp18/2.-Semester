@@ -35,17 +35,17 @@ public class BoardFactory extends BoardConfig {
 			board[id] = new BadBeast(id, rndCor[id].getX(), rndCor[id].getY());
 		}
 		// Fill in of Outside Walls
-		for (int i = 0; i < getSize().getX() + 2; i++, id++) {
+		for (int i = 0; i < getSize().getX(); i++, id++) {
 			board[id] = new Wall(id, i, 0);
 		}
-		for (int i = 0; i < getSize().getX() + 2; i++, id++) {
-			board[id] = new Wall(id, i, getSize().getY() + 1);
+		for (int i = 0; i < getSize().getX(); i++, id++) {
+			board[id] = new Wall(id, i, getSize().getY()-1);
 		}
-		for (int i = 1; i < getSize().getY() + 1; i++, id++) {
+		for (int i = 1; i < getSize().getY() - 1; i++, id++) {
 			board[id] = new Wall(id, 0, i);
 		}
-		for (int i = 1; i < getSize().getY() + 1; i++, id++) {
-			board[id] = new Wall(id, getSize().getX() + 1, i);
+		for (int i = 1; i < getSize().getY() - 1; i++, id++) {
+			board[id] = new Wall(id, getSize().getX()-1, i);
 		}
 		return board;
 	}
@@ -59,8 +59,8 @@ public class BoardFactory extends BoardConfig {
 
 		while (ranCor[getAmountOfEntity() - 1] == null) {
 			check = true;
-			rndX = ThreadLocalRandom.current().nextInt(1, getSize().getX() + 1);
-			rndY = ThreadLocalRandom.current().nextInt(1, getSize().getX() + 1);
+			rndX = ThreadLocalRandom.current().nextInt(1, getSize().getX() - 1);
+			rndY = ThreadLocalRandom.current().nextInt(1, getSize().getX() - 1);
 			for (int i = 0; i < count; i++) {
 				if (ranCor[i].getX() == rndX && ranCor[i].getY() == rndY) {
 					check = false;
