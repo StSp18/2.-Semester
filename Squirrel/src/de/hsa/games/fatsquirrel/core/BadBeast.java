@@ -1,11 +1,11 @@
 package de.hsa.games.fatsquirrel.core;
 
 public class BadBeast extends Character {
-	int lifes;
+	int lives;
 	private int sleep;
 	public BadBeast(int id, int x, int y) {
 		super(id, -150, x, y);
-		lifes = 7;
+		lives = 7;
 		sleep = 0;
 	}
 	
@@ -19,19 +19,19 @@ public class BadBeast extends Character {
 			}
 			context.tryMove(this, md.getMoveDirection());
 		} else {
-			System.out.println("BadBeast is asleep");
+//			System.out.println("BadBeast is asleep");
 		}
 	}
 	
-	public int getLifes() {
-		return lifes;
+	public int getLives() {
+		return lives;
 	}
 	
 	public boolean bite(Entity e) {
-		System.out.println("Bite");
+//		System.out.println("Bite");
 		e.updateEnergy(getEnergy());
-		lifes--;
-		return lifes == 0;
+		lives--;
+		return lives == 0;
 	}
 	
 	public boolean aSleep() {

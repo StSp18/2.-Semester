@@ -85,7 +85,7 @@ public class GameImplFps extends Game {
 	public void spawnMini(Integer energy) {
 		try {
 			outputStream.println("Spawn mini");
-			player.setSpawn(b.getIdcount(), energy);
+			player.setSpawn(b.getIdCount(), energy);
 		} catch (NotEnoughEnergyException e) {
 			outputStream.println(e.getMessage());
 			player.setMoveDirection(MoveDirection.stay);

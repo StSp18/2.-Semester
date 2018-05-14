@@ -2,15 +2,21 @@ package de.hsa.games.fatsquirrel.core;
 
 public abstract class Squirrel extends Character {
 	private int stunned;
-	
+	protected MoveDirection moveDirection;
+
 	protected Squirrel(int id, int energy, int x, int y) {
 		super(id, energy, x, y);
 		stunned  = 0;
+		moveDirection = MoveDirection.stay;
 	}
-	
+
+	public void setMoveDirection(MoveDirection moveDirection) {
+		this.moveDirection = moveDirection;
+	}
+
 	protected boolean Stunned() {
 		if(stunned > 0) {
-			System.out.println("Stunned for :" + stunned);
+//			System.out.println("Stunned for :" + stunned);
 			stunned--;
 			return true;
 		}
@@ -18,7 +24,7 @@ public abstract class Squirrel extends Character {
 	}
 	
 	public void wallBump() {
-		System.out.println("You got stunned");
+//		System.out.println("You got stunned");
 		stunned = 3;
 	}
 	

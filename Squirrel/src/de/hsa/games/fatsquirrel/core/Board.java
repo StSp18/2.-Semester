@@ -3,12 +3,12 @@ package de.hsa.games.fatsquirrel.core;
 public class Board{
 	private Entity[] board;
 	private XY size;
-	private int idcount;
+	private int idCount;
 	
 	public Board(BoardFactory bf) {
 		board = bf.factoryBoard();
 		size = bf.getSize();
-		idcount = board.length;
+		idCount = board.length;
 	}
 	
 	public HandOperatedMasterSquirrel getPlayer( ) {
@@ -43,7 +43,7 @@ public class Board{
 		}
 		tboard[board.length] = e;
 		board = tboard;
-		idcount++;
+		idCount++;
 	}
 		
 	
@@ -83,8 +83,8 @@ public class Board{
 		return size;
 	}
 
-	public int getIdcount() {
-		return idcount;
+	public int getIdCount() {
+		return idCount;
 	}
 
 	public String toString() {

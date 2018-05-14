@@ -1,4 +1,4 @@
-package FXUI;
+package de.hsa.games.fatsquirrel.FXUI;
 
 import de.hsa.games.fatsquirrel.core.*;
 
@@ -14,19 +14,16 @@ public class GameImplFxUI extends Game {
     @Override
     public void run() {
         render();
+        processInput();
         update();
     }
 
     @Override
     public void processInput() {
-        move();
+        player.setMoveDirection(MoveDirection.valueOf(ui.getCommand().getCommandTypeInfo().getName().toLowerCase()));
     }
 
     public long getFps() {
         return fps;
-    }
-
-    public void move() {
-        player.setMoveDirection(MoveDirection.valueOf(ui.getCommand().getCommandTypeInfo().getName()));
     }
 }

@@ -2,23 +2,16 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 
-public abstract class MasterSquirrel extends Squirrel {
+public class MasterSquirrel extends Squirrel {
 	private boolean spawn;
 	private int spawnId, spawnEnergy;
-	private int player;
-	private MoveDirection moveDirection;
+
 	
-	protected MasterSquirrel(int id, int x, int y, int player) {
+	protected MasterSquirrel(int id, int x, int y) {
 		super(id, 1000, x, y);
-		this.player = player;
 		spawn = false;
-		moveDirection = MoveDirection.stay;
 	}
 
-	public int getPlayer() {
-		return player;
-	}
-	
 	public boolean getSpawn() {
 		if(spawn == true) {
 			spawn = false;
@@ -40,13 +33,11 @@ public abstract class MasterSquirrel extends Squirrel {
 		spawn = true;
 	}
 	
-	public void setMoveDirection(MoveDirection moveDirection) {
-		this.moveDirection = moveDirection;
-	}
+
 	
 	public void nextStep(EntityContext context) {
 		if (!Stunned()) {
-			System.out.println("MasterSqirrel next Step");
+//			System.out.println("MasterSqirrel next Step");
 			context.tryMove(this, moveDirection.getMoveDirection());
 		}
 	}
@@ -58,12 +49,25 @@ public abstract class MasterSquirrel extends Squirrel {
 		return false;
 	}
 
-	public MiniSquirrel creatMiniSquirrel (){
+	public MiniSquirrel createMiniSquirrel(int id, int energy, XY direction) throws NotEnoughEnergyException {
+		if (energy <= 0) {
+			throw new NotEnoughEnergyException("Can't create a MiniSquirrel with negative energy");
+		}
+		direction = direction.add(getXY());
+		if (energy < this.getEnergy()) {
+			this.updateEnergy(-energy);
+			return new MiniSquirrel(getId(), id, energy, direction.getX(), direction.getY());
+		}
+		throw new NotEnoughEnergyException("I don't have the energy to do that");
+
+	}
+
+	public MiniSquirrel createMiniSquirrel(){
 		this.updateEnergy(-spawnEnergy);
 		return new MiniSquirrel(this.getId(), spawnId, spawnEnergy, getX(), getY());
 	}
 	
-	public MiniSquirrel creatMiniSquirrel(int id, int energy) throws NotEnoughEnergyException {
+	public MiniSquirrel createMiniSquirrel(int id, int energy) throws NotEnoughEnergyException {
 		if (energy <= 0) {
 			throw new NotEnoughEnergyException("Can't create a MiniSquirrel with negative energy");
 		}

@@ -1,9 +1,13 @@
 package de.hsa.games.fatsquirrel.core;
 
-public class AutomatedMasterSquirrel  extends MasterSquirrel{
+import de.hsa.games.fatsquirrel.core.mastersquirrelbot.ControllerContextImpl;
 
-	public AutomatedMasterSquirrel(int id, int x, int y, int player) {
-		super(id, x, y, player);
+public class AutomatedMasterSquirrel  extends MasterSquirrel{
+	private MasterSquirrelBot bot;
+	public AutomatedMasterSquirrel(int id, int x, int y, Board board) {
+		super(id, x, y);
+		ControllerContextImpl controller = new ControllerContextImpl(this, board);
+		bot = new MasterSquirrelBot(controller);
 	}
 
 

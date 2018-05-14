@@ -17,7 +17,7 @@ public class GoodBeast extends Character {
 			}
 			context.tryMove(this, md.getMoveDirection());
 		} else {
-			System.out.println("GoodBeast is asleep");
+//			System.out.println("GoodBeast is asleep");
 		}
 	}
 	

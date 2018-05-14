@@ -14,10 +14,10 @@ public class BoardFactory extends BoardConfig {
 
 		// Fill in of Entitys
 		for (int i = 0; i < getAmountOfHandOperatedMasterSquirrel(); i++, id++) {
-			board[id] = new HandOperatedMasterSquirrel(id, rndCor[id].getX(), rndCor[id].getY(), id);
+			board[id] = new HandOperatedMasterSquirrel(id, rndCor[id].getX(), rndCor[id].getY());
 		}
 		for (int i = 0; i < getAmountOfAutomatedMasterSquirrel(); i++, id++) {
-			board[id] = new AutomatedMasterSquirrel(id, rndCor[id].getX(), rndCor[id].getY(), id);
+			//board[id] = new AutomatedMasterSquirrel(id, rndCor[id].getX(), rndCor[id].getY());
 		}
 		for (int i = 0; i < getAmountOfWall(); i++, id++) {
 			board[id] = new Wall(id, rndCor[id].getX(), rndCor[id].getY());
