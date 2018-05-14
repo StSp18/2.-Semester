@@ -13,6 +13,9 @@ public abstract class Squirrel extends Character {
 	public void setMoveDirection(MoveDirection moveDirection) {
 		this.moveDirection = moveDirection;
 	}
+	public MoveDirection getMoveDirection() {
+		return moveDirection;
+	}
 
 	protected boolean Stunned() {
 		if(stunned > 0) {

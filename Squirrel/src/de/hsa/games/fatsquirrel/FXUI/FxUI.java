@@ -27,17 +27,20 @@ public class FxUI extends Scene implements UI {
         this.setOnKeyPressed(
                 keyEvent -> {
                     switch (keyEvent.getCode()) {
-                        case A:
+                        case LEFT:
                             setCommand("LEFT");
                             break;
-                        case W:
+                        case UP:
                             setCommand("UP");
                             break;
-                        case D:
+                        case RIGHT:
                             setCommand("RIGHT");
                             break;
-                        case S:
+                        case DOWN:
                             setCommand("DOWN");
+                            break;
+                        case E:
+                            System.exit(0);
                             break;
                         default:
                             break;
@@ -52,7 +55,7 @@ public class FxUI extends Scene implements UI {
         VBox top = new VBox();
         top.getChildren().add(boardCanvas);
         top.getChildren().add(statusLabel);
-        statusLabel.setText("Diligent Squirrel");
+        statusLabel.setText("Hallo Welt");
         final FxUI fxUI = new FxUI(top, boardCanvas, statusLabel);
         return fxUI;
     }

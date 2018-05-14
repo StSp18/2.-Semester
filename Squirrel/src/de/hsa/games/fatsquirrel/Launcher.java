@@ -24,7 +24,7 @@ public class Launcher extends Application {
 				game.run();
 			}
 		};
-		t.scheduleAtFixedRate(task, game.getFps(), game.getFps());
+		t.scheduleAtFixedRate(task, 0, game.getFps());
 	}
 
 	public static void main(String[] args) {
