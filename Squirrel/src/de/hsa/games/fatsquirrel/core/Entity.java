@@ -1,7 +1,8 @@
 package de.hsa.games.fatsquirrel.core;
 
 public abstract class Entity {
-	private int id, energy;
+	private int id;
+	protected int energy;
 	public XY xy;
 	protected Entity(int id, int energy, int x,int y){
 		this.id = id;

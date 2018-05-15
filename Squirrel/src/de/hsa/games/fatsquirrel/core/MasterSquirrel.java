@@ -8,14 +8,20 @@ public class MasterSquirrel extends Squirrel {
 		super(5, 1000, x, y);
 	}
 
+	@Override
+	public void updateEnergy(int dEnergy) {
+		if(energy + dEnergy < 0) {
+			energy = 0;
+		} else {
+			energy += dEnergy;
+		}
+	}
+
 	public void nextStep(EntityContext context) {
 		if (!Stunned()) {
 //			System.out.println("MasterSqirrel next Step");
 			context.tryMove(this, moveDirection.getXY());
 		}
-		if(getEnergy() < 0) {
-		    updateEnergy(-getEnergy());
-        }
 	}
 
 	public boolean myMiniSquirrel(Entity e) {

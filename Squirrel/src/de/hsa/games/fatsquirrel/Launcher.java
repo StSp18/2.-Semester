@@ -17,6 +17,7 @@ public class Launcher extends Application {
 	private Board board = new Board(boardFactory);
 	private State state = new State(board);
 	private static String version = "gui";
+
 	public void startGame(Game game) {
 		Timer t = new Timer();
 		TimerTask task = new TimerTask() {
@@ -30,6 +31,11 @@ public class Launcher extends Application {
 	}
 
 	public static void main(String[] args) {
+		if (!args[0].isEmpty()) {
+			version = args[0];
+		} else {
+			version = "old";
+		}
 		Launcher launcher = new Launcher();
 		Game game;
 		switch (version) {

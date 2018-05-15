@@ -1,21 +1,23 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 
 public class MasterSquirrelBot extends MasterSquirrel{
+    private BotController controller;
 
-    protected MasterSquirrelBot(int x, int y) {
+    protected MasterSquirrelBot(int x, int y, BotControllerFactory factory) {
         super(x, y);
+        controller = factory.createMasterBotController();
     }
 
+    @Override
     public void nextStep(EntityContext context) {
         if (!Stunned()) {
-            setMoveDirection(MoveDirection.rndMoveDirection());
+            controller.nextStep(new ControllerContextImpl(this, context));
             context.tryMove(this, getMoveDirection().getXY());
-        }
-        if(getEnergy() < 0) {
-            updateEnergy(-getEnergy());
         }
     }
 

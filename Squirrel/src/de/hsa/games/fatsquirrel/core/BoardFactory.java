@@ -1,5 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.botapi.RndFactory;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BoardFactory extends BoardConfig {
@@ -17,7 +19,7 @@ public class BoardFactory extends BoardConfig {
 			board[id] = new HandOperatedMasterSquirrel(rndCor[id].getX(), rndCor[id].getY());
 		}
 		for (int i = 0; i < getAmountOfAutomatedMasterSquirrel(); i++, id++) {
-			board[id] = new MasterSquirrelBot(rndCor[id].getX(), rndCor[id].getY());
+			board[id] = new MasterSquirrelBot(rndCor[id].getX(), rndCor[id].getY(), new RndFactory());
 		}
 		for (int i = 0; i < getAmountOfWall(); i++, id++) {
 			board[id] = new Wall(rndCor[id].getX(), rndCor[id].getY());

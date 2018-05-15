@@ -63,7 +63,7 @@ public class GameImplOld extends Game {
 		try {
 			outputStream.println("Spawn mini");
 			MoveDirection md = MoveDirection.rndMoveDirection();
-			while (b.createflattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.Air) {
+			while (s.flattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.Air) {
 				md = MoveDirection.rndMoveDirection();
 			}
 			b.add(player.createMiniSquirrel(energy, md.getXY()));

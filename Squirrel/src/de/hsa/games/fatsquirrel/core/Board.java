@@ -1,5 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.botapi.RndFactory;
+
 public class Board{
 	private Entity[] board;
 	private XY size;
@@ -12,7 +14,7 @@ public class Board{
 	public MasterSquirrel botPlayer() {
 		for(int i=0;i<board.length;i++) {
 			if(board[i] instanceof MasterSquirrel) {
-				board[i] = new MasterSquirrelBot(board[i].getX(), board[i].getY());
+				board[i] = new MasterSquirrelBot(board[i].getX(), board[i].getY(), new RndFactory());
 				return (MasterSquirrel) board[i];
 			}
 		}
