@@ -40,6 +40,9 @@ public class MasterSquirrel extends Squirrel {
 //			System.out.println("MasterSqirrel next Step");
 			context.tryMove(this, moveDirection.getMoveDirection());
 		}
+		if(getEnergy() < 0) {
+		    updateEnergy(-getEnergy());
+        }
 	}
 
 	public boolean myMiniSquirrel(Entity e) {

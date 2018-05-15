@@ -1,6 +1,13 @@
 package de.hsa.games.fatsquirrel.core;
 
 
-public class MiniSquirrelBot {
+import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 
+public class MiniSquirrelBot implements BotController {
+
+    @Override
+    public void nextStep(ControllerContext view) {
+
+    }
 }

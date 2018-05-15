@@ -14,6 +14,7 @@ public class GameImplFxUI extends Game {
     @Override
     public void run() {
         render();
+        ((FxUI) ui).message("Energy: "+String.valueOf(player.getEnergy()));
         processInput();
         update();
     }

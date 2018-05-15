@@ -7,7 +7,6 @@ public class AutomatedMasterSquirrel  extends MasterSquirrel{
 	public AutomatedMasterSquirrel(int id, int x, int y, Board board) {
 		super(id, x, y);
 		ControllerContextImpl controller = new ControllerContextImpl(this, board);
-		bot = new MasterSquirrelBot(controller);
 	}
 
 
