@@ -1,14 +1,16 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FlattenedBoard implements BoardView, EntityContext {
-	private Board b;
-	private Entity[][] fb;
+	private Board board;
+	private Entity[][] flattenedBoard;
 	
 	public FlattenedBoard(Entity[][] fb, Board b) {
-		this.fb = fb;
-		this.b = b;
+		this.flattenedBoard = fb;
+		this.board = b;
 	}
 
 	public EntityType getEntityType(int x, int y) {
@@ -16,7 +18,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 	}
 
 	public EntityType getEntityType(XY xy) {
-		Entity e = fb[xy.getX()][xy.getY()];
+		Entity e = flattenedBoard[xy.getX()][xy.getY()];
 		if (e instanceof BadPlant) {
 			return EntityType.BadPlant;
 		} else if (e instanceof GoodPlant) {
@@ -38,17 +40,18 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		}
 	}
 
+	@Override
+	public void createMiniSquirrel(MasterSquirrel master,  XY direction, int energy) throws NotEnoughEnergyException {
+		board.add(master.createMiniSquirrel(energy, direction));
+	}
+
 	public XY getSize() {
-		return b.getSize();
+		return board.getSize();
 	}
 
 	public void tryMove(MasterSquirrel master, XY moveDirection) {
 //		System.out.println("tryMove MasterSquirrel");
 		XY newCoordinates = master.getXY().add(moveDirection);
-		if(master.getSpawn()) {
-			b.add(master.createMiniSquirrel());
-			return;
-		}
 		if (!newCoordinates.equals(master.getXY())) {
 			switch (getEntityType(newCoordinates)) {
 			case Air:
@@ -122,13 +125,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
 				break;
 			case AutomatedMasterSquirrel:
 			case HandOperatedMasterSquirrel:
-				if (miniSquirrel.getMId() == getEntity(newCoordinates).getId()) {
+				if (miniSquirrel.getMaster() == getEntity(newCoordinates)) {
 					getEntity(newCoordinates).updateEnergy(miniSquirrel.getEnergy());
 				}
 				kill(miniSquirrel);
 				return;
 			case MiniSquirrel:
-				if (miniSquirrel.getMId() != ((MiniSquirrel) getEntity(newCoordinates)).getMId()) {
+				if (miniSquirrel.getMaster() != ((MiniSquirrel) getEntity(newCoordinates)).getMaster()) {
 					kill(miniSquirrel);
 				}
 				return;
@@ -196,50 +199,50 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		boolean up = true;
 		boolean down = true;
 		for (int i = 1; i <= 6; i++) {
-			if (pos.getX() + i > fb[0].length - 1)
+			if (pos.getX() + i > flattenedBoard[0].length - 1)
 				right = false;
 			if (pos.getX() - i < 0)
 				left = false;
-			if (pos.getY() + i > fb[1].length - 1)
+			if (pos.getY() + i > flattenedBoard[1].length - 1)
 				down = false;
 			if (pos.getY() - i < 0)
 				up = false;
 			for (int k = 0; k <= i; k++) {
 				// obenrechts
-				if (right && up && fb[pos.getX() + k][pos.getY() - i] instanceof Squirrel) {
+				if (right && up && flattenedBoard[pos.getX() + k][pos.getY() - i] instanceof Squirrel) {
 					// System.out.print("Found Squirrel upright, ");
-					return (Squirrel) fb[pos.getX() + k][pos.getY() - i];
+					return (Squirrel) flattenedBoard[pos.getX() + k][pos.getY() - i];
 				}
-				if (right && up && fb[pos.getX() + i][pos.getY() - k] instanceof Squirrel) {
+				if (right && up && flattenedBoard[pos.getX() + i][pos.getY() - k] instanceof Squirrel) {
 					// System.out.print("Found Squirrel upright, ");
-					return (Squirrel) fb[pos.getX() + i][pos.getY() - k];
+					return (Squirrel) flattenedBoard[pos.getX() + i][pos.getY() - k];
 				}
 				// obenlinks
-				if (left && up && fb[pos.getX() - i][pos.getY() - k] instanceof Squirrel) {
+				if (left && up && flattenedBoard[pos.getX() - i][pos.getY() - k] instanceof Squirrel) {
 					// System.out.print("Found Squirrel upleft, ");
-					return (Squirrel) fb[pos.getX() - i][pos.getY() - k];
+					return (Squirrel) flattenedBoard[pos.getX() - i][pos.getY() - k];
 				}
-				if (left && up && fb[pos.getX() - k][pos.getY() - i] instanceof Squirrel) {
+				if (left && up && flattenedBoard[pos.getX() - k][pos.getY() - i] instanceof Squirrel) {
 					// System.out.print("Found Squirrel upleft, ");
-					return (Squirrel) fb[pos.getX() - k][pos.getY() - i];
+					return (Squirrel) flattenedBoard[pos.getX() - k][pos.getY() - i];
 				}
 				// untenrechts
-				if (right && down && fb[pos.getX() + k][pos.getY() + i] instanceof Squirrel) {
+				if (right && down && flattenedBoard[pos.getX() + k][pos.getY() + i] instanceof Squirrel) {
 					// System.out.print("Found Squirrel downright, ");
-					return (Squirrel) fb[pos.getX() + k][pos.getY() + i];
+					return (Squirrel) flattenedBoard[pos.getX() + k][pos.getY() + i];
 				}
-				if (right && down && fb[pos.getX() + i][pos.getY() + k] instanceof Squirrel) {
+				if (right && down && flattenedBoard[pos.getX() + i][pos.getY() + k] instanceof Squirrel) {
 					// System.out.print("Found Squirrel downright, ");
-					return (Squirrel) fb[pos.getX() + i][pos.getY() + k];
+					return (Squirrel) flattenedBoard[pos.getX() + i][pos.getY() + k];
 				}
 				// untenlinks
-				if (left && down && fb[pos.getX() - i][pos.getY() + k] instanceof Squirrel) {
+				if (left && down && flattenedBoard[pos.getX() - i][pos.getY() + k] instanceof Squirrel) {
 					// System.out.print("Found Squirrel downleft, ");
-					return (Squirrel) fb[pos.getX() - i][pos.getY() + k];
+					return (Squirrel) flattenedBoard[pos.getX() - i][pos.getY() + k];
 				}
-				if (left && down && fb[pos.getX() - k][pos.getY() + i] instanceof Squirrel) {
+				if (left && down && flattenedBoard[pos.getX() - k][pos.getY() + i] instanceof Squirrel) {
 					// System.out.print("Found Squirrel downleft, ");
-					return (Squirrel) fb[pos.getX() - k][pos.getY() + i];
+					return (Squirrel) flattenedBoard[pos.getX() - k][pos.getY() + i];
 				}
 			}
 		}
@@ -249,7 +252,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
 	public void kill(Entity e) {
 //		System.out.println("kill " + getEntityType(e.getXY()).getChar());
-		b.remove(e.getId());
+		board.remove(e.getId());
 	}
 
 	public void killAndReplace(Entity e) {
@@ -257,42 +260,42 @@ public class FlattenedBoard implements BoardView, EntityContext {
 		int rndX;
 		int rndY;
 		do {
-			rndX = ThreadLocalRandom.current().nextInt(1, fb[0].length);
-			rndY = ThreadLocalRandom.current().nextInt(1, fb[1].length);
+			rndX = ThreadLocalRandom.current().nextInt(1, flattenedBoard[0].length);
+			rndY = ThreadLocalRandom.current().nextInt(1, flattenedBoard[1].length);
 		} while (getEntityType(rndX, rndY) != EntityType.Air || (e.getX() == rndX && e.getY() == rndY));
 		if (e instanceof BadBeast) {
-			b.relocate(e, new BadBeast(e.getId(), rndX, rndY));
+			board.relocate(e, new BadBeast(rndX, rndY));
 		} else if (e instanceof GoodBeast) {
-			b.relocate(e, new GoodBeast(e.getId(), rndX, rndY));
+			board.relocate(e, new GoodBeast(rndX, rndY));
 		} else if (e instanceof GoodPlant) {
-			b.relocate(e, new GoodPlant(e.getId(), rndX, rndY));
+			board.relocate(e, new GoodPlant(rndX, rndY));
 		} else if (e instanceof BadPlant) {
-			b.relocate(e, new BadPlant(e.getId(), rndX, rndY));
+			board.relocate(e, new BadPlant(rndX, rndY));
 		}
 	}
 
 	private Entity getEntity(XY coordinates) {
-		return fb[coordinates.getX()][coordinates.getY()];
+		return flattenedBoard[coordinates.getX()][coordinates.getY()];
 	}
 
 	public String toString() {
 		String s = "";
 
-		for (int k = 0; k < fb[1].length; k++) {
-			for (int i = 0; i < fb[0].length; i++) {
-				if (fb[i][k] instanceof BadPlant) {
+		for (int k = 0; k < flattenedBoard[1].length; k++) {
+			for (int i = 0; i < flattenedBoard[0].length; i++) {
+				if (flattenedBoard[i][k] instanceof BadPlant) {
 					s += '-';
-				} else if (fb[i][k] instanceof GoodPlant) {
+				} else if (flattenedBoard[i][k] instanceof GoodPlant) {
 					s += '+';
-				} else if (fb[i][k] instanceof BadBeast) {
+				} else if (flattenedBoard[i][k] instanceof BadBeast) {
 					s += 'B';
-				} else if (fb[i][k] instanceof GoodBeast) {
+				} else if (flattenedBoard[i][k] instanceof GoodBeast) {
 					s += 'G';
-				} else if (fb[i][k] instanceof MasterSquirrel) {
+				} else if (flattenedBoard[i][k] instanceof MasterSquirrel) {
 					s += 'O';
-				} else if (fb[i][k] instanceof MiniSquirrel) {
+				} else if (flattenedBoard[i][k] instanceof MiniSquirrel) {
 					s += 'o';
-				} else if (fb[i][k] instanceof Wall) {
+				} else if (flattenedBoard[i][k] instanceof Wall) {
 					s += '|';
 				} else {
 					s += ' ';

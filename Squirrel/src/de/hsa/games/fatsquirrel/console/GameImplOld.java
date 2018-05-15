@@ -5,11 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import CommandPackage.Command;
-import de.hsa.games.fatsquirrel.core.Board;
-import de.hsa.games.fatsquirrel.core.Game;
-import de.hsa.games.fatsquirrel.core.HandOperatedMasterSquirrel;
-import de.hsa.games.fatsquirrel.core.MoveDirection;
-import de.hsa.games.fatsquirrel.core.State;
+import de.hsa.games.fatsquirrel.core.*;
 
 public class GameImplOld extends Game {
 	private PrintStream outputStream = System.out;
@@ -67,7 +63,11 @@ public class GameImplOld extends Game {
 	public void spawnMini(Integer energy) {
 		try {
 			outputStream.println("Spawn mini");
-			player.setSpawn(b.getIdCount(), energy);
+			MoveDirection md = MoveDirection.rndMoveDirection();
+			while (b.createflattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.Air) {
+				md = MoveDirection.rndMoveDirection();
+			}
+			b.add(player.createMiniSquirrel(energy, md.getXY()));
 		} catch (NotEnoughEnergyException e) {
 			outputStream.println(e.getMessage());
 			processInput();

@@ -14,19 +14,19 @@ public class MoveCommand {
 		int input = read();
 		switch (input) {
 		case 1:
-			System.out.println("move up, " + MoveDirection.up.getMoveDirection().toString());
+			System.out.println("move up, " + MoveDirection.up.getXY().toString());
 			return MoveDirection.up;
 
 		case 2:
-			System.out.println("move down, " + MoveDirection.down.getMoveDirection().toString());
+			System.out.println("move down, " + MoveDirection.down.getXY().toString());
 			return MoveDirection.down;
 
 		case 3:
-			System.out.println("move right, " + MoveDirection.right.getMoveDirection().toString());
+			System.out.println("move right, " + MoveDirection.right.getXY().toString());
 			return MoveDirection.right;
 
 		case 4:
-			System.out.println("move left, " + MoveDirection.left.getMoveDirection().toString());
+			System.out.println("move left, " + MoveDirection.left.getXY().toString());
 			return MoveDirection.left;
 		 default:
 			 return null;
@@ -36,11 +36,11 @@ public class MoveCommand {
 
 	private int read() {
 		try {
-			// nächsten Spielzug einlesen
+			// nï¿½chsten Spielzug einlesen
 			System.out.println("Next Step, 1: up, 2: down, 3: right, 4: left");
 			int input;
 			input = System.in.read();
-			if (input > '0' && input <= '4' && System.in.read() == '\r') { // gültige Eingabe?
+			if (input > '0' && input <= '4' && System.in.read() == '\r') { // gï¿½ltige Eingabe?
 				System.in.read();
 				return input - '0';
 			} else { // wenn nicht wiederholen

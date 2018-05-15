@@ -2,8 +2,8 @@ package de.hsa.games.fatsquirrel.core;
 
 public class GoodBeast extends Character {
 	private int sleep;
-	public GoodBeast(int id, int x, int y) {
-		super(id, 200, x, y);
+	public GoodBeast(int x, int y) {
+		super(1, 200, x, y);
 		sleep = 0;
 	}
 
@@ -15,7 +15,7 @@ public class GoodBeast extends Character {
 			} else {
 				md = MoveDirection.moveAway(getXY(), context.nearestPlayerEntity(getXY()).getXY());
 			}
-			context.tryMove(this, md.getMoveDirection());
+			context.tryMove(this, md.getXY());
 		} else {
 //			System.out.println("GoodBeast is asleep");
 		}

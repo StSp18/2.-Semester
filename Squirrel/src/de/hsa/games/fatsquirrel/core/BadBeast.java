@@ -3,8 +3,8 @@ package de.hsa.games.fatsquirrel.core;
 public class BadBeast extends Character {
 	int lives;
 	private int sleep;
-	public BadBeast(int id, int x, int y) {
-		super(id, -150, x, y);
+	public BadBeast(int x, int y) {
+		super(4, -150, x, y);
 		lives = 7;
 		sleep = 0;
 	}
@@ -17,7 +17,7 @@ public class BadBeast extends Character {
 			} else {
 				md = MoveDirection.moveTowards(getXY(), context.nearestPlayerEntity(getXY()).getXY());
 			}
-			context.tryMove(this, md.getMoveDirection());
+			context.tryMove(this, md.getXY());
 		} else {
 //			System.out.println("BadBeast is asleep");
 		}

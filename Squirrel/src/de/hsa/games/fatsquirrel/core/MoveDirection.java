@@ -39,7 +39,7 @@ public enum MoveDirection {
 	public static MoveDirection searchMoveDirection (XY movedirection) {
 		MoveDirection[] all = values();
 		for(int i=0;i<all.length;i++) {
-			if(all[i].getMoveDirection().equals(movedirection)) {
+			if(all[i].getXY().equals(movedirection)) {
 				return all[i];
 			}
 		}
@@ -52,7 +52,7 @@ public enum MoveDirection {
 		
 	}
 	
-	public XY getMoveDirection() {
+	public XY getXY() {
 		return moveDirection;
 	}
 }

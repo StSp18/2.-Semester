@@ -1,8 +1,8 @@
 package de.hsa.games.fatsquirrel.core;
 
 public class HandOperatedMasterSquirrel extends MasterSquirrel {
-	public HandOperatedMasterSquirrel(int id, int x, int y) {
-		super(id, x, y);
+	public HandOperatedMasterSquirrel(int x, int y) {
+		super(x, y);
 	}
 
 

@@ -1,13 +1,16 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
+
 public interface EntityContext {
-	public XY getSize();
-	public void tryMove(MiniSquirrel miniSquirrel, XY moveDirection);
-	public void tryMove(GoodBeast goodBeast, XY moveDirection);
-	public void tryMove(BadBeast badBeast, XY moveDirection);
-	public void tryMove(MasterSquirrel master, XY moveDirection);
-	public Squirrel nearestPlayerEntity(XY pos);
-	public void kill(Entity entity);
-	public void killAndReplace(Entity entity);
-	public EntityType getEntityType(XY xy);
+	XY getSize();
+	void tryMove(MiniSquirrel miniSquirrel, XY moveDirection);
+	void tryMove(GoodBeast goodBeast, XY moveDirection);
+	void tryMove(BadBeast badBeast, XY moveDirection);
+	void tryMove(MasterSquirrel master, XY moveDirection);
+	Squirrel nearestPlayerEntity(XY pos);
+	void kill(Entity entity);
+	void killAndReplace(Entity entity);
+	EntityType getEntityType(XY xy);
+	void createMiniSquirrel(MasterSquirrel master, XY direction, int energy) throws NotEnoughEnergyException;
 }
