@@ -9,7 +9,6 @@ import de.hsa.games.fatsquirrel.core.*;
 
 public class GameImplFps extends Game {
 	private PrintStream outputStream = System.out;
-	private HandOperatedMasterSquirrel player;
 	private Command buffer;
 	private boolean validBuffer;
 
@@ -86,6 +85,7 @@ public class GameImplFps extends Game {
 				md = MoveDirection.rndMoveDirection();
 			}
 			b.add(player.createMiniSquirrel(energy, md.getXY()));
+			player.setMoveDirection(MoveDirection.stay);
 		} catch (NotEnoughEnergyException e) {
 			outputStream.println(e.getMessage());
 			player.setMoveDirection(MoveDirection.stay);

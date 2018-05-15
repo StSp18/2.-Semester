@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import de.hsa.games.fatsquirrel.FXUI.FxUI;
 import de.hsa.games.fatsquirrel.FXUI.GameImplFxUI;
+import de.hsa.games.fatsquirrel.FXUI.GameImplFxUIBot;
 import de.hsa.games.fatsquirrel.console.GameImplFps;
 import de.hsa.games.fatsquirrel.console.GameImplOld;
 import de.hsa.games.fatsquirrel.core.*;
@@ -15,7 +16,7 @@ public class Launcher extends Application {
 	private BoardFactory boardFactory = new BoardFactory();
 	private Board board = new Board(boardFactory);
 	private State state = new State(board);
-
+	private static String version = "gui";
 	public void startGame(Game game) {
 		Timer t = new Timer();
 		TimerTask task = new TimerTask() {
@@ -31,7 +32,6 @@ public class Launcher extends Application {
 	public static void main(String[] args) {
 		Launcher launcher = new Launcher();
 		Game game;
-		String version = "gui";
 		switch (version) {
 		case "old" :
 			game = new GameImplOld(launcher.state, launcher.board);
@@ -44,6 +44,9 @@ public class Launcher extends Application {
 		case "gui":
 			Application.launch(args);
 			break;
+		case "botgui":
+			Application.launch(args);
+			break;
 		default:
 //			You are a derp --> You get a Cookie, ask Johannes
 			break;
@@ -54,7 +57,13 @@ public class Launcher extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		FxUI fxUI = FxUI.createInstance(boardFactory.getSize());
-		final Game game = new GameImplFxUI(state, board, fxUI);
+		final Game game;
+		if(version.equals("gui")) {
+			game = new GameImplFxUI(state, board, fxUI);
+		} else {
+			game = new GameImplFxUIBot(state, board, fxUI);
+		}
+
 
 		primaryStage.setScene(fxUI);
 		primaryStage.setTitle("Diligent Squirrel");

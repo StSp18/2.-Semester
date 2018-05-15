@@ -8,6 +8,7 @@ public class MiniSquirrel extends Squirrel {
 	public MiniSquirrel(MasterSquirrel master, int energy, int x, int y) {
 		super(6, energy, x, y);
 		this.master = master;
+		stunned = 1;
 	}
 
 	public MiniSquirrel createMiniSquirrel(int energy, XY direction) throws NotEnoughEnergyException {

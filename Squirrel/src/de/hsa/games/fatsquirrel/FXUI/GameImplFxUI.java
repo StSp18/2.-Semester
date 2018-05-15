@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel.FXUI;
 import de.hsa.games.fatsquirrel.core.*;
 
 public class GameImplFxUI extends Game {
-    HandOperatedMasterSquirrel player;
 
     public GameImplFxUI(State s, Board b, FxUI fxUI) {
         super(s, b);

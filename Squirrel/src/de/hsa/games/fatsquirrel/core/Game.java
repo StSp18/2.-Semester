@@ -7,6 +7,7 @@ public abstract class Game {
 	protected UI ui;
 	protected Board b;
 	protected long fps = 100;
+	protected MasterSquirrel player;
 
 	public Game(State s, Board b) {
 		this.s = s;

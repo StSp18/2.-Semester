@@ -9,7 +9,6 @@ import de.hsa.games.fatsquirrel.core.*;
 
 public class GameImplOld extends Game {
 	private PrintStream outputStream = System.out;
-	private HandOperatedMasterSquirrel player;
 	private Command command;
 
 	public GameImplOld(State s, Board b) {
@@ -68,6 +67,7 @@ public class GameImplOld extends Game {
 				md = MoveDirection.rndMoveDirection();
 			}
 			b.add(player.createMiniSquirrel(energy, md.getXY()));
+			player.setMoveDirection(MoveDirection.stay);
 		} catch (NotEnoughEnergyException e) {
 			outputStream.println(e.getMessage());
 			processInput();

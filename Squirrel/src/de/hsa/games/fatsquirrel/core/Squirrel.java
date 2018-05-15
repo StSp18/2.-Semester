@@ -1,7 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
 public abstract class Squirrel extends Character {
-	private int stunned;
+	protected int stunned;
 	protected MoveDirection moveDirection;
 
 	protected Squirrel(int id, int energy, int x, int y) {

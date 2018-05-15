@@ -29,7 +29,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 			return EntityType.GoodBeast;
 		} else if (e instanceof HandOperatedMasterSquirrel) {
 			return EntityType.HandOperatedMasterSquirrel;
-		} else if (e instanceof AutomatedMasterSquirrel) {
+		} else if (e instanceof MasterSquirrelBot) {
 			return EntityType.AutomatedMasterSquirrel;
 		} else if (e instanceof MiniSquirrel) {
 			return EntityType.MiniSquirrel;
