@@ -1,9 +1,10 @@
 package de.hsa.games.fatsquirrel.FXUI;
 
-import CommandPackage.Command;
+import de.hsa.games.fatsquirrel.CommandPackage.Command;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.console.GameCommandType;
 import de.hsa.games.fatsquirrel.core.*;
+import de.hsa.games.fatsquirrel.util.XY;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.logging.Logger;
+
 public class FxUI extends Scene implements UI {
+    private static Logger logger = Logger.getLogger("SquirrelLogger");
     private Canvas boardCanvas;
     private Label msgLabel;
     private static final int CELL_SIZE = 10;
@@ -40,6 +44,7 @@ public class FxUI extends Scene implements UI {
                             setCommand("DOWN");
                             break;
                         case E:
+                            logger.info("Game exit");
                             System.exit(0);
                             break;
                         default:
@@ -68,42 +73,42 @@ public class FxUI extends Scene implements UI {
     }
 
     private void repaintBoardCanvas(BoardView view) {
+        // TODO logger finest
         GraphicsContext gc = boardCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, boardCanvas.getWidth(), boardCanvas.getHeight());
         XY viewSize = view.getSize();
         for(int x=0; x < viewSize.getX(); x++) {
             for(int y=0; y < viewSize.getY(); y++ ){
                 switch (view.getEntityType(x, y)) {
-                    case BadPlant:
+                    case BAD_PLANT:
                         gc.setFill(Color.RED);
                         gc.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
                         break;
-                    case GoodPlant:
+                    case GOOD_PLANT:
                         gc.setFill(Color.GREEN);
                         gc.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
                         break;
-                    case BadBeast:
+                    case BAD_BEAST:
                         gc.setFill(Color.RED);
                         gc.fillOval(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
                         break;
-                    case GoodBeast:
+                    case GOOD_BEAST:
                         gc.setFill(Color.GREEN);
                         gc.fillOval(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
                         break;
-                    case AutomatedMasterSquirrel:
-                    case HandOperatedMasterSquirrel:
+                    case MASTER_SQUIRREL:
                         gc.setFill(Color.BLUE);
                         gc.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
                         break;
-                    case MiniSquirrel:
+                    case MINI_SQUIRREL:
                         gc.setFill(Color.BLUE);
                         gc.fillOval(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
                         break;
-                    case Wall:
+                    case WALL:
                         gc.setFill(Color.ORANGE);
                         gc.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
                         break;
-                    case Air:
+                    case NONE:
                         break;
                 }
             }
@@ -113,6 +118,7 @@ public class FxUI extends Scene implements UI {
 
     private void setCommand (String s) {
         command = new Command(GameCommandType.valueOf(s.toUpperCase()), new Object[] {});
+        logger.finest(this.getClass().getName() + ": set Command to: " + s);
     }
 
     @Override
@@ -122,5 +128,7 @@ public class FxUI extends Scene implements UI {
 
     public void message(final String msg) {
         Platform.runLater(() -> msgLabel.setText(msg));
+        logger.finest(this.getClass().getName() + ": set Label to: " + msg);
     }
+
 }

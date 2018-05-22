@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
+import de.hsa.games.fatsquirrel.botapi.SpawnException;
+import de.hsa.games.fatsquirrel.util.XY;
 
 public interface EntityContext {
 	XY getSize();
@@ -12,5 +13,8 @@ public interface EntityContext {
 	void kill(Entity entity);
 	void killAndReplace(Entity entity);
 	EntityType getEntityType(XY xy);
-	void createMiniSquirrel(MasterSquirrel master, XY direction, int energy) throws NotEnoughEnergyException;
+	void createMiniSquirrel(MasterSquirrel master, XY direction, int energy) throws SpawnException;
+	void implodeMiniSquirrel(MiniSquirrel miniSquirrel, int radius);
+	long getRemainingSteps();
+	boolean isMine(XY xy, Entity e);
 }

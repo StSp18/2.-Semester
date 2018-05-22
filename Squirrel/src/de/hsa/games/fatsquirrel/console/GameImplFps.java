@@ -3,11 +3,14 @@ package de.hsa.games.fatsquirrel.console;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
-import CommandPackage.Command;
+import de.hsa.games.fatsquirrel.CommandPackage.Command;
+import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.core.*;
 
 public class GameImplFps extends Game {
+	private static Logger logger = Logger.getLogger("SquirrelLogger");
 	private PrintStream outputStream = System.out;
 	private Command buffer;
 	private boolean validBuffer;
@@ -22,9 +25,11 @@ public class GameImplFps extends Game {
 
 	public void run() {
 		if(validBuffer) {
+			logger.finer(this.getClass().getName() + ": valid Buffer, Command: " + buffer.toString());
 			processCommand(buffer);
 			validBuffer = false;
 		} else {
+            logger.finer(this.getClass().getName() + ": invalid Buffer");
 			player.setMoveDirection(MoveDirection.stay);
 		}
 		update();
@@ -32,6 +37,7 @@ public class GameImplFps extends Game {
 	}
 	
 	public void processInput() {
+	    // TODO logger finest
 		Command command;
 		while (true) {
 			command = ui.getCommand();
@@ -47,6 +53,7 @@ public class GameImplFps extends Game {
 	}
 
 	private void processCommand(Command command) {
+        // TODO logger finest
 		Method method;
 		Class<?>[] params = new Class<?>[] {};
 		if (command.getParams().length != 0) {
@@ -81,12 +88,12 @@ public class GameImplFps extends Game {
 		try {
 			outputStream.println("Spawn mini");
 			MoveDirection md = MoveDirection.rndMoveDirection();
-			while (b.createflattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.Air) {
+			while (b.createFlattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.NONE) {
 				md = MoveDirection.rndMoveDirection();
 			}
 			b.add(player.createMiniSquirrel(energy, md.getXY()));
 			player.setMoveDirection(MoveDirection.stay);
-		} catch (NotEnoughEnergyException e) {
+		} catch (SpawnException e) {
 			outputStream.println(e.getMessage());
 			player.setMoveDirection(MoveDirection.stay);
 		}

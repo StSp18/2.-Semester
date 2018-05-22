@@ -1,6 +1,7 @@
-package de.hsa.games.fatsquirrel.core;
+package de.hsa.games.fatsquirrel.util;
 
 public final class XY {
+	//TODO XY has to change
 	private final int x, y;
 	public XY(int x, int y) {
 		this.x = x;

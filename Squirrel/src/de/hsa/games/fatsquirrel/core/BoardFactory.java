@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.RndFactory;
+import de.hsa.games.fatsquirrel.util.XY;
 
 import java.util.concurrent.ThreadLocalRandom;
 

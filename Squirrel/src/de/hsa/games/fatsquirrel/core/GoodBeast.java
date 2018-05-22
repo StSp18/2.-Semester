@@ -1,6 +1,9 @@
 package de.hsa.games.fatsquirrel.core;
 
+import java.util.logging.Logger;
+
 public class GoodBeast extends Character {
+	private static Logger logger = Logger.getLogger("SquirrelLogger");
 	private int sleep;
 	public GoodBeast(int x, int y) {
 		super(1, 200, x, y);
@@ -16,8 +19,9 @@ public class GoodBeast extends Character {
 				md = MoveDirection.moveAway(getXY(), context.nearestPlayerEntity(getXY()).getXY());
 			}
 			context.tryMove(this, md.getXY());
+            logger.fine(this.getClass().getName() + " is moving: " + md.toString());
 		} else {
-//			System.out.println("GoodBeast is asleep");
+            logger.fine(this.getClass().getName() + " is asleep");
 		}
 	}
 	
@@ -32,6 +36,6 @@ public class GoodBeast extends Character {
 	}
 
 	public String toString() {
-		return "Type: GoodBeast, " + super.toString();
+		return "Type: GOOD_BEAST, " + super.toString();
 	}
 }

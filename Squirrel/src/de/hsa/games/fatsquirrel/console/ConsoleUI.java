@@ -3,13 +3,15 @@ package de.hsa.games.fatsquirrel.console;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.logging.Logger;
 
-import CommandPackage.Command;
-import CommandPackage.CommandScanner;
+import de.hsa.games.fatsquirrel.CommandPackage.Command;
+import de.hsa.games.fatsquirrel.CommandPackage.CommandScanner;
 import de.hsa.games.fatsquirrel.UI;
 import de.hsa.games.fatsquirrel.core.BoardView;
 
 public class ConsoleUI implements UI {
+    private static Logger logger = Logger.getLogger("SquirrelLogger");
 	private PrintStream outputStream;
 	private BufferedReader inputReader;
 	private CommandScanner cS;
@@ -21,6 +23,7 @@ public class ConsoleUI implements UI {
 	}
 	
 	public void render(BoardView view) {
+        // TODO logger finest
 		String s = "";
 		for (int i = 0; i < view.getSize().getY(); i++) {
 			for (int k = 0; k < view.getSize().getX(); k++) {
@@ -28,11 +31,12 @@ public class ConsoleUI implements UI {
 			}
 			s += '\n';
 		}
-		System.out.println(s);
-
+		outputStream.println(s);
 	}
 
 	public Command getCommand() {
-		return cS.next();
+	    Command next = cS.next();
+	    logger.finer("Next Command: " + next.toString());
+		return next;
 	}
 }

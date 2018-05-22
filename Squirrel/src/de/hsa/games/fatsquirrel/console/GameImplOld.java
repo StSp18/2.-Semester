@@ -3,11 +3,14 @@ package de.hsa.games.fatsquirrel.console;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
-import CommandPackage.Command;
+import de.hsa.games.fatsquirrel.CommandPackage.Command;
+import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.core.*;
 
 public class GameImplOld extends Game {
+	private static Logger logger = Logger.getLogger("SquirrelLogger");
 	private PrintStream outputStream = System.out;
 	private Command command;
 
@@ -27,6 +30,7 @@ public class GameImplOld extends Game {
 	}
 	
 	public void processInput() {
+		// TODO logger finest
 		do {
 			command = ui.getCommand();
 			Method method;
@@ -63,12 +67,12 @@ public class GameImplOld extends Game {
 		try {
 			outputStream.println("Spawn mini");
 			MoveDirection md = MoveDirection.rndMoveDirection();
-			while (s.flattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.Air) {
+			while (s.flattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.NONE) {
 				md = MoveDirection.rndMoveDirection();
 			}
 			b.add(player.createMiniSquirrel(energy, md.getXY()));
 			player.setMoveDirection(MoveDirection.stay);
-		} catch (NotEnoughEnergyException e) {
+		} catch (SpawnException e) {
 			outputStream.println(e.getMessage());
 			processInput();
 		}

@@ -2,6 +2,7 @@ package de.hsa.games.fatsquirrel;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.FXUI.FxUI;
 import de.hsa.games.fatsquirrel.FXUI.GameImplFxUI;
@@ -13,10 +14,11 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
+	private static Logger logger = Logger.getLogger("SquirrelLogger");
 	private BoardFactory boardFactory = new BoardFactory();
 	private Board board = new Board(boardFactory);
 	private State state = new State(board);
-	private static String version = "gui";
+	private static String version;
 
 	public void startGame(Game game) {
 		Timer t = new Timer();
@@ -31,7 +33,9 @@ public class Launcher extends Application {
 	}
 
 	public static void main(String[] args) {
+	    logger.info("Program start");
 		if (!args[0].isEmpty()) {
+		    logger.info("Version: " + args[0]);
 			version = args[0];
 		} else {
 			version = "old";

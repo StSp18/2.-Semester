@@ -5,7 +5,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 		super(x, y);
 	}
 
-
-
-
+	public String toString() {
+		return "Type: HandOperatedMasterSquirrel, " + super.toString();
+	}
 }

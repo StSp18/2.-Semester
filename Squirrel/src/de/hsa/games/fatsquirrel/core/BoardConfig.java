@@ -1,5 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.util.XY;
+
 public class BoardConfig {
 	private int amountOfWall;
 	private int amountOfGoodPlant;
@@ -20,7 +22,7 @@ public class BoardConfig {
 		amountOfBadPlant= 4;
 		amountOfGoodPlant= 6;
 		amountOfWall=10;
-		size = new XY(22, 22);
+		size = new XY(100, 100);
 		wallCount=size.getX()*2+size.getY()*2-4;
 		amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast+ amountOfGoodBeast+ amountOfBadPlant + amountOfWall + amountOfGoodPlant;
 	}

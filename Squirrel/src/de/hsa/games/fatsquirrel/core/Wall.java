@@ -7,7 +7,7 @@ public class Wall extends Entity {
 	}
 	
 	public String toString() {
-		return "Type: Wall, " + super.toString();
+		return "Type: WALL, " + super.toString();
 	}
 
 

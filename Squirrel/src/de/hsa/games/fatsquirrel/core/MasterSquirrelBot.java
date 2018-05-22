@@ -1,9 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.botapi.BotController;
-import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
-import de.hsa.games.fatsquirrel.botapi.ControllerContext;
-import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
+import de.hsa.games.fatsquirrel.botapi.*;
+import de.hsa.games.fatsquirrel.util.XY;
 
 public class MasterSquirrelBot extends MasterSquirrel{
     private BotController controller;
@@ -33,21 +31,21 @@ public class MasterSquirrelBot extends MasterSquirrel{
 
         @Override
         public XY getViewLowerLeft() {
-            return bot.getXY().add(new XY(-1, 1));
+            return bot.getXY().add(new XY(-15, 15));
         }
 
         @Override
         public XY getViewUpperRight() {
-            return bot.getXY().add(new XY(1, -1));
+            return bot.getXY().add(new XY(15, -15));
         }
 
         @Override
-        public EntityType getEntityAt(XY xy) {
+        public EntityType getEntityAt(XY xy) throws OutOfViewException {
             if (xy.getX() <= getViewUpperRight().getX() && xy.getY() >= getViewUpperRight().getY() && xy.getX() >= getViewLowerLeft().getX() &&
                     xy.getY() <= getViewLowerLeft().getY()) {
                 return context.getEntityType(xy);
             } else {
-                return EntityType.Air;
+                throw new OutOfViewException();
             }
         }
 
@@ -63,13 +61,11 @@ public class MasterSquirrelBot extends MasterSquirrel{
         @Override
         public void spawnMiniBot(XY direction, int energy) {
             try {
-                if (context.getEntityType(bot.getXY().add(direction)) != EntityType.Air) {
-                    throw new AlreadyOccupiedException("This Coordinate is already occupied");
+                if (context.getEntityType(bot.getXY().add(direction)) != EntityType.NONE) {
+                    throw new SpawnException("This Coordinate is already occupied");
                 }
                 context.createMiniSquirrel(bot, direction, energy);
-            } catch (NotEnoughEnergyException e) {
-
-            } catch (AlreadyOccupiedException e) {
+            } catch (SpawnException e) {
 
             }
         }
@@ -77,6 +73,36 @@ public class MasterSquirrelBot extends MasterSquirrel{
         @Override
         public int getEnergy() {
             return bot.getEnergy();
+        }
+
+        @Override
+        public XY locate() {
+            return bot.getXY();
+        }
+
+        @Override
+        public XY directionOfMaster() {
+            return null;
+        }
+
+        @Override
+        public long getRemainingSteps() {
+            return context.getRemainingSteps();
+        }
+
+        @Override
+        public boolean isMine(XY xy) throws OutOfViewException {
+            if (xy.getX() <= getViewUpperRight().getX() && xy.getY() >= getViewUpperRight().getY() && xy.getX() >= getViewLowerLeft().getX() &&
+                    xy.getY() <= getViewLowerLeft().getY()) {
+                return context.isMine(xy, bot);
+            } else {
+                throw new OutOfViewException();
+            }
+        }
+
+        @Override
+        public void implode(int impactRadius) throws Exception{
+            throw new Exception();
         }
     }
 

@@ -1,5 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.util.XY;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public enum MoveDirection {
@@ -13,33 +15,33 @@ public enum MoveDirection {
 		this.moveDirection = moveDirection;
 	}
 
-	public static MoveDirection moveAway(XY e, XY s) {
-		return moveTowards(s, e);
+	public static MoveDirection moveAway(XY yours, XY others) {
+		return moveTowards(others, yours);
 	}
 
-	public static MoveDirection moveTowards(XY e, XY s) {
+	public static MoveDirection moveTowards(XY yours, XY others) {
 		int x = 0;
 		int y = 0;
-		if (s.getX() < e.getX()) {
+		if (others.getX() < yours.getX()) {
 			x = -1;
 		}
-		if (s.getX() > e.getX()) {
+		if (others.getX() > yours.getX()) {
 			x = 1;
 		}
-		if (s.getY() < e.getY()) {
+		if (others.getY() < yours.getY()) {
 			y = -1;
 		}
-		if (s.getY() > e.getY()) {
+		if (others.getY() > yours.getY()) {
 			y = 1;
 		} 
 		return searchMoveDirection(new XY(x, y));
 
 	}
 	
-	public static MoveDirection searchMoveDirection (XY movedirection) {
+	public static MoveDirection searchMoveDirection (XY moveDirection) {
 		MoveDirection[] all = values();
 		for(int i=0;i<all.length;i++) {
-			if(all[i].getXY().equals(movedirection)) {
+			if(all[i].getXY().equals(moveDirection)) {
 				return all[i];
 			}
 		}
@@ -55,4 +57,8 @@ public enum MoveDirection {
 	public XY getXY() {
 		return moveDirection;
 	}
+
+	public String toString() {
+	    return moveDirection.toString();
+    }
 }

@@ -1,14 +1,14 @@
 package de.hsa.games.fatsquirrel.core;
 
 public enum EntityType {
-	BadPlant('-'), GoodPlant('+'), BadBeast('B'), GoodBeast('G'), AutomatedMasterSquirrel('O'), HandOperatedMasterSquirrel('O'), MiniSquirrel('o'), Wall('|'), Air(' ');
-	private final char wert;
+	BAD_PLANT('-'), GOOD_PLANT('+'), BAD_BEAST('B'), GOOD_BEAST('G'), MASTER_SQUIRREL('O'), MINI_SQUIRREL('o'), WALL('|'), NONE(' ');
+	private final char value;
 
-	private EntityType(char wert) {
-		this.wert = wert;
+	EntityType(char value) {
+		this.value = value;
 	}
 
 	public char getChar() {
-		return wert;
+		return value;
 	}
 }

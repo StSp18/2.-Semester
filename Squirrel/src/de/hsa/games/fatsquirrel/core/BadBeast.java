@@ -1,11 +1,12 @@
 package de.hsa.games.fatsquirrel.core;
 
+import java.util.logging.Logger;
+
 public class BadBeast extends Character {
-	int lives;
+    private static Logger logger = Logger.getLogger("SquirrelLogger");
 	private int sleep;
 	public BadBeast(int x, int y) {
-		super(4, -150, x, y);
-		lives = 7;
+		super(4, 1050, x, y);
 		sleep = 0;
 	}
 	
@@ -18,20 +19,23 @@ public class BadBeast extends Character {
 				md = MoveDirection.moveTowards(getXY(), context.nearestPlayerEntity(getXY()).getXY());
 			}
 			context.tryMove(this, md.getXY());
+            logger.fine(this.getClass().getName() + " is moving: " + md.toString());
 		} else {
-//			System.out.println("BadBeast is asleep");
+		    logger.fine(this.getClass().getName() + " is asleep");
 		}
+
 	}
-	
-	public int getLives() {
-		return lives;
-	}
-	
+
 	public boolean bite(Entity e) {
-//		System.out.println("Bite");
-		e.updateEnergy(getEnergy());
-		lives--;
-		return lives == 0;
+	    final int strength = 150;
+	    if(getEnergy() > strength) {
+	        updateEnergy(-strength);
+	        e.updateEnergy(-strength);
+        } else {
+	        updateEnergy(-getEnergy());
+            e.updateEnergy(-getEnergy());
+        }
+		return getEnergy() <= 0;
 	}
 	
 	public boolean aSleep() {
@@ -45,6 +49,6 @@ public class BadBeast extends Character {
 	}
 
 	public String toString() {
-		return "Type: BadBeast, " + super.toString();
+		return "Type: BAD_BEAST, " + super.toString();
 	}
 }
