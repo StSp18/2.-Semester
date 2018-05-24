@@ -10,29 +10,24 @@ public class Board{
 	private Entity[] board;
 	private XY size;
 	private long remainingSteps;
+	private int playercount;
 
 	public Board(BoardFactory bf) {
+		playercount = bf.getAmountOfAutomatedMasterSquirrel() + bf.getAmountOfHandOperatedMasterSquirrel();
 		board = bf.factoryBoard();
 		size = bf.getSize();
 	}
 
-	public MasterSquirrel botPlayer() {
-		for(int i=0;i<board.length;i++) {
-			if(board[i] instanceof MasterSquirrel) {
-				board[i] = new MasterSquirrelBot(board[i].xy.x, board[i].xy.y, new RndFactory());
-				return (MasterSquirrel) board[i];
-			}
+	public MasterSquirrel[] getPlayers() {
+		MasterSquirrel[] players = new MasterSquirrel[playercount];
+		for(int i=0; i<playercount; i++) {
+			players[i] = (MasterSquirrel) board[i];
 		}
-		return null;
+		return players;
 	}
 
 	public MasterSquirrel getPlayer( ) {
-		for(int i=0;i<board.length;i++) {
-			if(board[i] instanceof MasterSquirrel) {
-				return (MasterSquirrel) board[i];
-			}
-		}
-		return null;
+		return (MasterSquirrel) board[0];
 	}
 	
 	public FlattenedBoard createFlattenedBoard() {

@@ -6,6 +6,10 @@ import de.hsa.games.fatsquirrel.util.XY;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BoardFactory extends BoardConfig {
+	public BoardFactory (int bots, int humans) {
+	    super(bots, humans);
+    }
+
 	public BoardFactory() {
 
 	}

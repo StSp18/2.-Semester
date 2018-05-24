@@ -19,6 +19,7 @@ public class Launcher extends Application {
 	private Board board = new Board(boardFactory);
 	private State state = new State(board);
 	private static String version;
+	private static int bots = 2;
 
 	public void startGame(Game game) {
 		Timer t = new Timer();
@@ -40,6 +41,11 @@ public class Launcher extends Application {
 		} else {
 			version = "old";
 		}
+
+		if(!args[1].isEmpty()) {
+		    bots = Integer.parseInt(args[1]);
+        }
+
 		Launcher launcher = new Launcher();
 		Game game;
 		switch (version) {
@@ -66,6 +72,11 @@ public class Launcher extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		if(version.equals("botgui")) {
+			boardFactory = new BoardFactory(bots, 0);
+			board = new Board(boardFactory);
+			state = new State(board);
+		}
 		FxUI fxUI = FxUI.createInstance(boardFactory.getSize());
 		final Game game;
 		if(version.equals("gui")) {

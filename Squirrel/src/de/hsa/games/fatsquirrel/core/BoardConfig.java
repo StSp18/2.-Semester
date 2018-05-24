@@ -3,16 +3,31 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.util.XY;
 
 public class BoardConfig {
-	private int amountOfWall;
-	private int amountOfGoodPlant;
-	private int amountOfBadPlant;
-	private int amountOfGoodBeast;
-	private int amountOfBadBeast;
-	private int amountOfHandOperatedMasterSquirrel;
-	private int amountOfAutomatedMasterSquirrel;
-	private XY size;
-	private int wallCount;
-	private int amountOfEntity;
+	private final int amountOfWall;
+	private final int amountOfGoodPlant;
+	private final int amountOfBadPlant;
+	private final int amountOfGoodBeast;
+	private final int amountOfBadBeast;
+	private final int amountOfHandOperatedMasterSquirrel;
+	private final int amountOfAutomatedMasterSquirrel;
+	private final XY size;
+	private final int wallCount;
+	private final int amountOfEntity;
+
+	BoardConfig(int bots, int humans){
+
+		amountOfHandOperatedMasterSquirrel=humans;
+		amountOfAutomatedMasterSquirrel=bots;
+		amountOfBadBeast=2;
+		amountOfGoodBeast=2;
+		amountOfBadPlant= 4;
+		amountOfGoodPlant= 6;
+		amountOfWall=10;
+		size = new XY(100, 100);
+		wallCount=size.x*2+size.y*2-4;
+		amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast+ amountOfGoodBeast+ amountOfBadPlant + amountOfWall + amountOfGoodPlant;
+	}
+
 	BoardConfig(){
 		
 		amountOfHandOperatedMasterSquirrel=1;
