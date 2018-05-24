@@ -26,10 +26,6 @@ public abstract class Entity {
         }
 		logger.finest(this.getClass().getName() + ": delta: " + dEnergy + ", New value: " + energy);
 	}
-	
-	public XY getXY() {
-		return xy;
-	}
 
 	public int getId() {
 		return id;
@@ -37,18 +33,12 @@ public abstract class Entity {
 	public int getEnergy() {
 		return energy;
 	}
-	public int getX() {
-		return xy.getX();
-	}
-	public int getY() {
-		return xy.getY();
-	}
 	
 	public boolean equals(Entity e) {
 		return getId() == e.getId();
 	}
 	
 	public String toString() {
-		return ("Id: " + id + ", Energy: " + energy + ", X: " + getX() + ", Y: " + getY());
+		return ("Id: " + id + ", Energy: " + energy + ", X: " + xy.x + ", Y: " + xy.y);
 	}
 }

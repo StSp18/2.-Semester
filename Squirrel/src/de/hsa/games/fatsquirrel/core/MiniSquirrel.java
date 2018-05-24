@@ -2,6 +2,7 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.util.XY;
+import de.hsa.games.fatsquirrel.util.XYsupport;
 
 import java.util.logging.Logger;
 
@@ -19,10 +20,10 @@ public class MiniSquirrel extends Squirrel {
 		if (energy <= 0) {
 			throw new SpawnException("Can't create a MINI_SQUIRREL with negative energy");
 		}
-		direction = direction.add(getXY());
+		direction = direction.plus(xy);
 		if (energy < this.getEnergy()) {
 			this.updateEnergy(-energy);
-			MiniSquirrel miniSquirrel = new MiniSquirrel(getMaster(), energy, direction.getX(), direction.getY());
+			MiniSquirrel miniSquirrel = new MiniSquirrel(getMaster(), energy, direction.x, direction.y);
 			logger.finer("Created: " + miniSquirrel.toString());
 			return miniSquirrel;
 		}
@@ -32,9 +33,9 @@ public class MiniSquirrel extends Squirrel {
 
 	public void nextStep(EntityContext context) {
 		if (!Stunned()) {
-		    MoveDirection md = MoveDirection.rndMoveDirection();
+		    XY md = XYsupport.rndMoveDirection();
             logger.fine(this.getClass().getName() + " is moving: " + md.toString());
-			context.tryMove(this, md.getXY());
+			context.tryMove(this, md);
 		} else {
             logger.fine(this.getClass().getName() + " is stunned");
         }

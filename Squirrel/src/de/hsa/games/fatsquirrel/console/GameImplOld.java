@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import de.hsa.games.fatsquirrel.CommandPackage.Command;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.core.*;
+import de.hsa.games.fatsquirrel.util.XY;
+import de.hsa.games.fatsquirrel.util.XYsupport;
 
 public class GameImplOld extends Game {
 	private static Logger logger = Logger.getLogger("SquirrelLogger");
@@ -66,12 +68,12 @@ public class GameImplOld extends Game {
 	public void spawnMini(Integer energy) {
 		try {
 			outputStream.println("Spawn mini");
-			MoveDirection md = MoveDirection.rndMoveDirection();
-			while (s.flattenedBoard().getEntityType(player.getXY().add(md.getXY())) != EntityType.NONE) {
-				md = MoveDirection.rndMoveDirection();
+			XY md = XYsupport.rndMoveDirection();
+			while (s.flattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
+				md = XYsupport.rndMoveDirection();
 			}
-			b.add(player.createMiniSquirrel(energy, md.getXY()));
-			player.setMoveDirection(MoveDirection.stay);
+			b.add(player.createMiniSquirrel(energy, md));
+			player.setMoveDirection(XY.ZERO_ZERO);
 		} catch (SpawnException e) {
 			outputStream.println(e.getMessage());
 			processInput();
@@ -87,7 +89,7 @@ public class GameImplOld extends Game {
 	}
 
 	public void move() {
-		player.setMoveDirection(MoveDirection.valueOf(command.getCommandTypeInfo().getName()));
+		player.setMoveDirection(XYsupport.valueOf(command.getCommandTypeInfo().getName()));
 	}
 
 	public void exit() {

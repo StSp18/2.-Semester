@@ -11,7 +11,7 @@ public abstract class Character extends Entity{
 	public abstract void nextStep(EntityContext context);
 	
 	public void move(XY moveDirection) {
-		xy = xy.move(moveDirection);
+		xy = xy.plus(moveDirection);
 	}
 	
 	public String toString() {

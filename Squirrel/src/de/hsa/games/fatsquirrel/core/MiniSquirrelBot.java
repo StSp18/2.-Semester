@@ -5,6 +5,7 @@ import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.util.XY;
+import de.hsa.games.fatsquirrel.util.XYsupport;
 
 public class MiniSquirrelBot extends MiniSquirrel {
 
@@ -15,8 +16,8 @@ public class MiniSquirrelBot extends MiniSquirrel {
     @Override
     public void nextStep(EntityContext context) {
         if (!Stunned()) {
-            setMoveDirection(MoveDirection.rndMoveDirection());
-            context.tryMove(this, getMoveDirection().getXY());
+            setMoveDirection(XYsupport.rndMoveDirection());
+            context.tryMove(this, moveDirection);
         }
         if(getEnergy() < 0) {
             updateEnergy(-getEnergy());
@@ -45,18 +46,18 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public XY getViewLowerLeft() {
-            return bot.getXY().add(new XY(-10, 10));
+            return bot.xy.plus(new XY(-10, 10));
         }
 
         @Override
         public XY getViewUpperRight() {
-            return bot.getXY().add(new XY(10, -10));
+            return bot.xy.plus(new XY(10, -10));
         }
 
         @Override
         public EntityType getEntityAt(XY xy) throws OutOfViewException {
-            if (xy.getX() <= getViewUpperRight().getX() && xy.getY() >= getViewUpperRight().getY() && xy.getX() >= getViewLowerLeft().getX() &&
-                    xy.getY() <= getViewLowerLeft().getY()) {
+            if (xy.x <= getViewUpperRight().x && xy.y >= getViewUpperRight().y && xy.x >= getViewLowerLeft().x &&
+                    xy.y <= getViewLowerLeft().y) {
                 return context.getEntityType(xy);
             } else {
                 throw new OutOfViewException();
@@ -65,8 +66,8 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public void move(XY direction) {
-            if (direction.getX() <= 1 && direction.getX() >= -1 && direction.getY() <= 1 && direction.getY() >= -1) {
-                bot.setMoveDirection(MoveDirection.searchMoveDirection(direction));
+            if (XYsupport.isDirection(direction)) {
+                bot.setMoveDirection(direction);
             } else {
                 throw new NoTeleportException("You are no bunny so walk");
             }
@@ -75,7 +76,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
         @Override
         public void spawnMiniBot(XY direction, int energy) {
             try {
-                if (context.getEntityType(bot.getXY().add(direction)) != EntityType.NONE) {
+                if (context.getEntityType(bot.xy.plus(direction)) != EntityType.NONE) {
                     throw new SpawnException("This Coordinate is already occupied");
                 }
                 context.createMiniSquirrel(bot.getMaster(), direction, energy);
@@ -90,7 +91,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
         }
 
         public XY directionOfMaster() {
-            return MoveDirection.moveTowards(bot.getXY(), bot.getMaster().getXY()).getXY();
+            return XYsupport.moveTowards(bot.xy, bot.getMaster().xy);
         }
 
         @Override
@@ -100,8 +101,8 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public boolean isMine(XY xy) throws OutOfViewException {
-            if (xy.getX() <= getViewUpperRight().getX() && xy.getY() >= getViewUpperRight().getY() && xy.getX() >= getViewLowerLeft().getX() &&
-                    xy.getY() <= getViewLowerLeft().getY()) {
+            if (xy.x <= getViewUpperRight().x && xy.y >= getViewUpperRight().y && xy.x >= getViewLowerLeft().x &&
+                    xy.y <= getViewLowerLeft().y) {
                 return context.isMine(xy, bot);
             } else {
                 throw new OutOfViewException();
@@ -110,7 +111,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public XY locate() {
-            return bot.getXY();
+            return bot.xy;
         }
     }
 

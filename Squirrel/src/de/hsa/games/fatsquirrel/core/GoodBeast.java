@@ -1,5 +1,8 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.util.XY;
+import de.hsa.games.fatsquirrel.util.XYsupport;
+
 import java.util.logging.Logger;
 
 public class GoodBeast extends Character {
@@ -12,13 +15,13 @@ public class GoodBeast extends Character {
 
 	public void nextStep(EntityContext context) {
 		if(!aSleep()) {
-			MoveDirection md;
-			if(context.nearestPlayerEntity(getXY()) == null) {
-				md = MoveDirection.rndMoveDirection();
+			XY md;
+			if(context.nearestPlayerEntity(xy) == null) {
+				md = XYsupport.rndMoveDirection();
 			} else {
-				md = MoveDirection.moveAway(getXY(), context.nearestPlayerEntity(getXY()).getXY());
+				md = XYsupport.moveAway(xy, context.nearestPlayerEntity(xy).xy);
 			}
-			context.tryMove(this, md.getXY());
+			context.tryMove(this, md);
             logger.fine(this.getClass().getName() + " is moving: " + md.toString());
 		} else {
             logger.fine(this.getClass().getName() + " is asleep");

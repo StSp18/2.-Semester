@@ -15,7 +15,7 @@ public abstract class MasterSquirrel extends Squirrel {
 	public void nextStep(EntityContext context) {
 		if (!Stunned()) {
 			logger.fine(this.getClass().getName() + " is moving: " + moveDirection.toString());
-			context.tryMove(this, moveDirection.getXY());
+			context.tryMove(this, moveDirection);
 		} else {
 			logger.fine(this.getClass().getName() + " is stunned");
 		}
@@ -32,10 +32,10 @@ public abstract class MasterSquirrel extends Squirrel {
 		if (energy <= 0) {
 			throw new SpawnException("Can't create a MINI_SQUIRREL with negative energy");
 		}
-		direction = direction.add(getXY());
+		direction = direction.plus(xy);
 		if (energy < this.getEnergy()) {
 			this.updateEnergy(-energy);
-			MiniSquirrel miniSquirrel = new MiniSquirrel(this, energy, direction.getX(), direction.getY());
+			MiniSquirrel miniSquirrel = new MiniSquirrel(this, energy, direction.x, direction.y);
             logger.finer("Created: " + miniSquirrel.toString());
 			return miniSquirrel;
 		}

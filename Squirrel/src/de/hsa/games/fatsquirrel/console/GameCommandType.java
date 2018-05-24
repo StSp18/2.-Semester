@@ -3,16 +3,16 @@ package de.hsa.games.fatsquirrel.console;
 import de.hsa.games.fatsquirrel.CommandPackage.CommandTypeInfo;
 
 public enum GameCommandType implements CommandTypeInfo{
-	HELP("help", " * list all commands", "help"),
-	EXIT("exit", " * exit program", "exit"),
-	ALL("all", "lists all Squirrels", "all"),
-	LEFT("left" , "moves Player left", "move"),
-	UP("up", "moves Player up", "move"),
-	DOWN("down", "moves Player down", "move"),
-	RIGHT("right", "moves Player right", "move"),
-	STAY("stay", "Player doesn't move", "move"),
-	MASTER_ENERGY("master_energy", "Displays player energy", "energy"),
-	SPAWN_MINI("spawn_mini", "Spawns a MINI_SQUIRREL, <param1>", "spawnMini" , int.class);
+	HELP("HELP", " * list all commands", "help"),
+	EXIT("EXIT", " * exit program", "exit"),
+	ALL("ALL", "lists all Squirrels", "all"),
+	LEFT("LEFT" , "moves Player left", "move"),
+	UP("UP", "moves Player up", "move"),
+	DOWN("DOWN", "moves Player down", "move"),
+	RIGHT("RIGHT", "moves Player right", "move"),
+	ZERO_ZERO("ZERO_ZERO", "Player doesn't move", "move"),
+	MASTER_ENERGY("MASTER_ENERGY", "Displays player energy", "energy"),
+	SPAWN_MINI("SPAWN_MINI", "Spawns a MINI_SQUIRREL, <param1>", "spawnMini" , int.class);
 	
 	private final String name;
 	private final String commandTxt;

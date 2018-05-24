@@ -27,7 +27,7 @@ public class FxUI extends Scene implements UI {
         super(parent);
         this.boardCanvas = boardCanvas;
         this.msgLabel = msgLabel;
-        command = new Command(GameCommandType.STAY, new Object[] {});
+        command = new Command(GameCommandType.ZERO_ZERO, new Object[] {});
         this.setOnKeyPressed(
                 keyEvent -> {
                     switch (keyEvent.getCode()) {
@@ -55,7 +55,7 @@ public class FxUI extends Scene implements UI {
     }
 
     public static FxUI createInstance(XY boardSize) {
-        Canvas boardCanvas = new Canvas(boardSize.getX() * CELL_SIZE, boardSize.getY() * CELL_SIZE);
+        Canvas boardCanvas = new Canvas(boardSize.x * CELL_SIZE, boardSize.y * CELL_SIZE);
         Label statusLabel = new Label();
         VBox top = new VBox();
         top.getChildren().add(boardCanvas);
@@ -77,8 +77,8 @@ public class FxUI extends Scene implements UI {
         GraphicsContext gc = boardCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, boardCanvas.getWidth(), boardCanvas.getHeight());
         XY viewSize = view.getSize();
-        for(int x=0; x < viewSize.getX(); x++) {
-            for(int y=0; y < viewSize.getY(); y++ ){
+        for(int x=0; x < viewSize.x; x++) {
+            for(int y=0; y < viewSize.y; y++ ){
                 switch (view.getEntityType(x, y)) {
                     case BAD_PLANT:
                         gc.setFill(Color.RED);

@@ -1,19 +1,27 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.util.XY;
+import de.hsa.games.fatsquirrel.util.XYsupport;
+
 public abstract class Squirrel extends Character {
 	protected int stunned;
-	protected MoveDirection moveDirection;
+	protected XY moveDirection;
 
 	protected Squirrel(int id, int energy, int x, int y) {
 		super(id, energy, x, y);
 		stunned  = 0;
-		moveDirection = MoveDirection.stay;
+		moveDirection = XY.ZERO_ZERO;
 	}
 
-	public void setMoveDirection(MoveDirection moveDirection) {
-		this.moveDirection = moveDirection;
+	public void setMoveDirection(XY moveDirection) {
+		if(XYsupport.isDirection(moveDirection)){
+			this.moveDirection = moveDirection;
+		} else {
+			this.moveDirection = XY.ZERO_ZERO;
+		}
+
 	}
-	public MoveDirection getMoveDirection() {
+	public XY getMoveDirection() {
 		return moveDirection;
 	}
 

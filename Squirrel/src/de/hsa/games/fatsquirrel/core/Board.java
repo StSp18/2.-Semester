@@ -19,7 +19,7 @@ public class Board{
 	public MasterSquirrel botPlayer() {
 		for(int i=0;i<board.length;i++) {
 			if(board[i] instanceof MasterSquirrel) {
-				board[i] = new MasterSquirrelBot(board[i].getX(), board[i].getY(), new RndFactory());
+				board[i] = new MasterSquirrelBot(board[i].xy.x, board[i].xy.y, new RndFactory());
 				return (MasterSquirrel) board[i];
 			}
 		}
@@ -36,9 +36,9 @@ public class Board{
 	}
 	
 	public FlattenedBoard createFlattenedBoard() {
-		Entity[][] flattenedBoard = new Entity[size.getX()][size.getY()];
+		Entity[][] flattenedBoard = new Entity[size.x][size.y];
 		for(int i=0; i < board.length; i++) {
-			flattenedBoard[board[i].getX()][board[i].getY()] = board[i];
+			flattenedBoard[board[i].xy.x][board[i].xy.y] = board[i];
 		}
 		return new FlattenedBoard(flattenedBoard, this);
 	}
@@ -110,7 +110,7 @@ public class Board{
 			} else if (board[i] instanceof MiniSquirrel) {
 				s += "MINI_SQUIRREL";
 			}
-			s += ", X: " + board[i].xy.getX() + ", Y: " + board[i].xy.getY() + '\n';
+			s += ", X: " + board[i].xy.x + ", Y: " + board[i].xy.y + '\n';
 		}
 		return s;
 	}
