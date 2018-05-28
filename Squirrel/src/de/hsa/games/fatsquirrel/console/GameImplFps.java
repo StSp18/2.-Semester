@@ -12,116 +12,116 @@ import de.hsa.games.fatsquirrel.util.XY;
 import de.hsa.games.fatsquirrel.util.XYsupport;
 
 public class GameImplFps extends Game {
-	private static Logger logger = Logger.getLogger("SquirrelLogger");
-	private PrintStream outputStream = System.out;
-	private Command buffer;
-	private boolean validBuffer;
+    private static Logger logger = Logger.getLogger("SquirrelLogger");
+    private PrintStream outputStream = System.out;
+    private Command buffer;
+    private boolean validBuffer;
 
-	public GameImplFps(State s, Board b) {
-		super(s, b);
-		player = b.getPlayer();
-		ui = new ConsoleUI();
-		render();
-		validBuffer = false;
-	}
+    public GameImplFps(State s, Board b) {
+        super(s, b);
+        player = b.getPlayer();
+        ui = new ConsoleUI();
+        render();
+        validBuffer = false;
+    }
 
-	public void run() {
-		if(validBuffer) {
-			logger.finer(this.getClass().getName() + ": valid Buffer, Command: " + buffer.toString());
-			processCommand(buffer);
-			validBuffer = false;
-		} else {
+    public void run() {
+        if(validBuffer) {
+            logger.finer(this.getClass().getName() + ": valid Buffer, Command: " + buffer.toString());
+            processCommand(buffer);
+            validBuffer = false;
+        } else {
             logger.finer(this.getClass().getName() + ": invalid Buffer");
-			player.setMoveDirection(XY.ZERO_ZERO);
-		}
-		update();
-		render();
-	}
-	
-	public void processInput() {
-	    // TODO logger finest
-		Command command;
-		while (true) {
-			command = ui.getCommand();
-			if(command.getCommandTypeInfo().getMethod() == "move"
-					|| command.getCommandTypeInfo().getMethod() == "spawnMini") {
-				buffer = command;
-				validBuffer = true;
-			} else {
-				processCommand(command);
-			}
-			
-		}
-	}
+            player.setMoveDirection(XY.ZERO_ZERO);
+        }
+        update();
+        render();
+    }
 
-	private void processCommand(Command command) {
+    public void processInput() {
         // TODO logger finest
-		Method method;
-		Class<?>[] params = new Class<?>[] {};
-		if (command.getParams().length != 0) {
-			params = new Class<?>[command.getParams().length];
-			for (int i = 0; i < command.getParams().length; i++) {
-				params[i] = command.getParams()[i].getClass();
-			}
-		}
-		try {
-			method = this.getClass().getDeclaredMethod(command.getCommandTypeInfo().getMethod(), params);
-			method.invoke(this, command.getParams());
-		} catch (IllegalAccessException e) {
-			outputStream.println("IllegalAccessException: " + e.getMessage());
-			System.exit(-1);
-		} catch (IllegalArgumentException e) {
-			outputStream.println("IllegalArgumentException: " + e.getMessage());
-			System.exit(-1);
-		} catch (InvocationTargetException e) {
-			outputStream.println("InvocationTargetException: " + e.getMessage());
-			System.exit(-1);
-		} catch (NoSuchMethodException e) {
-			outputStream.println("NoSuchMethodException: " + e.getMessage());
-			System.exit(-1);
-		}
-	}
-	
-	protected void render() {
-		ui.render(s.flattenedBoard());
-	}
+        Command command;
+        while (true) {
+            command = ui.getCommand();
+            if(command.getCommandTypeInfo().getMethod() == "move"
+                    || command.getCommandTypeInfo().getMethod() == "spawnMini") {
+                buffer = command;
+                validBuffer = true;
+            } else {
+                processCommand(command);
+            }
 
-	public void spawnMini(Integer energy) {
-		try {
-			outputStream.println("Spawn mini");
-			XY md = XYsupport.rndMoveDirection();
-			while (b.createFlattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
-				md = XYsupport.rndMoveDirection();
-			}
-			b.add(player.createMiniSquirrel(energy, md));
-			player.setMoveDirection(XY.ZERO_ZERO);
-		} catch (SpawnException e) {
-			outputStream.println(e.getMessage());
-			player.setMoveDirection(XY.ZERO_ZERO);
-		}
-	}
+        }
+    }
 
-	public void all() {
+    private void processCommand(Command command) {
+        // TODO logger finest
+        Method method;
+        Class<?>[] params = new Class<?>[] {};
+        if (command.getParams().length != 0) {
+            params = new Class<?>[command.getParams().length];
+            for (int i = 0; i < command.getParams().length; i++) {
+                params[i] = command.getParams()[i].getClass();
+            }
+        }
+        try {
+            method = this.getClass().getDeclaredMethod(command.getCommandTypeInfo().getMethod(), params);
+            method.invoke(this, command.getParams());
+        } catch (IllegalAccessException e) {
+            outputStream.println("IllegalAccessException: " + e.getMessage());
+            System.exit(-1);
+        } catch (IllegalArgumentException e) {
+            outputStream.println("IllegalArgumentException: " + e.getMessage());
+            System.exit(-1);
+        } catch (InvocationTargetException e) {
+            outputStream.println("InvocationTargetException: " + e.getMessage());
+            System.exit(-1);
+        } catch (NoSuchMethodException e) {
+            outputStream.println("NoSuchMethodException: " + e.getMessage());
+            System.exit(-1);
+        }
+    }
 
-	}
+    protected void render() {
+        ui.render(s.flattenedBoard());
+    }
 
-	public void energy() {
-		outputStream.println("Current energy: " + player.getEnergy());
-	}
+    public void spawnMini(Integer energy) {
+        try {
+            outputStream.println("Spawn mini");
+            XY md = XYsupport.rndMoveDirection();
+            while (b.createFlattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
+                md = XYsupport.rndMoveDirection();
+            }
+            b.add(player.createMiniSquirrel(energy, md));
+            player.setMoveDirection(XY.ZERO_ZERO);
+        } catch (SpawnException e) {
+            outputStream.println(e.getMessage());
+            player.setMoveDirection(XY.ZERO_ZERO);
+        }
+    }
 
-	public void move() {
-		player.setMoveDirection(XYsupport.valueOf(buffer.getCommandTypeInfo().getName()));
-	}
+    public void all() {
 
-	public void exit() {
-		System.exit(0);
-	}
+    }
 
-	public void help() {
-		for (int i = 0; i < GameCommandType.values().length; i++) {
-			outputStream
-					.println(GameCommandType.values()[i].getName() + ": " + GameCommandType.values()[i].getHelpText());
-		}
-	}
+    public void energy() {
+        outputStream.println("Current energy: " + player.getEnergy());
+    }
+
+    public void move() {
+        player.setMoveDirection(XYsupport.valueOf(buffer.getCommandTypeInfo().getName()));
+    }
+
+    public void exit() {
+        System.exit(0);
+    }
+
+    public void help() {
+        for (int i = 0; i < GameCommandType.values().length; i++) {
+            outputStream
+                    .println(GameCommandType.values()[i].getName() + ": " + GameCommandType.values()[i].getHelpText());
+        }
+    }
 
 }

@@ -3,6 +3,6 @@ import de.hsa.games.fatsquirrel.CommandPackage.Command;
 import de.hsa.games.fatsquirrel.core.BoardView;
 
 public interface UI {
-	Command getCommand();
-	void render(BoardView view);
+    Command getCommand();
+    void render(BoardView view);
 }

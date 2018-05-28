@@ -12,31 +12,31 @@ import de.hsa.games.fatsquirrel.core.BoardView;
 
 public class ConsoleUI implements UI {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
-	private PrintStream outputStream;
-	private BufferedReader inputReader;
-	private CommandScanner cS;
+    private PrintStream outputStream;
+    private BufferedReader inputReader;
+    private CommandScanner cS;
 
-	public ConsoleUI() {
-		outputStream = System.out;
-		inputReader = new BufferedReader(new InputStreamReader(System.in));
-		cS = new CommandScanner(GameCommandType.values(), inputReader, outputStream);
-	}
-	
-	public void render(BoardView view) {
+    public ConsoleUI() {
+        outputStream = System.out;
+        inputReader = new BufferedReader(new InputStreamReader(System.in));
+        cS = new CommandScanner(GameCommandType.values(), inputReader, outputStream);
+    }
+
+    public void render(BoardView view) {
         // TODO logger finest
-		String s = "";
-		for (int i = 0; i < view.getSize().y; i++) {
-			for (int k = 0; k < view.getSize().x; k++) {
-				s += view.getEntityType(k, i).getChar();
-			}
-			s += '\n';
-		}
-		outputStream.println(s);
-	}
+        String s = "";
+        for (int i = 0; i < view.getSize().y; i++) {
+            for (int k = 0; k < view.getSize().x; k++) {
+                s += view.getEntityType(k, i).getChar();
+            }
+            s += '\n';
+        }
+        outputStream.println(s);
+    }
 
-	public Command getCommand() {
-	    Command next = cS.next();
-	    logger.finer("Next Command: " + next.toString());
-		return next;
-	}
+    public Command getCommand() {
+        Command next = cS.next();
+        logger.finer("Next Command: " + next.toString());
+        return next;
+    }
 }
