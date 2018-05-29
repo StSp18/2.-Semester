@@ -7,7 +7,6 @@ public interface ControllerContext {
     XY getViewLowerLeft ();
     XY getViewUpperRight();
     EntityType getEntityAt(XY xy) throws OutOfViewException;
-    // TODO ask if XY.up and so on is necessary
     void move(XY direction);
     void spawnMiniBot(XY direction, int energy) throws SpawnException;
     int getEnergy();
@@ -15,5 +14,6 @@ public interface ControllerContext {
     XY directionOfMaster();
     long getRemainingSteps();
     boolean isMine(XY xy) throws OutOfViewException;
-    void implode(int impactRadius) throws Exception;
+
+    void implode(int impactRadius);
 }

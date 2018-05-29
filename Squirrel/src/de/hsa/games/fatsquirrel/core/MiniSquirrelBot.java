@@ -1,30 +1,29 @@
 package de.hsa.games.fatsquirrel.core;
 
 
-import de.hsa.games.fatsquirrel.botapi.ControllerContext;
-import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
-import de.hsa.games.fatsquirrel.botapi.SpawnException;
+import de.hsa.games.fatsquirrel.botapi.*;
 import de.hsa.games.fatsquirrel.util.XY;
 import de.hsa.games.fatsquirrel.util.XYsupport;
 
 public class MiniSquirrelBot extends MiniSquirrel {
+    public static int eyesight = 10;
+    private BotController controller;
 
-    public MiniSquirrelBot(MasterSquirrel master, int energy, int x, int y) {
+    public MiniSquirrelBot(MasterSquirrel master, int energy, int x, int y, BotControllerFactory factory) {
         super(master, energy, x, y);
+        controller = factory.createMasterBotController();
     }
 
     @Override
     public void nextStep(EntityContext context) {
         if (!Stunned()) {
-            setMoveDirection(XYsupport.rndMoveDirection());
+            controller.nextStep(new ControllerContextProxy(new MiniSquirrelBot.ControllerContextImpl(this, context)).Proxy());
             context.tryMove(this, moveDirection);
-        }
-        if(getEnergy() < 0) {
-            updateEnergy(-getEnergy());
         }
     }
 
     private class ControllerContextImpl implements ControllerContext {
+
         private MiniSquirrel bot;
         private EntityContext context;
 
@@ -33,31 +32,26 @@ public class MiniSquirrelBot extends MiniSquirrel {
             this.context = context;
         }
 
-        public void implode(int radius) throws Exception{
-            radius = bot.getEnergy()/100;
-            if(radius<2) {
-                radius = 2;
-            }
-            if(radius>10) {
-                radius = 10;
+        public void implode(int radius) {
+            if (radius < 2 || radius > 10) {
+                throw new IllegalArgumentException();
             }
             context.implodeMiniSquirrel(bot, radius);
         }
 
         @Override
         public XY getViewLowerLeft() {
-            return bot.xy.plus(new XY(-10, 10));
+            return cut(bot.xy.plus(new XY(-eyesight, eyesight)));
         }
 
         @Override
         public XY getViewUpperRight() {
-            return bot.xy.plus(new XY(10, -10));
+            return cut(bot.xy.plus(new XY(eyesight, -eyesight)));
         }
 
         @Override
         public EntityType getEntityAt(XY xy) throws OutOfViewException {
-            if (xy.x <= getViewUpperRight().x && xy.y >= getViewUpperRight().y && xy.x >= getViewLowerLeft().x &&
-                    xy.y <= getViewLowerLeft().y) {
+            if (inBounds(xy)) {
                 return context.getEntityType(xy);
             } else {
                 throw new OutOfViewException();
@@ -66,7 +60,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public void move(XY direction) {
-            if (XYsupport.isDirection(direction)) {
+            if (isDirection(direction)) {
                 bot.setMoveDirection(direction);
             } else {
                 throw new NoTeleportException("You are no bunny so walk");
@@ -91,7 +85,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
         }
 
         public XY directionOfMaster() {
-            return XYsupport.moveTowards(bot.xy, bot.getMaster().xy);
+            return moveTowards(bot.xy, bot.getMaster().xy);
         }
 
         @Override
@@ -101,8 +95,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public boolean isMine(XY xy) throws OutOfViewException {
-            if (xy.x <= getViewUpperRight().x && xy.y >= getViewUpperRight().y && xy.x >= getViewLowerLeft().x &&
-                    xy.y <= getViewLowerLeft().y) {
+            if (inBounds(xy)) {
                 return context.isMine(xy, bot);
             } else {
                 throw new OutOfViewException();
@@ -112,6 +105,54 @@ public class MiniSquirrelBot extends MiniSquirrel {
         @Override
         public XY locate() {
             return bot.xy;
+        }
+
+        private boolean isDirection(XY xy) {
+            XY[] directions = new XY[]{XY.DOWN, XY.UP, XY.LEFT, XY.RIGHT, XY.LEFT_DOWN, XY.LEFT_UP, XY.RIGHT_DOWN, XY.RIGHT_UP, XY.ZERO_ZERO};
+            for (XY direction : directions) {
+                if (xy.equals(direction)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private XY cut(XY xy) {
+            XY cut;
+            if (xy.x > context.getSize().x) {
+                cut = new XY(context.getSize().x, 0);
+            } else {
+                cut = new XY(xy.x, 0);
+            }
+            if (xy.y > context.getSize().y) {
+                cut = new XY(cut.x, context.getSize().y);
+            } else {
+                cut = new XY(cut.x, xy.y);
+            }
+            return cut;
+        }
+
+        private boolean inBounds(XY xy) {
+            return xy.x <= getViewUpperRight().x && xy.y >= getViewUpperRight().y && xy.x >= getViewLowerLeft().x && xy.y <= getViewLowerLeft().y;
+        }
+
+        private XY moveTowards(XY yours, XY others) {
+            int x = 0;
+            int y = 0;
+            if (others.x < yours.x) {
+                x = -1;
+            }
+            if (others.x > yours.x) {
+                x = 1;
+            }
+            if (others.y < yours.y) {
+                y = -1;
+            }
+            if (others.y > yours.y) {
+                y = 1;
+            }
+            return new XY(x, y);
+
         }
     }
 

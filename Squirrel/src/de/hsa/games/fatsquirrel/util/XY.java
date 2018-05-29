@@ -1,11 +1,11 @@
 package de.hsa.games.fatsquirrel.util;
 
+import java.util.Objects;
+
 import static java.lang.Math.sqrt;
 
 public final class XY {
     public final int x, y;
-
-
 
     public XY(int x, int y) {
         this.x = x;
@@ -38,18 +38,24 @@ public final class XY {
         return xy.length()-length();
     }
 
-    public int hashCode() {
-        return 0;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        XY xy = (XY) o;
+        return x == xy.x &&
+                y == xy.y;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
     public XY plus(XY xy) {
         return new XY(x+xy.x,y+xy.y);
     }
 
-
-
-    public boolean equals(XY xy) {
-        return (x == xy.x && y == xy.y);
-    }
 
     public String toString() {
         return ("X: " + x + ", Y: " + y);

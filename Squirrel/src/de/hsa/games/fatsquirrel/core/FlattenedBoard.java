@@ -68,7 +68,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
                     distance += miniSquirrel.xy.y-k;
                 }
                 int energyLoss = 200 * miniSquirrel.getEnergy()/impactArea * (1 - distance/radius);
-                if (energyLoss > 0) {
                     Entity e = getEntity(flattenedBoard[i][k].xy);
                     switch (getEntityType(flattenedBoard[i][k].xy)) {
                         case BAD_PLANT:
@@ -102,11 +101,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
                         case NONE:
                             break;
                     }
-                }
+
             }
         }
         miniSquirrel.getMaster().updateEnergy(accumulatedEnergy);
         kill(miniSquirrel);
+        logger.finer("MiniSquirrel imploded and collected " + accumulatedEnergy + " for his Master");
     }
 
     @Override
@@ -148,7 +148,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     public void tryMove(MasterSquirrel master, XY moveDirection) {
         XY newCoordinates = master.xy.plus(moveDirection);
-        logger.finest("try move MasterSquirrel to: " + newCoordinates.toString());
+        logger.finer("try move MasterSquirrel to: " + newCoordinates.toString());
         if (!newCoordinates.equals(master.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:
@@ -156,6 +156,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case BAD_BEAST:
                 if (((BadBeast) getEntity(newCoordinates)).bite(master)) {
                     killAndReplace(getEntity(newCoordinates));
+                    logger.finest("Master walked into a BadBeast");
                 } else {
                     return;
                 }
@@ -165,32 +166,37 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case GOOD_PLANT:
                 master.updateEnergy(getEntity(newCoordinates).getEnergy());
                 killAndReplace(getEntity(newCoordinates));
+                logger.finest("Master walked into a replaceable Entity");
                 break;
             case MASTER_SQUIRREL:
+                logger.finest("Master walked into another player");
                 return;
             case MINI_SQUIRREL:
                 if (master.myMiniSquirrel(getEntity(newCoordinates))) {
                     master.updateEnergy(getEntity(newCoordinates).getEnergy());
+                    logger.finest("Master collected his MiniSquirrel");
                 } else {
                     master.updateEnergy(150);
+                    logger.finest("Master eliminated an enemy MiniSquirrel");
                 }
                 kill(getEntity(newCoordinates));
                 break;
             case WALL:
                 master.updateEnergy(getEntity(newCoordinates).getEnergy());
                 master.wallBump();
+                logger.finest("Master bumped into a Wall");
                 return;
             default:
                 break;
             }
             master.move(moveDirection);
-            logger.finest("Moved Master");
+            logger.finer("Moved Master");
         }
     }
 
     public void tryMove(MiniSquirrel miniSquirrel, XY moveDirection) {
         XY newCoordinates = miniSquirrel.xy.plus(moveDirection);
-        logger.finest("Try move MiniSquirrel to:" + newCoordinates.toString());
+        logger.finer("Try move MiniSquirrel to:" + newCoordinates.toString());
         if (!newCoordinates.equals(miniSquirrel.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:
@@ -198,6 +204,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case BAD_BEAST:
                 if (((BadBeast) getEntity(newCoordinates)).bite(miniSquirrel)) {
                     killAndReplace(getEntity(newCoordinates));
+                    logger.finest("Mini walked into a BadBeast");
                 } else {
                     return;
                 }
@@ -207,21 +214,27 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case GOOD_PLANT:
                 miniSquirrel.updateEnergy(getEntity(newCoordinates).getEnergy());
                 killAndReplace(getEntity(newCoordinates));
+                logger.finest("Mini walked into a replaceable Entity");
                 break;
             case MASTER_SQUIRREL:
                 if (miniSquirrel.getMaster() == getEntity(newCoordinates)) {
                     getEntity(newCoordinates).updateEnergy(miniSquirrel.getEnergy());
+                    logger.finest("Mini walked into his Master");
+                } else {
+                    logger.finest("Mini walked into an enemy player");
                 }
                 kill(miniSquirrel);
                 return;
             case MINI_SQUIRREL:
                 if (miniSquirrel.getMaster() != ((MiniSquirrel) getEntity(newCoordinates)).getMaster()) {
                     kill(miniSquirrel);
+                    logger.finest("Mini walked into an enemy MiniSquirrel");
                 }
                 return;
             case WALL:
                 miniSquirrel.updateEnergy(getEntity(newCoordinates).getEnergy());
                 miniSquirrel.wallBump();
+                logger.finest("Mini bumped into a Wall");
                 return;
             default:
                 break;
@@ -230,17 +243,17 @@ public class FlattenedBoard implements BoardView, EntityContext {
             miniSquirrel.updateEnergy(-1);
             if (miniSquirrel.getEnergy() <= 0) {
                 kill(miniSquirrel);
-                logger.finest("MiniSquirrel died through this move");
+                logger.finer("MiniSquirrel died through this move");
             } else {
                 miniSquirrel.move(moveDirection);
-                logger.finest("Moved MiniSquirrel");
+                logger.finer("Moved MiniSquirrel");
             }
         }
     }
 
     public void tryMove(GoodBeast goodBeast, XY moveDirection) {
         XY newCoordinates = goodBeast.xy.plus(moveDirection);
-        logger.finest("Try move GoodBeast to:" + newCoordinates.toString());
+        logger.finer("Try move GoodBeast to:" + newCoordinates.toString());
         if (!newCoordinates.equals(goodBeast.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:
@@ -261,7 +274,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     public void tryMove(BadBeast badBeast, XY moveDirection) {
         XY newCoordinates = badBeast.xy.plus(moveDirection);
-        logger.finest("Try move BadBeast to:" + newCoordinates.toString());
+        logger.finer("Try move BadBeast to:" + newCoordinates.toString());
         if (!newCoordinates.equals(badBeast.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:

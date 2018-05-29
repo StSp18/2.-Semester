@@ -16,7 +16,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
-    private static Logger logger = (new SquirrelLogger(Level.INFO).getLogger());
+    private static Logger logger = (new SquirrelLogger(Level.FINE).getLogger());
     private BoardFactory boardFactory = new BoardFactory();
     private Board board = new Board(boardFactory);
     private State state = new State(board);
