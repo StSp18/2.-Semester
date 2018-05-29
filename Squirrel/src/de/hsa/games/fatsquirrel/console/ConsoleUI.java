@@ -23,7 +23,7 @@ public class ConsoleUI implements UI {
     }
 
     public void render(BoardView view) {
-        // TODO logger finest
+        logger.finer("Render");
         String s = "";
         for (int i = 0; i < view.getSize().y; i++) {
             for (int k = 0; k < view.getSize().x; k++) {

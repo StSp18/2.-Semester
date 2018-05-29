@@ -39,10 +39,10 @@ public class GameImplFps extends Game {
     }
 
     public void processInput() {
-        // TODO logger finest
         Command command;
         while (true) {
             command = ui.getCommand();
+            logger.finer("Next Command: " + command.toString());
             if(command.getCommandTypeInfo().getMethod() == "move"
                     || command.getCommandTypeInfo().getMethod() == "spawnMini") {
                 buffer = command;
@@ -55,7 +55,7 @@ public class GameImplFps extends Game {
     }
 
     private void processCommand(Command command) {
-        // TODO logger finest
+        logger.finest("Process Command: " + command.toString());
         Method method;
         Class<?>[] params = new Class<?>[] {};
         if (command.getParams().length != 0) {
@@ -80,10 +80,6 @@ public class GameImplFps extends Game {
             outputStream.println("NoSuchMethodException: " + e.getMessage());
             System.exit(-1);
         }
-    }
-
-    protected void render() {
-        ui.render(s.flattenedBoard());
     }
 
     public void spawnMini(Integer energy) {

@@ -22,23 +22,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     public EntityType getEntityType(XY xy) {
         Entity e = flattenedBoard[xy.x][xy.y];
-        if (e instanceof BadPlant) {
-            return EntityType.BAD_PLANT;
-        } else if (e instanceof GoodPlant) {
-            return EntityType.GOOD_PLANT;
-        } else if (e instanceof BadBeast) {
-            return EntityType.BAD_BEAST;
-        } else if (e instanceof GoodBeast) {
-            return EntityType.GOOD_BEAST;
-        } else if (e instanceof MasterSquirrel) {
-            return EntityType.MASTER_SQUIRREL;
-        } else if (e instanceof MiniSquirrel) {
-            return EntityType.MINI_SQUIRREL;
-        } else if (e instanceof Wall) {
-            return EntityType.WALL;
-        } else {
+        if(e == null) {
             return EntityType.NONE;
         }
+        return EntityType.values()[e.getId()];
     }
 
     @Override
@@ -112,7 +99,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
                             }
                             break;
                         case WALL:
-                            break;
                         case NONE:
                             break;
                     }
@@ -161,15 +147,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     public void tryMove(MasterSquirrel master, XY moveDirection) {
-        // TODO logger finest
-//        System.out.println("tryMove MASTER_SQUIRREL");
         XY newCoordinates = master.xy.plus(moveDirection);
+        logger.finest("try move MasterSquirrel to: " + newCoordinates.toString());
         if (!newCoordinates.equals(master.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:
                 break;
             case BAD_BEAST:
-
                 if (((BadBeast) getEntity(newCoordinates)).bite(master)) {
                     killAndReplace(getEntity(newCoordinates));
                 } else {
@@ -177,13 +161,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 }
                 break;
             case BAD_PLANT:
-                master.updateEnergy(getEntity(newCoordinates).getEnergy());
-                killAndReplace(getEntity(newCoordinates));
-                break;
             case GOOD_BEAST:
-                master.updateEnergy(getEntity(newCoordinates).getEnergy());
-                killAndReplace(getEntity(newCoordinates));
-                break;
             case GOOD_PLANT:
                 master.updateEnergy(getEntity(newCoordinates).getEnergy());
                 killAndReplace(getEntity(newCoordinates));
@@ -206,13 +184,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 break;
             }
             master.move(moveDirection);
+            logger.finest("Moved Master");
         }
     }
 
     public void tryMove(MiniSquirrel miniSquirrel, XY moveDirection) {
-        // TODO logger finest
-//        System.out.println("tryMove miniSquirrel");
         XY newCoordinates = miniSquirrel.xy.plus(moveDirection);
+        logger.finest("Try move MiniSquirrel to:" + newCoordinates.toString());
         if (!newCoordinates.equals(miniSquirrel.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:
@@ -225,13 +203,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 }
                 break;
             case BAD_PLANT:
-                miniSquirrel.updateEnergy(getEntity(newCoordinates).getEnergy());
-                killAndReplace(getEntity(newCoordinates));
-                break;
             case GOOD_BEAST:
-                miniSquirrel.updateEnergy(getEntity(newCoordinates).getEnergy());
-                killAndReplace(getEntity(newCoordinates));
-                break;
             case GOOD_PLANT:
                 miniSquirrel.updateEnergy(getEntity(newCoordinates).getEnergy());
                 killAndReplace(getEntity(newCoordinates));
@@ -258,47 +230,58 @@ public class FlattenedBoard implements BoardView, EntityContext {
             miniSquirrel.updateEnergy(-1);
             if (miniSquirrel.getEnergy() <= 0) {
                 kill(miniSquirrel);
+                logger.finest("MiniSquirrel died through this move");
             } else {
                 miniSquirrel.move(moveDirection);
+                logger.finest("Moved MiniSquirrel");
             }
         }
     }
 
     public void tryMove(GoodBeast goodBeast, XY moveDirection) {
-        // TODO logger finest
         XY newCoordinates = goodBeast.xy.plus(moveDirection);
+        logger.finest("Try move GoodBeast to:" + newCoordinates.toString());
         if (!newCoordinates.equals(goodBeast.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:
                 goodBeast.move(moveDirection);
+                logger.finest("GoodBeast moved");
                 break;
             case MASTER_SQUIRREL:
             case MINI_SQUIRREL:
                 getEntity(newCoordinates).updateEnergy(goodBeast.getEnergy());
                 killAndReplace(goodBeast);
+                logger.finest("GoodBeast died through this move");
                 break;
             default:
-                return;
+                break;
             }
         }
     }
 
     public void tryMove(BadBeast badBeast, XY moveDirection) {
-        // TODO logger finest, MINI_SQUIRREL negative energy still allowed
         XY newCoordinates = badBeast.xy.plus(moveDirection);
+        logger.finest("Try move BadBeast to:" + newCoordinates.toString());
         if (!newCoordinates.equals(badBeast.xy)) {
             switch (getEntityType(newCoordinates)) {
             case NONE:
                 badBeast.move(moveDirection);
+                logger.finest("BadBeast moved");
                 break;
             case MASTER_SQUIRREL:
             case MINI_SQUIRREL:
                 if (badBeast.bite(getEntity(newCoordinates))) {
                     killAndReplace(badBeast);
+                    logger.finest("BadBeast died through this move");
+                }
+                if (getEntity(newCoordinates).getEnergy()<=0 && getEntityType(newCoordinates) == EntityType.MINI_SQUIRREL) {
+                    kill(getEntity(newCoordinates));
+                    badBeast.move(moveDirection);
+                    logger.finest("BadBeast killed MiniSquirrel");
                 }
                 break;
             default:
-                return;
+                break;
             }
         }
     }
@@ -318,45 +301,35 @@ public class FlattenedBoard implements BoardView, EntityContext {
             if (pos.y - i < 0)
                 up = false;
             for (int k = 0; k <= i; k++) {
-                // obenrechts
                 if (right && up && flattenedBoard[pos.x + k][pos.y - i] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel upright, ");
                     return (Squirrel) flattenedBoard[pos.x + k][pos.y - i];
                 }
                 if (right && up && flattenedBoard[pos.x + i][pos.y - k] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel upright, ");
                     return (Squirrel) flattenedBoard[pos.x + i][pos.y - k];
                 }
                 // obenlinks
                 if (left && up && flattenedBoard[pos.x - i][pos.y - k] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel upleft, ");
                     return (Squirrel) flattenedBoard[pos.x - i][pos.y - k];
                 }
                 if (left && up && flattenedBoard[pos.x - k][pos.y - i] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel upleft, ");
                     return (Squirrel) flattenedBoard[pos.x - k][pos.y - i];
                 }
                 // untenrechts
                 if (right && down && flattenedBoard[pos.x + k][pos.y + i] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel downright, ");
                     return (Squirrel) flattenedBoard[pos.x + k][pos.y + i];
                 }
                 if (right && down && flattenedBoard[pos.x + i][pos.y + k] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel downright, ");
                     return (Squirrel) flattenedBoard[pos.x + i][pos.y + k];
                 }
                 // untenlinks
                 if (left && down && flattenedBoard[pos.x - i][pos.y + k] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel downleft, ");
                     return (Squirrel) flattenedBoard[pos.x - i][pos.y + k];
                 }
                 if (left && down && flattenedBoard[pos.x - k][pos.y + i] instanceof Squirrel) {
-                    // System.out.print("Found Squirrel downleft, ");
                     return (Squirrel) flattenedBoard[pos.x - k][pos.y + i];
                 }
             }
         }
-        // System.out.print("Found no Squirrel nearby, ");
         return null;
     }
 

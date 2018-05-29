@@ -1,6 +1,5 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.botapi.RndFactory;
 import de.hsa.games.fatsquirrel.util.XY;
 
 import java.util.logging.Logger;
@@ -10,17 +9,17 @@ public class Board{
     private Entity[] board;
     private XY size;
     private long remainingSteps;
-    private int playercount;
+    private int player_count;
 
     public Board(BoardFactory bf) {
-        playercount = bf.getAmountOfAutomatedMasterSquirrel() + bf.getAmountOfHandOperatedMasterSquirrel();
+        player_count = bf.getAmountOfAutomatedMasterSquirrel() + bf.getAmountOfHandOperatedMasterSquirrel();
         board = bf.factoryBoard();
         size = bf.getSize();
     }
 
     public MasterSquirrel[] getPlayers() {
-        MasterSquirrel[] players = new MasterSquirrel[playercount];
-        for(int i=0; i<playercount; i++) {
+        MasterSquirrel[] players = new MasterSquirrel[player_count];
+        for(int i = 0; i< player_count; i++) {
             players[i] = (MasterSquirrel) board[i];
         }
         return players;

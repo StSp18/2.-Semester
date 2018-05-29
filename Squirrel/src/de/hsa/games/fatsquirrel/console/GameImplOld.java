@@ -32,9 +32,9 @@ public class GameImplOld extends Game {
     }
 
     public void processInput() {
-        // TODO logger finest
         do {
             command = ui.getCommand();
+            logger.finer("Next Command: " + command.toString());
             Method method;
             Class<?>[] params = new Class<?>[] {};
             if (command.getParams().length != 0) {

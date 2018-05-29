@@ -9,7 +9,7 @@ public class BadBeast extends Character {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
     private int sleep;
     public BadBeast(int x, int y) {
-        super(4, 1050, x, y);
+        super(2, 1050, x, y);
         sleep = 0;
     }
 

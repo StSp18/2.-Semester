@@ -9,7 +9,7 @@ public abstract class MasterSquirrel extends Squirrel {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
 
     protected MasterSquirrel(int x, int y) {
-        super(5, 1000, x, y);
+        super(4, 1000, x, y);
     }
 
     public void nextStep(EntityContext context) {

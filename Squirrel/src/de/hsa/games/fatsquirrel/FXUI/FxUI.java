@@ -73,7 +73,6 @@ public class FxUI extends Scene implements UI {
     }
 
     private void repaintBoardCanvas(BoardView view) {
-        // TODO logger finest
         GraphicsContext gc = boardCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, boardCanvas.getWidth(), boardCanvas.getHeight());
         XY viewSize = view.getSize();

@@ -11,7 +11,7 @@ public class MiniSquirrel extends Squirrel {
     private MasterSquirrel master;
 
     public MiniSquirrel(MasterSquirrel master, int energy, int x, int y) {
-        super(6, energy, x, y);
+        super(5, energy, x, y);
         this.master = master;
         stunned = 1;
     }
