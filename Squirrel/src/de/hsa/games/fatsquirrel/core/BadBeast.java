@@ -11,18 +11,20 @@ public class BadBeast extends Character {
     public BadBeast(int x, int y) {
         super(2, 1050, x, y);
         sleep = 0;
+        moveDirection = XYsupport.rndMoveDirection();
     }
 
     public void nextStep(EntityContext context) {
         if(!aSleep()) {
-            XY md;
-            if(context.nearestPlayerEntity(xy) == null) {
-                md = XYsupport.rndMoveDirection();
-            } else {
-                md = XYsupport.moveTowards(xy, context.nearestPlayerEntity(xy).xy);
+            Entity squirrel = context.nearestPlayerEntity(xy);
+            if (squirrel != null) {
+                moveDirection = XYsupport.moveTowards(xy, squirrel.xy);
             }
-            context.tryMove(this, md);
-            logger.fine(this.getClass().getName() + " is moving: " + md.toString());
+            context.tryMove(this, moveDirection);
+            if (squirrel == null) {
+                moveDirection = XYsupport.rndMoveDirection();
+            }
+            logger.fine(this.getClass().getName() + " is moving: " + moveDirection.toString());
         } else {
             logger.fine(this.getClass().getName() + " is asleep");
         }

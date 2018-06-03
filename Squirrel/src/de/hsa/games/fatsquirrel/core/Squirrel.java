@@ -5,7 +5,6 @@ import de.hsa.games.fatsquirrel.util.XYsupport;
 
 public abstract class Squirrel extends Character {
     protected int stunned;
-    protected XY moveDirection;
 
     protected Squirrel(int id, int energy, int x, int y) {
         super(id, energy, x, y);

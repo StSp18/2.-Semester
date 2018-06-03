@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="org.jmockit:jmockit:1.39" type="repository">
+    <properties maven-id="org.jmockit:jmockit:1.39" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jmockit-1.39.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsr305-3.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
