@@ -206,6 +206,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
                     killAndReplace(getEntity(newCoordinates));
                     logger.finest("Mini walked into a BadBeast");
                 } else {
+                    miniSquirrel.updateEnergy(-1);
+                    if (miniSquirrel.getEnergy() <= 0) {
+                        kill(miniSquirrel);
+                        logger.finer("MiniSquirrel died through this move");
+                    }
                     return;
                 }
                 break;

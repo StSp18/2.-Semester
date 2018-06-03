@@ -1,16 +1,13 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.util.XY;
 import de.hsa.games.fatsquirrel.util.XYsupport;
 
 import java.util.logging.Logger;
 
-public class BadBeast extends Character {
+public class BadBeast extends Beast {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
-    private int sleep;
     public BadBeast(int x, int y) {
         super(2, 1050, x, y);
-        sleep = 0;
         moveDirection = XYsupport.rndMoveDirection();
     }
 
@@ -37,20 +34,10 @@ public class BadBeast extends Character {
             updateEnergy(-strength);
             e.updateEnergy(-strength);
         } else {
-            updateEnergy(-getEnergy());
             e.updateEnergy(-getEnergy());
+            updateEnergy(-getEnergy());
         }
         return getEnergy() <= 0;
-    }
-
-    public boolean aSleep() {
-        if(sleep == 0) {
-            sleep = 3;
-            return false;
-        } else {
-            sleep--;
-            return true;
-        }
     }
 
     public String toString() {

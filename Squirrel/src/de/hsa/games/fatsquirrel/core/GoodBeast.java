@@ -1,42 +1,33 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.util.XY;
 import de.hsa.games.fatsquirrel.util.XYsupport;
 
 import java.util.logging.Logger;
 
-public class GoodBeast extends Character {
+public class GoodBeast extends Beast {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
-    private int sleep;
+
     public GoodBeast(int x, int y) {
         super(3, 200, x, y);
-        sleep = 0;
+        moveDirection = XYsupport.rndMoveDirection();
     }
 
     public void nextStep(EntityContext context) {
         if(!aSleep()) {
-            XY md;
-            if(context.nearestPlayerEntity(xy) == null) {
-                md = XYsupport.rndMoveDirection();
-            } else {
-                md = XYsupport.moveAway(xy, context.nearestPlayerEntity(xy).xy);
+            Entity squirrel = context.nearestPlayerEntity(xy);
+            if (squirrel != null) {
+                moveDirection = XYsupport.moveTowards(xy, squirrel.xy);
             }
-            context.tryMove(this, md);
-            logger.fine(this.getClass().getName() + " is moving: " + md.toString());
+            context.tryMove(this, moveDirection);
+            if (squirrel == null) {
+                moveDirection = XYsupport.rndMoveDirection();
+            }
+            logger.fine(this.getClass().getName() + " is moving: " + moveDirection.toString());
         } else {
             logger.fine(this.getClass().getName() + " is asleep");
         }
     }
 
-    private boolean aSleep() {
-        if(sleep == 0) {
-            sleep = 3;
-            return false;
-        } else {
-            sleep--;
-            return true;
-        }
-    }
 
     public String toString() {
         return "Type: GOOD_BEAST, " + super.toString();

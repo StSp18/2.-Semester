@@ -21,7 +21,7 @@ public abstract class Squirrel extends Character {
 
     }
 
-    protected boolean Stunned() {
+    public boolean Stunned() {
         if(stunned > 0) {
             stunned--;
             return true;

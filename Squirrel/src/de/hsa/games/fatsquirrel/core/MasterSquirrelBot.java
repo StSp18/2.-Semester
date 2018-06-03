@@ -65,6 +65,9 @@ public class MasterSquirrelBot extends MasterSquirrel{
                 if (context.getEntityType(bot.xy.plus(direction)) != EntityType.NONE) {
                     throw new SpawnException("This Coordinate is already occupied");
                 }
+                if (!isDirection(direction)) {
+                    throw new SpawnException("No allowed direction");
+                }
                 context.createMiniSquirrel(bot, direction, energy);
             } catch (SpawnException e) {
 
