@@ -16,7 +16,7 @@ public class GoodBeast extends Beast {
         if(!aSleep()) {
             Entity squirrel = context.nearestPlayerEntity(xy);
             if (squirrel != null) {
-                moveDirection = XYsupport.moveTowards(xy, squirrel.xy);
+                moveDirection = XYsupport.moveAway(xy, squirrel.xy);
             }
             context.tryMove(this, moveDirection);
             if (squirrel == null) {

@@ -2,8 +2,10 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.util.XY;
 
+import java.util.List;
+
 public interface BoardFactory {
-    Entity[] factoryBoard();
+    List<Entity> factoryBoard();
 
     XY getSize();
 
@@ -11,4 +13,5 @@ public interface BoardFactory {
 
     int getAmountOfHandOperatedMasterSquirrel();
 
+    long getSteps();
 }

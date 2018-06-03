@@ -1,5 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
+import de.hsa.games.fatsquirrel.botimpls.Group3RndFactory;
 import de.hsa.games.fatsquirrel.util.XY;
 
 public class BoardConfig {
@@ -13,11 +14,21 @@ public class BoardConfig {
     private final XY size;
     private final int wallCount;
     private final int amountOfEntity;
+    private final String[] botNames = new String[]{"Group3RndFactory", "Group3WallEFactory"};
+    public long steps;
 
-    BoardConfig(int bots, int humans){
+    BoardConfig(boolean bots) {
+        if (bots) {
+            steps = 100;
+            amountOfHandOperatedMasterSquirrel = 0;
+            amountOfAutomatedMasterSquirrel = botNames.length;
+        } else {
+            steps = 100000000;
+            amountOfHandOperatedMasterSquirrel = 1;
+            amountOfAutomatedMasterSquirrel = 0;
+        }
 
-        amountOfHandOperatedMasterSquirrel=humans;
-        amountOfAutomatedMasterSquirrel=bots;
+
         amountOfBadBeast=2;
         amountOfGoodBeast=2;
         amountOfBadPlant= 4;
@@ -28,19 +39,6 @@ public class BoardConfig {
         amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast+ amountOfGoodBeast+ amountOfBadPlant + amountOfWall + amountOfGoodPlant;
     }
 
-    BoardConfig(){
-
-        amountOfHandOperatedMasterSquirrel=1;
-        amountOfAutomatedMasterSquirrel=0;
-        amountOfBadBeast=2;
-        amountOfGoodBeast=2;
-        amountOfBadPlant= 4;
-        amountOfGoodPlant= 6;
-        amountOfWall=10;
-        size = new XY(100, 100);
-        wallCount=size.x*2+size.y*2-4;
-        amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast+ amountOfGoodBeast+ amountOfBadPlant + amountOfWall + amountOfGoodPlant;
-    }
     public int getAmountOfWall() {
         return amountOfWall;
     }
@@ -79,6 +77,11 @@ public class BoardConfig {
         return wallCount;
     }
 
+    public String[] getBotNames() {
+        return botNames;
+    }
 
-
+    public long getSteps() {
+        return steps;
+    }
 }

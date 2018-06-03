@@ -17,11 +17,10 @@ import javafx.stage.Stage;
 
 public class Launcher extends Application {
     private static Logger logger = (new SquirrelLogger(Level.FINE).getLogger());
-    private BoardFactoryImpl boardFactory = new BoardFactoryImpl();
+    private BoardFactoryImpl boardFactory = new BoardFactoryImpl(false);
     private Board board = new Board(boardFactory);
     private State state = new State(board);
     private static String version;
-    private static int bots = 2;
 
     public void startGame(Game game) {
         Timer t = new Timer();
@@ -42,17 +41,6 @@ public class Launcher extends Application {
             version = args[0];
         } else {
             version = "old";
-        }
-
-        if(version.equals("botgui")) {
-            try {
-                if(!args[1].isEmpty()) {
-                    bots = Integer.parseInt(args[1]);
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
-
-            }
-            logger.info("Bot count: " + bots);
         }
 
         Launcher launcher = new Launcher();
@@ -79,7 +67,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
         if(version.equals("botgui")) {
-            boardFactory = new BoardFactoryImpl(bots, 0);
+            boardFactory = new BoardFactoryImpl(true);
             board = new Board(boardFactory);
             state = new State(board);
         }

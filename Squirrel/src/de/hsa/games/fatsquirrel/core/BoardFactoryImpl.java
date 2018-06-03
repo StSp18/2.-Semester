@@ -1,60 +1,72 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.botapi.RndFactory;
+import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.util.XY;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 
 public class BoardFactoryImpl extends BoardConfig implements BoardFactory {
-    public BoardFactoryImpl(int bots, int humans) {
-        super(bots, humans);
+    private static Logger logger = Logger.getLogger("SquirrelLogger");
+
+    public BoardFactoryImpl(boolean bots) {
+        super(bots);
     }
 
-    public BoardFactoryImpl() {
-
-    }
-
-    public Entity[] factoryBoard() {
+    public List<Entity> factoryBoard() {
         int id = 0;
         XY[] rndCor = rndCor();
-        Entity[] board = new Entity[getAmountOfEntity() + getWallCount()];
+        List<Entity> board = new ArrayList<>();
 
         // Fill in of Entities
         for (int i = 0; i < getAmountOfHandOperatedMasterSquirrel(); i++, id++) {
-            board[id] = new HandOperatedMasterSquirrel(rndCor[id].x, rndCor[id].y);
+            board.add(new HandOperatedMasterSquirrel(rndCor[id].x, rndCor[id].y));
         }
         for (int i = 0; i < getAmountOfAutomatedMasterSquirrel(); i++, id++) {
-            board[id] = new MasterSquirrelBot(rndCor[id].x, rndCor[id].y, new RndFactory());
+            board.add(new MasterSquirrelBot(rndCor[id].x, rndCor[id].y, getNextFactory(i)));
         }
         for (int i = 0; i < getAmountOfWall(); i++, id++) {
-            board[id] = new Wall(rndCor[id].x, rndCor[id].y);
+            board.add(new Wall(rndCor[id].x, rndCor[id].y));
         }
         for (int i = 0; i < getAmountOfGoodPlant(); i++, id++) {
-            board[id] = new GoodPlant(rndCor[id].x, rndCor[id].y);
+            board.add(new GoodPlant(rndCor[id].x, rndCor[id].y));
         }
         for (int i = 0; i < getAmountOfBadPlant(); i++, id++) {
-            board[id] = new BadPlant(rndCor[id].x, rndCor[id].y);
+            board.add(new BadPlant(rndCor[id].x, rndCor[id].y));
         }
         for (int i = 0; i < getAmountOfGoodBeast(); i++, id++) {
-            board[id] = new GoodBeast(rndCor[id].x, rndCor[id].y);
+            board.add(new GoodBeast(rndCor[id].x, rndCor[id].y));
         }
         for (int i = 0; i < getAmountOfBadBeast(); i++, id++) {
-            board[id] = new BadBeast(rndCor[id].x, rndCor[id].y);
+            board.add(new BadBeast(rndCor[id].x, rndCor[id].y));
         }
         // Fill in of Outside Walls
         for (int i = 0; i < getSize().x; i++, id++) {
-            board[id] = new Wall(i, 0);
+            board.add(new Wall(i, 0));
         }
         for (int i = 0; i < getSize().x; i++, id++) {
-            board[id] = new Wall(i, getSize().y - 1);
+            board.add(new Wall(i, getSize().y - 1));
         }
         for (int i = 1; i < getSize().y - 1; i++, id++) {
-            board[id] = new Wall(0, i);
+            board.add(new Wall(0, i));
         }
         for (int i = 1; i < getSize().y - 1; i++, id++) {
-            board[id] = new Wall(getSize().x - 1, i);
+            board.add(new Wall(getSize().x - 1, i));
         }
         return board;
+    }
+
+    private BotControllerFactory getNextFactory(int i) {
+        try {
+            Class factory = Class.forName("de.hsa.games.fatsquirrel.botimpls." + getBotNames()[i]);
+            return (BotControllerFactory) factory.newInstance();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            logger.severe("Couldn't load BotFactory" + e.getMessage());
+            System.exit(-1);
+        }
+        return null;
     }
 
     private XY[] rndCor() {
