@@ -3,6 +3,7 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.util.XY;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
@@ -362,14 +363,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
             rndX = ThreadLocalRandom.current().nextInt(1, flattenedBoard[0].length);
             rndY = ThreadLocalRandom.current().nextInt(1, flattenedBoard[1].length);
         } while (getEntityType(rndX, rndY) != EntityType.NONE || (e.xy.x == rndX && e.xy.y == rndY));
-        if (e instanceof BadBeast) {
-            board.relocate(e, new BadBeast(rndX, rndY));
-        } else if (e instanceof GoodBeast) {
-            board.relocate(e, new GoodBeast(rndX, rndY));
-        } else if (e instanceof GoodPlant) {
-            board.relocate(e, new GoodPlant(rndX, rndY));
-        } else if (e instanceof BadPlant) {
-            board.relocate(e, new BadPlant(rndX, rndY));
+        Class entity = e.getClass();
+        try {
+            board.relocate(e, (Entity) entity.getDeclaredConstructor(int.class, int.class).newInstance(rndX, rndY));
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e1) {
+            logger.severe("Couldn't relocate Entity: " + e.toString() + "Exception: " + e1.getMessage());
         }
     }
 
