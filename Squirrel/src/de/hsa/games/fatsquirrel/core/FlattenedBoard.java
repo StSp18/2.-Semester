@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 
 public class FlattenedBoard implements BoardView, EntityContext {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
-    private Board board;
+    private Board_Interface board;
     private Entity[][] flattenedBoard;
 
-    public FlattenedBoard(Entity[][] fb, Board b) {
+    public FlattenedBoard(Entity[][] fb, Board_Interface b) {
         this.flattenedBoard = fb;
         this.board = b;
     }
@@ -352,25 +352,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     public void kill(Entity e) {
-        board.remove(e.getId());
+        board.remove(e);
     }
 
     public void killAndReplace(Entity e) {
-        int rndX;
-        int rndY;
-        do {
-            rndX = ThreadLocalRandom.current().nextInt(1, flattenedBoard[0].length);
-            rndY = ThreadLocalRandom.current().nextInt(1, flattenedBoard[1].length);
-        } while (getEntityType(rndX, rndY) != EntityType.NONE || (e.xy.x == rndX && e.xy.y == rndY));
-        if (e instanceof BadBeast) {
-            board.relocate(e, new BadBeast(rndX, rndY));
-        } else if (e instanceof GoodBeast) {
-            board.relocate(e, new GoodBeast(rndX, rndY));
-        } else if (e instanceof GoodPlant) {
-            board.relocate(e, new GoodPlant(rndX, rndY));
-        } else if (e instanceof BadPlant) {
-            board.relocate(e, new BadPlant(rndX, rndY));
-        }
+        board.relocate(e, this);
     }
 
     private Entity getEntity(XY coordinates) {
