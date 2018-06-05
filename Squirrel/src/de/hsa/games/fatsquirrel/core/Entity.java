@@ -35,7 +35,7 @@ public abstract class Entity {
     }
 
     public boolean equals(Entity e) {
-        return getId() == e.getId();
+        return id == e.getId() && xy.equals(e.xy) && energy == e.getEnergy();
     }
 
     public String toString() {

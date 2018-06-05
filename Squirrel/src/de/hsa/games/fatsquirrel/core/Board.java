@@ -2,11 +2,12 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.util.XY;
 
-import java.util.Collection;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
-public class Board{
+public class Board implements Board_Interface {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
     private List<Entity> board;
     private XY size;
@@ -51,9 +52,19 @@ public class Board{
         logger.finer(this.getClass().getName() + ": Removed: " + e.toString());
     }
 
-    public void relocate(Entity oldE, Entity newE) {
-        board.set(board.indexOf(oldE), newE);
-        logger.finer(  this.getClass().getName() + ": Relocated: " + oldE.toString() + ", to: " + newE.toString());
+    public void relocate(Entity oldE, FlattenedBoard flattenedBoard) {
+        int rndX;
+        int rndY;
+        do {
+            rndX = ThreadLocalRandom.current().nextInt(1, getSize().x);
+            rndY = ThreadLocalRandom.current().nextInt(1, getSize().y);
+        } while (flattenedBoard.getEntityType(rndX, rndY) != EntityType.NONE);
+        try {
+            Entity newE = oldE.getClass().getConstructor(int.class, int.class).newInstance(rndX, rndY);
+            logger.finer(this.getClass().getName() + ": Relocated: " + oldE.toString() + ", to: " + newE.toString());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            logger.severe(e.getMessage());
+        }
     }
 
     public void update() {

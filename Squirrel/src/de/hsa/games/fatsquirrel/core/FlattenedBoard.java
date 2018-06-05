@@ -3,16 +3,15 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.util.XY;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
 public class FlattenedBoard implements BoardView, EntityContext {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
-    private Board board;
+    private Board_Interface board;
     private Entity[][] flattenedBoard;
 
-    public FlattenedBoard(Entity[][] fb, Board b) {
+    public FlattenedBoard(Entity[][] fb, Board_Interface b) {
         this.flattenedBoard = fb;
         this.board = b;
     }
@@ -357,18 +356,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     public void killAndReplace(Entity e) {
-        int rndX;
-        int rndY;
-        do {
-            rndX = ThreadLocalRandom.current().nextInt(1, flattenedBoard[0].length);
-            rndY = ThreadLocalRandom.current().nextInt(1, flattenedBoard[1].length);
-        } while (getEntityType(rndX, rndY) != EntityType.NONE || (e.xy.x == rndX && e.xy.y == rndY));
-        Class entity = e.getClass();
-        try {
-            board.relocate(e, (Entity) entity.getDeclaredConstructor(int.class, int.class).newInstance(rndX, rndY));
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e1) {
-            logger.severe("Couldn't relocate Entity: " + e.toString() + "Exception: " + e1.getMessage());
-        }
+        board.relocate(e, this);
     }
 
     private Entity getEntity(XY coordinates) {
