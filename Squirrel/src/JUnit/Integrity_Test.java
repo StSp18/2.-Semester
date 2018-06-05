@@ -7,6 +7,9 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class Integrity_Test {
@@ -22,15 +25,17 @@ public class Integrity_Test {
     @Test
     public void testUpdate() {
         board.update();
-        assertEquals("MasterSqirrel should have stayed", new XY(1, 1), masterSquirrel.xy);
+        assertEquals("MasterSquirrel should have stayed", new XY(1, 1), masterSquirrel.xy);
         assertEquals("BadBeast should have moved towards MasterSquirrel", new XY(3, 3), badBeast.xy);
-        assertEquals("GoodBeast should have moved away from MasterSquirrel", new XY(1, 3), goodBeast.xy);
+        assertEquals("GoodBeast should have moved away from MasterSquirrel", new XY(1, 4), goodBeast.xy);
     }
 
 
-    public Board getMockedBoard() {
+    private Board getMockedBoard() {
         final BoardFactory boardFactory = context.mock(BoardFactory.class);
         context.checking(new Expectations() {{
+            oneOf(boardFactory).getSteps();
+            will(returnValue((long) 100));
             oneOf(boardFactory).getAmountOfHandOperatedMasterSquirrel();
             will(returnValue(1));
             oneOf(boardFactory).getAmountOfAutomatedMasterSquirrel();
@@ -43,25 +48,25 @@ public class Integrity_Test {
         return new Board(boardFactory);
     }
 
-    private Entity[] boardFactoryFake() {
-        final Entity[] entities = new Entity[25];
+    private List<Entity> boardFactoryFake() {
+        final List<Entity> entities = new ArrayList<>();
         int id = 0;
-        entities[id++] = masterSquirrel;
-        entities[id++] = badBeast;
-        entities[id++] = goodBeast;
-        entities[id++] = badPlant;
-        entities[id++] = goodPlant;
+        entities.add(masterSquirrel);
+        entities.add(badBeast);
+        entities.add(goodBeast);
+        entities.add(badPlant);
+        entities.add(goodPlant);
         for (int i = 0; i < 6; i++) {
-            entities[id++] = new Wall(i, 0);
+            entities.add(new Wall(i, 0));
         }
         for (int i = 0; i < 6; i++) {
-            entities[id++] = new Wall(i, 5);
+            entities.add(new Wall(i, 5));
         }
         for (int i = 1; i < 5; i++) {
-            entities[id++] = new Wall(0, i);
+            entities.add(new Wall(0, i));
         }
         for (int i = 1; i < 5; i++) {
-            entities[id++] = new Wall(5, i);
+            entities.add(new Wall(5, i));
         }
         return entities;
     }

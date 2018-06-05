@@ -1,7 +1,6 @@
 package de.hsa.games.fatsquirrel.core;
 
 public class State {
-    // TODO highscore
     private int highscore;
     private Board board;
     public State(Board board) {
