@@ -34,13 +34,13 @@ public class XY_Test {
 
     @Test
     public void testLength() {
-        assertEquals("sqrt(6*6+8*8)=10.0", 10.0, XY3.length(), 0.1);
+        assertEquals("sqrt(6*6+8*8)=10.0", 10.0, XY3.length(), 0.0000001);
     }
 
     @Test
     public void testEquals() {
         assertTrue("XY elements with same Coordinates are equal", XY1.equals(new XY(5, 8)));
-        assertFalse("XY elements with diffrent Coordinates are not equal", XY1.equals(XY2));
+        assertFalse("XY elements with different Coordinates are not equal", XY1.equals(XY2));
         assertFalse("XY elements and other Objects are not equal", XY1.equals("false"));
     }
 

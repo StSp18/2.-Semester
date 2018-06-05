@@ -21,7 +21,6 @@ public class Character_nextStep_Test {
     public void testBadBeastEncountersSquirrel() {
         final BadBeast badBeast = new BadBeast(1, 4);
         final XY moveDirection = XYsupport.moveTowards(badBeast.xy, squirrel.xy);
-
         context.checking(new Expectations() {{
             oneOf(entityContext).nearestPlayerEntity(badBeast.xy);
             will(returnValue(squirrel));
@@ -76,7 +75,7 @@ public class Character_nextStep_Test {
     @Test
     public void testGoodBeastEncountersSquirrel() {
         final GoodBeast goodBeast = new GoodBeast(1, 4);
-        final XY moveDirection = XYsupport.moveTowards(goodBeast.xy, squirrel.xy);
+        final XY moveDirection = XYsupport.moveAway(goodBeast.xy, squirrel.xy);
 
         context.checking(new Expectations() {{
             oneOf(entityContext).nearestPlayerEntity(goodBeast.xy);

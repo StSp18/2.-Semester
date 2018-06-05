@@ -83,24 +83,12 @@ public class Board implements Board_Interface {
     public long getRemainingSteps() {
         return remainingSteps;
     }
+
     public String toString() {
         String s = "";
         for (Entity e : board) {
-            if (e instanceof Wall) {
-                s += "WALL";
-            } else if (e instanceof BadBeast) {
-                s += "BAD_BEAST";
-            } else if (e instanceof BadPlant) {
-                s += "BAD_PLANT";
-            } else if (e instanceof GoodBeast) {
-                s += "GOOD_BEAST";
-            } else if (e instanceof GoodPlant) {
-                s += "GOOD_PLANT";
-            } else if (e instanceof MasterSquirrel) {
-                s += "MASTER_SQUIRREL";
-            } else if (e instanceof MiniSquirrel) {
-                s += "MINI_SQUIRREL";
-            }
+            String name = e.getClass().getName();
+            s += name.substring(name.lastIndexOf('.') + 1);
             s += ", " + e.xy.toString() + '\n';
         }
         return s;
