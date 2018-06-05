@@ -22,7 +22,6 @@ public class FlattenedBoard_Test {
     private final GoodPlant goodPlant = new GoodPlant(3, 1);
     private final Board board = getMockedBoard();
     private FlattenedBoard flattenedBoard = board.createFlattenedBoard();
-
     public FlattenedBoard_Test() throws SpawnException {
     }
 
@@ -60,7 +59,7 @@ public class FlattenedBoard_Test {
         }
     }
 
-    public void moveMasterSquirrel(XY xy) {
+    private void moveMasterSquirrel(XY xy) {
         XY before = masterSquirrel.xy;
         flattenedBoard.tryMove(masterSquirrel, xy);
         assertEquals("MasterSquirrel should have moved there", before.plus(xy), masterSquirrel.xy);
@@ -70,9 +69,8 @@ public class FlattenedBoard_Test {
     public void testTryMoveMiniSquirrel() {
         board.add(miniSquirrel);
         flattenedBoard = board.createFlattenedBoard();
-        int energy = miniSquirrel.getEnergy();
         moveMiniSquirrel(XY.DOWN);
-        energy = miniSquirrel.getEnergy();
+        int energy = miniSquirrel.getEnergy();
         moveMiniSquirrel(XY.DOWN);
         assertEquals("Should have eaten GoodBeast", energy + 199, miniSquirrel.getEnergy());
         moveMiniSquirrel(XY.RIGHT_UP);
@@ -141,7 +139,7 @@ public class FlattenedBoard_Test {
     }
 
 
-    public Board getMockedBoard() {
+    private Board getMockedBoard() {
         final BoardFactory boardFactory = context.mock(BoardFactory.class);
         context.checking(new Expectations() {{
             oneOf(boardFactory).getAmountOfHandOperatedMasterSquirrel();
