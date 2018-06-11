@@ -3,40 +3,80 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.botimpls.Group3RndFactory;
 import de.hsa.games.fatsquirrel.util.XY;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Logger;
+
 public class BoardConfig {
-    private final int amountOfWall;
-    private final int amountOfGoodPlant;
-    private final int amountOfBadPlant;
-    private final int amountOfGoodBeast;
-    private final int amountOfBadBeast;
-    private final int amountOfHandOperatedMasterSquirrel;
-    private final int amountOfAutomatedMasterSquirrel;
-    private final XY size;
-    private final int wallCount;
-    private final int amountOfEntity;
-    private final String[] botNames = new String[]{"Group3RndFactory", "Group3WallEFactory"};
-    public long steps;
+    private static Logger logger = Logger.getLogger("SquirrelLogger");
+    private int amountOfWall = 10;
+    private int amountOfGoodPlant = 6;
+    private int amountOfBadPlant = 4;
+    private int amountOfGoodBeast = 2;
+    private int amountOfBadBeast = 2;
+    private int amountOfHandOperatedMasterSquirrel;
+    private int amountOfAutomatedMasterSquirrel;
+    private int sizeX = 100;
+    private int sizeY = 100;
+    private XY size;
+    private int wallCount;
+    private int amountOfEntity;
+    private List<String> botNames = new ArrayList<>();
+    public long steps = 100;
 
     BoardConfig(boolean bots) {
+        botNames.add("Group3RndFactory");
+        botNames.add("Group3WallEFactory");
+        Properties properties = new Properties();
+        InputStream inputStream = ClassLoader.getSystemResourceAsStream("BoardConfig.properties");
+
+        if (inputStream != null) {
+            try {
+                properties.load(inputStream);
+                inputStream.close();
+            } catch (IOException e) {
+                logger.severe("Couldn't load BoardConfig: " + e.getMessage());
+            }
+            if (properties.containsKey("Wall"))
+                amountOfWall = Integer.parseInt(properties.getProperty("Wall"));
+            if (properties.containsKey("GoodPlant"))
+                amountOfGoodPlant = Integer.parseInt(properties.getProperty("GoodPlant"));
+            if (properties.containsKey("BadPlant"))
+                amountOfBadPlant = Integer.parseInt(properties.getProperty("BadPlant"));
+            if (properties.containsKey("GoodBeast"))
+                amountOfGoodBeast = Integer.parseInt(properties.getProperty("GoodBeast"));
+            if (properties.containsKey("BadBeast"))
+                amountOfBadBeast = Integer.parseInt(properties.getProperty("BadBeast"));
+            if (properties.containsKey("SizeX"))
+                sizeX = Integer.parseInt(properties.getProperty("SizeX"));
+            if (properties.containsKey("SizeY"))
+                sizeY = Integer.parseInt(properties.getProperty("SizeY"));
+            if (properties.containsKey("Steps"))
+                steps = Integer.parseInt(properties.getProperty("Steps"));
+            if (properties.containsKey("BotNames")) {
+                String names = properties.getProperty("BotNames").trim();
+                botNames.clear();
+                while (names.contains(" ")) {
+                    botNames.add(names.substring(0, names.indexOf(' ')));
+                    names = names.substring(names.indexOf(' ') + 1);
+                }
+                botNames.add(names);
+            }
+        }
         if (bots) {
-            steps = 100;
             amountOfHandOperatedMasterSquirrel = 0;
-            amountOfAutomatedMasterSquirrel = botNames.length;
+            amountOfAutomatedMasterSquirrel = botNames.size();
         } else {
             steps = 100000000;
             amountOfHandOperatedMasterSquirrel = 1;
             amountOfAutomatedMasterSquirrel = 0;
         }
-
-
-        amountOfBadBeast=2;
-        amountOfGoodBeast=2;
-        amountOfBadPlant= 4;
-        amountOfGoodPlant= 6;
-        amountOfWall=10;
-        size = new XY(100, 100);
-        wallCount=size.x*2+size.y*2-4;
-        amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast+ amountOfGoodBeast+ amountOfBadPlant + amountOfWall + amountOfGoodPlant;
+        size = new XY(sizeX, sizeY);
+        wallCount = size.x * 2 + size.y * 2 - 4;
+        amountOfEntity = amountOfHandOperatedMasterSquirrel + amountOfAutomatedMasterSquirrel + amountOfBadBeast + amountOfGoodBeast + amountOfBadPlant + amountOfWall + amountOfGoodPlant;
     }
 
     public int getAmountOfWall() {
@@ -78,7 +118,11 @@ public class BoardConfig {
     }
 
     public String[] getBotNames() {
-        return botNames;
+        String[] names = new String[botNames.size()];
+        for (int i = 0; i < names.length; i++) {
+            names[i] = botNames.get(i);
+        }
+        return names;
     }
 
     public long getSteps() {

@@ -21,6 +21,8 @@ public class GameImplFxUI extends Game {
 
     @Override
     public void processInput() {
+        if (ui.getCommand().getCommandTypeInfo().getName().toUpperCase().equals("EXIT"))
+            System.exit(0);
         player.setMoveDirection(XYsupport.valueOf(ui.getCommand().getCommandTypeInfo().getName()));
     }
 

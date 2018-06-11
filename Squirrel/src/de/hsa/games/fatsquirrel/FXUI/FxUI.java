@@ -45,7 +45,7 @@ public class FxUI extends Scene implements UI {
                             break;
                         case E:
                             logger.info("Game exit");
-                            System.exit(0);
+                            setCommand("EXIT");
                             break;
                         default:
                             break;

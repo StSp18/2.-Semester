@@ -61,9 +61,11 @@ public class Board implements Board_Interface {
         } while (flattenedBoard.getEntityType(rndX, rndY) != EntityType.NONE);
         try {
             Entity newE = oldE.getClass().getConstructor(int.class, int.class).newInstance(rndX, rndY);
+            board.set(board.indexOf(oldE), newE);
             logger.finer(this.getClass().getName() + ": Relocated: " + oldE.toString() + ", to: " + newE.toString());
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             logger.severe(e.getMessage());
+            System.exit(-1);
         }
     }
 

@@ -116,11 +116,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     @Override
     public boolean isMine(XY xy, Entity e) {
-        if(e instanceof MasterSquirrel) {
+        if (getEntityType(e.xy) == (EntityType.MASTER_SQUIRREL)) {
             if(getEntityType(xy) == EntityType.MINI_SQUIRREL) {
                 return ((MiniSquirrel) getEntity(xy)).getMaster() == e;
             }
-        } else if (e instanceof MiniSquirrel) {
+        } else if (getEntityType(e.xy) == EntityType.MINI_SQUIRREL) {
             return ((MiniSquirrel) e).getMaster() == getEntity(xy);
         }
         return false;
@@ -305,50 +305,37 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     public Squirrel nearestPlayerEntity(XY pos) {
-        boolean right = true;
-        boolean left = true;
-        boolean up = true;
-        boolean down = true;
         for (int i = 1; i <= 6; i++) {
-            if (pos.x + i > flattenedBoard[0].length - 1)
-                right = false;
-            if (pos.x - i < 0)
-                left = false;
-            if (pos.y + i > flattenedBoard[1].length - 1)
-                down = false;
-            if (pos.y - i < 0)
-                up = false;
-            for (int k = 0; k <= i; k++) {
-                if (right && up && flattenedBoard[pos.x + k][pos.y - i] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x + k][pos.y - i];
+            for (int k = -i; k <= i; k++) {
+                if (inBounds(pos.x + k, pos.y + i)) {
+                    if (flattenedBoard[pos.x + k][pos.y + i] instanceof Squirrel) {
+                        return (Squirrel) flattenedBoard[pos.x + k][pos.y + i];
+                    }
                 }
-                if (right && up && flattenedBoard[pos.x + i][pos.y - k] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x + i][pos.y - k];
+                if (inBounds(pos.x + k, pos.y - i)) {
+                    if (flattenedBoard[pos.x + k][pos.y - i] instanceof Squirrel) {
+                        return (Squirrel) flattenedBoard[pos.x + k][pos.y - i];
+                    }
                 }
-                // obenlinks
-                if (left && up && flattenedBoard[pos.x - i][pos.y - k] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x - i][pos.y - k];
+            }
+            for (int k = -i + 1; k < i; k++) {
+                if (inBounds(pos.x + i, pos.y + k)) {
+                    if (flattenedBoard[pos.x + i][pos.y + k] instanceof Squirrel) {
+                        return (Squirrel) flattenedBoard[pos.x + i][pos.y + k];
+                    }
                 }
-                if (left && up && flattenedBoard[pos.x - k][pos.y - i] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x - k][pos.y - i];
-                }
-                // untenrechts
-                if (right && down && flattenedBoard[pos.x + k][pos.y + i] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x + k][pos.y + i];
-                }
-                if (right && down && flattenedBoard[pos.x + i][pos.y + k] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x + i][pos.y + k];
-                }
-                // untenlinks
-                if (left && down && flattenedBoard[pos.x - i][pos.y + k] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x - i][pos.y + k];
-                }
-                if (left && down && flattenedBoard[pos.x - k][pos.y + i] instanceof Squirrel) {
-                    return (Squirrel) flattenedBoard[pos.x - k][pos.y + i];
+                if (inBounds(pos.x - i, pos.y + k)) {
+                    if (flattenedBoard[pos.x - i][pos.y + k] instanceof Squirrel) {
+                        return (Squirrel) flattenedBoard[pos.x - i][pos.y + k];
+                    }
                 }
             }
         }
         return null;
+    }
+
+    private boolean inBounds(int x, int y) {
+        return x > 0 && x < getSize().x - 1 && y > 0 && y < getSize().y - 1;
     }
 
     public void kill(Entity e) {

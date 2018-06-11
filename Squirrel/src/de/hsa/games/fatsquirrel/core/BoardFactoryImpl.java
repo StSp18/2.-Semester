@@ -79,7 +79,7 @@ public class BoardFactoryImpl extends BoardConfig implements BoardFactory {
         while (ranCor[getAmountOfEntity() - 1] == null) {
             check = true;
             rndX = ThreadLocalRandom.current().nextInt(1, getSize().x - 1);
-            rndY = ThreadLocalRandom.current().nextInt(1, getSize().x - 1);
+            rndY = ThreadLocalRandom.current().nextInt(1, getSize().y - 1);
             for (int i = 0; i < count; i++) {
                 if (ranCor[i].x == rndX && ranCor[i].y == rndY) {
                     check = false;
