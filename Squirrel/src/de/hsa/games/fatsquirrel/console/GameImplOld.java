@@ -20,7 +20,7 @@ public class GameImplOld extends Game {
         super(s, b);
         player = b.getPlayer();
         ui = new ConsoleUI();
-        this.b = b;
+        this.board = b;
     }
 
     public void run() {
@@ -69,10 +69,10 @@ public class GameImplOld extends Game {
         try {
             outputStream.println("Spawn mini");
             XY md = XYsupport.rndMoveDirection();
-            while (s.flattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
+            while (state.flattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
                 md = XYsupport.rndMoveDirection();
             }
-            b.add(player.createMiniSquirrel(energy, md));
+            board.add(player.createMiniSquirrel(energy, md));
             player.setMoveDirection(XY.ZERO_ZERO);
         } catch (SpawnException e) {
             outputStream.println(e.getMessage());

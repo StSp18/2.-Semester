@@ -6,7 +6,7 @@ public class XYsupport {
     private static XY[] directions = new XY[] {XY.DOWN, XY.UP, XY.LEFT, XY.RIGHT, XY.LEFT_DOWN, XY.LEFT_UP, XY.RIGHT_DOWN, XY.RIGHT_UP, XY.ZERO_ZERO};
     private static String[] names = new String[] {"DOWN", "UP", "LEFT", "RIGHT", "LEFT_DOWN", "LEFT_UP", "RIGHT_DOWN", "RIGHT_UP", "ZERO_ZERO"};
 
-    public  static boolean isDirection(XY xy) {
+    public static boolean isDirection(XY xy) {
         for(XY direction: directions) {
             if(xy.equals(direction)) {
                 return true;

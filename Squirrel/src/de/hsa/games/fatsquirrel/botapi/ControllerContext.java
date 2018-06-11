@@ -4,7 +4,7 @@ import de.hsa.games.fatsquirrel.core.EntityType;
 import de.hsa.games.fatsquirrel.util.XY;
 
 public interface ControllerContext {
-    XY getViewLowerLeft ();
+    XY getViewLowerLeft();
     XY getViewUpperRight();
     EntityType getEntityAt(XY xy) throws OutOfViewException;
     void move(XY direction);
@@ -14,6 +14,5 @@ public interface ControllerContext {
     XY directionOfMaster();
     long getRemainingSteps();
     boolean isMine(XY xy) throws OutOfViewException;
-
     void implode(int impactRadius);
 }

@@ -86,10 +86,10 @@ public class GameImplFps extends Game {
         try {
             outputStream.println("Spawn mini");
             XY md = XYsupport.rndMoveDirection();
-            while (b.createFlattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
+            while (board.createFlattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
                 md = XYsupport.rndMoveDirection();
             }
-            b.add(player.createMiniSquirrel(energy, md));
+            board.add(player.createMiniSquirrel(energy, md));
             player.setMoveDirection(XY.ZERO_ZERO);
         } catch (SpawnException e) {
             outputStream.println(e.getMessage());

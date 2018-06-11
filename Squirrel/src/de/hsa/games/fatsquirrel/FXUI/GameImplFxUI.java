@@ -5,9 +5,9 @@ import de.hsa.games.fatsquirrel.util.XYsupport;
 
 public class GameImplFxUI extends Game {
 
-    public GameImplFxUI(State s, Board b, FxUI fxUI) {
-        super(s, b);
-        player = b.getPlayer();
+    public GameImplFxUI(State state, Board board, FxUI fxUI) {
+        super(state, board);
+        player = board.getPlayer();
         ui = fxUI;
     }
 

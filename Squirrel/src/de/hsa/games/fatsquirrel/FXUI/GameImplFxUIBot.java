@@ -5,13 +5,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hsa.games.fatsquirrel.core.*;
-import sun.plugin.javascript.JSObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,10 +22,10 @@ public class GameImplFxUIBot extends Game {
     private BoardFactoryImpl factory = new BoardFactoryImpl(true);
     private Path p;
 
-    public GameImplFxUIBot(State s, Board b, FxUI fxUI) {
-        super(s, b);
+    public GameImplFxUIBot(State state, Board board, FxUI fxUI) {
+        super(state, board);
         p = Paths.get("Squirrel/resources/highscores.json");
-        players = b.getPlayers();
+        players = board.getPlayers();
         ui = fxUI;
         if (!load()) {
             for (String key : factory.getBotNames()) {
@@ -43,20 +40,20 @@ public class GameImplFxUIBot extends Game {
         if (ui.getCommand().getCommandTypeInfo().getName().toUpperCase().equals("EXIT")) {
             saveAndExit();
         }
-        ((FxUI) ui).message("Remaining Steps: " + b.getRemainingSteps());
+        ((FxUI) ui).message("Remaining Steps: " + board.getRemainingSteps());
         update();
-        if (b.getRemainingSteps() == 0) {
+        if (board.getRemainingSteps() == 0) {
             addScores();
             logRun();
-            b = new Board(factory);
-            s = new State(b);
+            board = new Board(factory);
+            state = new State(board);
         }
     }
 
     private void addScores() {
         for (int i = 0; i < factory.getBotNames().length; i++) {
             List<Integer> ints = bigData.get(factory.getBotNames()[i]);
-            ints.add(b.getPlayers()[i].getEnergy());
+            ints.add(board.getPlayers()[i].getEnergy());
             bigData.put(factory.getBotNames()[i], ints);
         }
     }
