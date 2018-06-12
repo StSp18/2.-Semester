@@ -21,6 +21,11 @@ public class Board implements Board_Interface {
         remainingSteps = bf.getSteps();
     }
 
+    /**
+     * for Multi-player mode
+     *
+     * @return all Players
+     */
     public MasterSquirrel[] getPlayers() {
         MasterSquirrel[] players = new MasterSquirrel[player_count];
         for(int i = 0; i< player_count; i++) {
@@ -29,10 +34,20 @@ public class Board implements Board_Interface {
         return players;
     }
 
+    /**
+     * for Single-player mode
+     *
+     * @return the Player
+     */
     public MasterSquirrel getPlayer( ) {
         return (MasterSquirrel) board.get(0);
     }
 
+    /**
+     * creates 2D View of the Board
+     *
+     * @return
+     */
     public FlattenedBoard createFlattenedBoard() {
         Entity[][] flattenedBoard = new Entity[size.x][size.y];
         for (Entity e : board) {
@@ -41,17 +56,32 @@ public class Board implements Board_Interface {
         return new FlattenedBoard(flattenedBoard, this);
     }
 
+    /**
+     * adds given Entity to the Board
+     *
+     * @param e
+     */
     public void add(Entity e) {
         board.add(e);
         logger.finer(  this.getClass().getName() + ": Added: " + e.toString());
     }
 
-
+    /**
+     * removes an Entity from the Board if it exists
+     *
+     * @param e
+     */
     public void remove(Entity e) {
         board.remove(e);
         logger.finer(this.getClass().getName() + ": Removed: " + e.toString());
     }
 
+    /**
+     * replaces an entity and replaces it with a new one from the same type at a new random place
+     *
+     * @param oldE
+     * @param flattenedBoard
+     */
     public void relocate(Entity oldE, FlattenedBoard flattenedBoard) {
         int rndX;
         int rndY;
@@ -69,6 +99,9 @@ public class Board implements Board_Interface {
         }
     }
 
+    /**
+     * calls nextStep of each Character on the Board
+     */
     public void update() {
         remainingSteps = remainingSteps - 1;
         board.forEach(entity -> {
@@ -78,10 +111,20 @@ public class Board implements Board_Interface {
         });
     }
 
+    /**
+     * returns size
+     *
+     * @return
+     */
     public XY getSize() {
         return size;
     }
 
+    /**
+     * Tells how many steps are left before an restart
+     *
+     * @return
+     */
     public long getRemainingSteps() {
         return remainingSteps;
     }

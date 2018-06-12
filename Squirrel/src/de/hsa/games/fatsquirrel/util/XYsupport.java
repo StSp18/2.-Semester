@@ -6,6 +6,12 @@ public class XYsupport {
     private static XY[] directions = new XY[] {XY.DOWN, XY.UP, XY.LEFT, XY.RIGHT, XY.LEFT_DOWN, XY.LEFT_UP, XY.RIGHT_DOWN, XY.RIGHT_UP, XY.ZERO_ZERO};
     private static String[] names = new String[] {"DOWN", "UP", "LEFT", "RIGHT", "LEFT_DOWN", "LEFT_UP", "RIGHT_DOWN", "RIGHT_UP", "ZERO_ZERO"};
 
+    /**
+     * checks if a given xy is a moveDirection
+     *
+     * @param xy
+     * @return
+     */
     public static boolean isDirection(XY xy) {
         for(XY direction: directions) {
             if(xy.equals(direction)) {
@@ -15,10 +21,24 @@ public class XYsupport {
         return false;
     }
 
+    /**
+     * returns the moveDirection that distance you from a given coordinate
+     *
+     * @param yours
+     * @param others
+     * @return
+     */
     public static XY moveAway(XY yours, XY others) {
         return moveTowards(others, yours);
     }
 
+    /**
+     * returns the moveDirection that gets you closer to a given coordinate
+     *
+     * @param yours
+     * @param others
+     * @return
+     */
     public static XY moveTowards(XY yours, XY others) {
         int x = 0;
         int y = 0;
@@ -38,8 +58,14 @@ public class XYsupport {
 
     }
 
+    /**
+     * returns the moveDirection corresponding to the given name
+     *
+     * @param s
+     * @return
+     */
     public static XY valueOf(String s) {
-        for(int i=0; i<names.length;i++) {
+        for (int i = 0; i < names.length; i++) {
             if(s.equals(names[i])) {
                 return directions[i];
             }
@@ -47,6 +73,11 @@ public class XYsupport {
         return XY.ZERO_ZERO;
     }
 
+    /**
+     * generates a random moveDirection
+     *
+     * @return
+     */
     public static XY rndMoveDirection() {
         int randomNum = ThreadLocalRandom.current().nextInt(0, 8);
         return directions[randomNum];

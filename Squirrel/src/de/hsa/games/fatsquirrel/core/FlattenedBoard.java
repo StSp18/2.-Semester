@@ -2,8 +2,6 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.util.XY;
-
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
 public class FlattenedBoard implements BoardView, EntityContext {

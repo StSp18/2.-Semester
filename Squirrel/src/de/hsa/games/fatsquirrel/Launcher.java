@@ -22,6 +22,11 @@ public class Launcher extends Application {
     private State state = new State(board);
     private static String version;
 
+    /**
+     * starts the game loop in one thread and process inout in another
+     *
+     * @param game
+     */
     public void startGame(Game game) {
         Timer t = new Timer();
         TimerTask task = new TimerTask() {
@@ -34,6 +39,11 @@ public class Launcher extends Application {
         game.processInput();
     }
 
+    /**
+     * starts a given version(old, fps, gui, botgui) of the game
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         logger.info("Program start");
         if (!args[0].isEmpty()) {
@@ -46,24 +56,29 @@ public class Launcher extends Application {
         Launcher launcher = new Launcher();
         Game game;
         switch (version) {
-        case "old" :
-            game = new GameImplOld(launcher.state, launcher.board);
-            game.run();
-            break;
-        case "fps":
-            game = new GameImplFps(launcher.state, launcher.board);
-            launcher.startGame(game);
-            break;
-        case "gui":
-        case "botgui":
-            Application.launch(args);
-            break;
-        default:
+            case "old":
+                game = new GameImplOld(launcher.state, launcher.board);
+                game.run();
+                break;
+            case "fps":
+                game = new GameImplFps(launcher.state, launcher.board);
+                launcher.startGame(game);
+                break;
+            case "gui":
+            case "botgui":
+                Application.launch(args);
+                break;
+            default:
 //            You are a derp --> You get a Cookie, ask Johannes
-            break;
+                break;
         }
     }
 
+    /**
+     * starts the game with an javafx gui
+     *
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         if(version.equals("botgui")) {

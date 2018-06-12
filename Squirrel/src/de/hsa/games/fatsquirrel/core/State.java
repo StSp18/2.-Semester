@@ -8,10 +8,18 @@ public class State {
         this.board= board;
     }
 
+    /**
+     * calls createFlattenedBoard() of Board
+     *
+     * @return
+     */
     public FlattenedBoard flattenedBoard() {
         return board.createFlattenedBoard();
     }
 
+    /**
+     * calls update() of Board
+     */
     public void update() {
         board.update();
     }

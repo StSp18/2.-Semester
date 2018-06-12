@@ -5,11 +5,12 @@ import de.hsa.games.fatsquirrel.core.BoardView;
 public interface UI {
 
     /**
-     * @return current Commad
+     * @return next Command
      */
     Command getCommand();
 
     /**
+     * draws the 2D view of the Board
      * @param view
      */
     void render(BoardView view);
