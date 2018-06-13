@@ -47,6 +47,9 @@ public class FxUI extends Scene implements UI {
                             logger.info("Game exit");
                             setCommand("EXIT");
                             break;
+                        case R:
+                            logger.info("Reset Highscore");
+                            setCommand("RESET");
                         default:
                             break;
                     }
@@ -113,6 +116,10 @@ public class FxUI extends Scene implements UI {
             }
 
         }
+    }
+
+    public void invalidateCommand() {
+        command = new Command(GameCommandType.ZERO_ZERO, new Object[] {});
     }
 
     private void setCommand (String s) {

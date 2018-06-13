@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.FXUI;
 
 import de.hsa.games.fatsquirrel.core.*;
+import de.hsa.games.fatsquirrel.util.XY;
 import de.hsa.games.fatsquirrel.util.XYsupport;
 
 public class GameImplFxUI extends Game {
@@ -21,6 +22,10 @@ public class GameImplFxUI extends Game {
     public void processInput() {
         if (ui.getCommand().getCommandTypeInfo().getName().toUpperCase().equals("EXIT"))
             System.exit(0);
+        if(ui.getCommand().getCommandTypeInfo().getName().toUpperCase().equals("RESET")){
+            player[0].setMoveDirection(XY.ZERO_ZERO);
+            return;
+        }
         player[0].setMoveDirection(XYsupport.valueOf(ui.getCommand().getCommandTypeInfo().getName()));
     }
 

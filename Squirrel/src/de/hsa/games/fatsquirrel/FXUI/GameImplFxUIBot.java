@@ -35,6 +35,13 @@ public class GameImplFxUIBot extends Game {
         if (ui.getCommand().getCommandTypeInfo().getName().toUpperCase().equals("EXIT")) {
             saveAndExit();
         }
+        if(ui.getCommand().getCommandTypeInfo().getName().toUpperCase().equals("RESET")) {
+            ((FxUI) ui).invalidateCommand();
+            bigData.clear();
+            for (String key : board.getBotNames()) {
+                bigData.put(key, new LinkedList<>());
+            }
+        }
         ((FxUI) ui).message("Remaining Steps: " + board.getRemainingSteps());
         update();
         if (board.getRemainingSteps() == 0) {

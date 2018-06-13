@@ -12,7 +12,8 @@ public enum GameCommandType implements CommandTypeInfo{
     RIGHT("RIGHT", "moves Player right", "move"),
     ZERO_ZERO("ZERO_ZERO", "Player doesn't move", "move"),
     MASTER_ENERGY("MASTER_ENERGY", "Displays player energy", "energy"),
-    SPAWN_MINI("SPAWN_MINI", "Spawns a MINI_SQUIRREL, <param1>", "spawnMini" , int.class);
+    SPAWN_MINI("SPAWN_MINI", "Spawns a MINI_SQUIRREL, <param1>", "spawnMini" , int.class),
+    RESET("RESET", "Resets the highscore list", "reset");
 
     private final String name;
     private final String commandTxt;
