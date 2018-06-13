@@ -1,10 +1,11 @@
 package de.hsa.games.fatsquirrel.core;
 
-import de.hsa.games.fatsquirrel.botimpls.Group3RndFactory;
 import de.hsa.games.fatsquirrel.util.XY;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -25,7 +26,8 @@ public class BoardConfig {
     private int wallCount;
     private int amountOfEntity;
     private List<String> botNames = new ArrayList<>();
-    public long steps = 100;
+    private long steps = 100;
+    private Path highscoresPath = Paths.get("Squirrel/resources/highscoresPath.json");
 
     BoardConfig(boolean bots) {
         botNames.add("Group3RndFactory");
@@ -36,9 +38,15 @@ public class BoardConfig {
         if (inputStream != null) {
             try {
                 properties.load(inputStream);
-                inputStream.close();
             } catch (IOException e) {
                 logger.severe("Couldn't load BoardConfig: " + e.getMessage());
+                System.exit(-1);
+            } finally {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    logger.severe(e.getMessage());
+                }
             }
             if (properties.containsKey("Wall"))
                 amountOfWall = Integer.parseInt(properties.getProperty("Wall"));
@@ -56,6 +64,8 @@ public class BoardConfig {
                 sizeY = Integer.parseInt(properties.getProperty("SizeY"));
             if (properties.containsKey("Steps"))
                 steps = Integer.parseInt(properties.getProperty("Steps"));
+            if(properties.containsKey("highscorePath"))
+                highscoresPath = Paths.get(properties.getProperty("highscorePath"));
             if (properties.containsKey("BotNames")) {
                 String names = properties.getProperty("BotNames").trim();
                 botNames.clear();
@@ -70,7 +80,7 @@ public class BoardConfig {
             amountOfHandOperatedMasterSquirrel = 0;
             amountOfAutomatedMasterSquirrel = botNames.size();
         } else {
-            steps = 100000000;
+            //steps = 100000000;
             amountOfHandOperatedMasterSquirrel = 1;
             amountOfAutomatedMasterSquirrel = 0;
         }
@@ -127,5 +137,9 @@ public class BoardConfig {
 
     public long getSteps() {
         return steps;
+    }
+
+    public Path getHighscoresPath() {
+        return highscoresPath;
     }
 }

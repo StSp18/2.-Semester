@@ -18,9 +18,7 @@ public class GameImplFps extends Game {
     private boolean validBuffer;
 
     public GameImplFps(State s, Board b) {
-        super(s, b);
-        player = b.getPlayer();
-        ui = new ConsoleUI();
+        super(s, b, new ConsoleUI());
         render();
         validBuffer = false;
     }
@@ -32,7 +30,7 @@ public class GameImplFps extends Game {
             validBuffer = false;
         } else {
             logger.finer(this.getClass().getName() + ": invalid Buffer");
-            player.setMoveDirection(XY.ZERO_ZERO);
+            player[0].setMoveDirection(XY.ZERO_ZERO);
         }
         update();
         render();
@@ -86,14 +84,14 @@ public class GameImplFps extends Game {
         try {
             outputStream.println("Spawn mini");
             XY md = XYsupport.rndMoveDirection();
-            while (board.createFlattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
+            while (board.createFlattenedBoard().getEntityType(player[0].xy.plus(md)) != EntityType.NONE) {
                 md = XYsupport.rndMoveDirection();
             }
-            board.add(player.createMiniSquirrel(energy, md));
-            player.setMoveDirection(XY.ZERO_ZERO);
+            board.add(player[0].createMiniSquirrel(energy, md));
+            player[0].setMoveDirection(XY.ZERO_ZERO);
         } catch (SpawnException e) {
             outputStream.println(e.getMessage());
-            player.setMoveDirection(XY.ZERO_ZERO);
+            player[0].setMoveDirection(XY.ZERO_ZERO);
         }
     }
 
@@ -102,11 +100,11 @@ public class GameImplFps extends Game {
     }
 
     public void energy() {
-        outputStream.println("Current energy: " + player.getEnergy());
+        outputStream.println("Current energy: " + player[0].getEnergy());
     }
 
     public void move() {
-        player.setMoveDirection(XYsupport.valueOf(buffer.getCommandTypeInfo().getName()));
+        player[0].setMoveDirection(XYsupport.valueOf(buffer.getCommandTypeInfo().getName()));
     }
 
     public void exit() {

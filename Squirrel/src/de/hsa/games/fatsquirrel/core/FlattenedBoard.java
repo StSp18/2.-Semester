@@ -6,10 +6,10 @@ import java.util.logging.Logger;
 
 public class FlattenedBoard implements BoardView, EntityContext {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
-    private Board_Interface board;
+    private Board board;
     private Entity[][] flattenedBoard;
 
-    public FlattenedBoard(Entity[][] fb, Board_Interface b) {
+    public FlattenedBoard(Entity[][] fb, Board b) {
         this.flattenedBoard = fb;
         this.board = b;
     }

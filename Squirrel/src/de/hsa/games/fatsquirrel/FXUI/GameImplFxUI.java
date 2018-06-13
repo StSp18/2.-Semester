@@ -6,15 +6,13 @@ import de.hsa.games.fatsquirrel.util.XYsupport;
 public class GameImplFxUI extends Game {
 
     public GameImplFxUI(State state, Board board, FxUI fxUI) {
-        super(state, board);
-        player = board.getPlayer();
-        ui = fxUI;
+        super(state, board, fxUI);
     }
 
     @Override
     public void run() {
         render();
-        ((FxUI) ui).message("Energy: " + String.valueOf(player.getEnergy()));
+        ((FxUI) ui).message("Energy: " + playersEnergy());
         processInput();
         update();
     }
@@ -23,7 +21,7 @@ public class GameImplFxUI extends Game {
     public void processInput() {
         if (ui.getCommand().getCommandTypeInfo().getName().toUpperCase().equals("EXIT"))
             System.exit(0);
-        player.setMoveDirection(XYsupport.valueOf(ui.getCommand().getCommandTypeInfo().getName()));
+        player[0].setMoveDirection(XYsupport.valueOf(ui.getCommand().getCommandTypeInfo().getName()));
     }
 
     public long getFps() {

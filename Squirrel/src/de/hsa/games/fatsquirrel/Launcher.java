@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 public class Launcher extends Application {
     private static Logger logger = (new SquirrelLogger(Level.INFO).getLogger());
-    private BoardFactoryImpl boardFactory = new BoardFactoryImpl(false);
+    private BoardFactory boardFactory = new BoardFactory(false);
     private Board board = new Board(boardFactory);
     private State state = new State(board);
     private static String version;
@@ -82,7 +82,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
         if(version.equals("botgui")) {
-            boardFactory = new BoardFactoryImpl(true);
+            boardFactory = new BoardFactory(true);
             board = new Board(boardFactory);
             state = new State(board);
         }

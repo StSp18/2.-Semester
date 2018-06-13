@@ -17,10 +17,7 @@ public class GameImplOld extends Game {
     private Command command;
 
     public GameImplOld(State s, Board b) {
-        super(s, b);
-        player = b.getPlayer();
-        ui = new ConsoleUI();
-        this.board = b;
+        super(s, b, new ConsoleUI());
     }
 
     public void run() {
@@ -69,11 +66,11 @@ public class GameImplOld extends Game {
         try {
             outputStream.println("Spawn mini");
             XY md = XYsupport.rndMoveDirection();
-            while (state.flattenedBoard().getEntityType(player.xy.plus(md)) != EntityType.NONE) {
+            while (state.flattenedBoard().getEntityType(player[0].xy.plus(md)) != EntityType.NONE) {
                 md = XYsupport.rndMoveDirection();
             }
-            board.add(player.createMiniSquirrel(energy, md));
-            player.setMoveDirection(XY.ZERO_ZERO);
+            board.add(player[0].createMiniSquirrel(energy, md));
+            player[0].setMoveDirection(XY.ZERO_ZERO);
         } catch (SpawnException e) {
             outputStream.println(e.getMessage());
             processInput();
@@ -85,11 +82,11 @@ public class GameImplOld extends Game {
     }
 
     public void energy() {
-        outputStream.println("Current energy: " + player.getEnergy());
+        outputStream.println("Current energy: " + player[0].getEnergy());
     }
 
     public void move() {
-        player.setMoveDirection(XYsupport.valueOf(command.getCommandTypeInfo().getName()));
+        player[0].setMoveDirection(XYsupport.valueOf(command.getCommandTypeInfo().getName()));
     }
 
     public void exit() {

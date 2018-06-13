@@ -3,22 +3,38 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.util.XY;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
-public class Board implements Board_Interface {
+public class Board {
     private static Logger logger = Logger.getLogger("SquirrelLogger");
     private List<Entity> board;
     private XY size;
     private long remainingSteps;
     private int player_count;
+    private final BoardFactory boardFactory;
+    private final String[] botNames;
+    private final Path highscoresPath;
 
-    public Board(BoardFactory bf) {
-        player_count = bf.getAmountOfAutomatedMasterSquirrel() + bf.getAmountOfHandOperatedMasterSquirrel();
-        board = bf.factoryBoard();
-        size = bf.getSize();
-        remainingSteps = bf.getSteps();
+    /**
+     * creates a Board with the Factory
+     * @param boardFactory
+     */
+    public Board(BoardFactory boardFactory) {
+        this.boardFactory = boardFactory;
+        player_count = boardFactory.getAmountOfAutomatedMasterSquirrel() + boardFactory.getAmountOfHandOperatedMasterSquirrel();
+        board = boardFactory.factoryBoard();
+        size = boardFactory.getSize();
+        remainingSteps = boardFactory.getSteps();
+        botNames = boardFactory.getBotNames();
+        highscoresPath = boardFactory.getHighscoresPath();
+    }
+
+    public void reset() {
+        board = boardFactory.factoryBoard();
+        remainingSteps = boardFactory.getSteps();
     }
 
     /**
@@ -32,15 +48,6 @@ public class Board implements Board_Interface {
             players[i] = (MasterSquirrel) board.get(i);
         }
         return players;
-    }
-
-    /**
-     * for Single-player mode
-     *
-     * @return the Player
-     */
-    public MasterSquirrel getPlayer( ) {
-        return (MasterSquirrel) board.get(0);
     }
 
     /**
@@ -112,21 +119,34 @@ public class Board implements Board_Interface {
     }
 
     /**
-     * returns size
-     *
-     * @return
+     * @return size
      */
     public XY getSize() {
         return size;
     }
 
     /**
-     * Tells how many steps are left before an restart
      *
+     * @return
+     */
+    public String[] getBotNames() {
+        return botNames;
+    }
+
+
+    /**
      * @return
      */
     public long getRemainingSteps() {
         return remainingSteps;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Path getHighscoresPath() {
+        return highscoresPath;
     }
 
     public String toString() {
